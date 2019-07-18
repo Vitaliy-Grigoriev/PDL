@@ -1,0 +1,35 @@
+ALIAS def as definition  // Indicates that in 'ethernet.pdl' file and in all files that include it 'def' is alias of 'definition' keyword.
+
+
+PROTOCOL Ethernet def(Ethernet Protocol) next_protocol(IPv4)
+{
+    USING mac as u8[6]  // Indicates that in PROTOCOL scope 'mac' is alias of 'u8[6]' type.
+
+    VARS
+    {
+        PACKET EthernetPacket def(Ethernet Packet)
+        {
+            mac dstMac: volatile required def(Destination MAC Address)
+            mac srcMac: volatile required def(Source MAC Address)
+            u16 type: volatile required endian(big) def(Lower Protocol Type)
+        }
+    }
+
+    DECLARATION cache(1)
+    {
+        REQUEST.EthernetPacket.dstMac = NETWORK.DESTINATION.MAC_ADDRESS
+        REQUEST.EthernetPacket.srcMac = NETWORK.SOURCE.MAC_ADDRESS
+        REQUEST.EthernetPacket.type = 0x0800  // IPv4 protocol type.
+    }
+
+    POLICY
+    {
+        VALIDATION
+        {
+            RESPONSE.Length >= 14  // Length of the Ethernet Packet.
+            RESPONSE.EthernetPacket.type == 0x0800  // IPv4 protocol type.
+            RESPONSE.EthernetPacket.dstMac == REQUEST.EthernetPacket.srcMac
+            RESPONSE.EthernetPacket.srcMac == REQUEST.EthernetPacket.dstMac
+        }
+    }
+}

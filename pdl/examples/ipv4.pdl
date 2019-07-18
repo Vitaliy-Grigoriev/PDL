@@ -1,0 +1,20 @@
+INCLUDE(ethernet.pdl)  // Indicates that file 'ethernet.pdl' will be included to 'ipv4.pdl'.
+
+
+PROTOCOL IPv4 def(IPv4 Protocol) next_protocol(TCP)
+{
+    USING ip as u32  // Indicates that in PROTOCOL scope 'ip' is alias of 'u32' type.
+
+    GLOBAL
+    {
+        endian: big
+    }
+
+    VARS
+    {
+        PACKET Ipv4Packet definition(IPv4 Packet)
+        {
+
+        }
+    }
+}

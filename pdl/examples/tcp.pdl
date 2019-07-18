@@ -1,0 +1,88 @@
+INCLUDE(ipv4.pdl)  // Indicates that file 'ipv4.pdl' will be included to 'tcp.pdl'.
+INCLUDE(tcpFunctions.pdl)  // Indicates that file 'tcpFunctions.pdl' will be included to 'tcp.pdl'.
+
+
+PROTOCOL TCP def(TCP Protocol) next_protocol(PAYLOAD)
+{
+    USING port as u16  // Indicates that in PROTOCOL scope 'port' is alias of 'u16' type.
+
+    VARS
+    {
+        PACKET TcpPacket endian(big) def(TCP Packet)
+        {
+            port srcPort: volatile required def(Source Port Number)
+            port dstPort: volatile required def(Destination Port Number)
+            u32 sequenceNumber: initial(0) volatile required
+            u32 sequenceNumber: initial(0) volatile required
+            u8 GROUP volatile required endian(direct)
+            {
+                bit[4] headerOffset: min(5) max(15)
+                bit[3] reserved: value({0, 0, 0}) constant
+                bit NS: value(0)
+            }
+            u8 GROUP volatile required endian(direct)
+            {
+                bit CWR: value(0)
+                bit ECE: value(0)
+                bit URG: value(0)
+                bit ACK: value(0)
+                bit PSH: value(0)
+                bit RST: value(0)
+                bit SYN: initial(1)
+                bit FIN: value(0)
+            }
+            u16 windowSize: volatile required
+            u16 checkSum: endian(little) calculate(CalculateTcpCheckSum()) required
+            u16 urgentPointer: volatile required
+        }
+
+        PACKET TcpOption endian(big) def(TCP Option)
+        {
+            u8 type: volatile required
+            u8 length: min(2) max(18) volatile conditional(this.type != 0 && this.type != 1)
+            u8[length - 2] data: volatile conditional(this.length > 2)
+        }
+    }
+
+    DECLARATION
+    {
+        MAPPING
+        {
+            TcpOption.type == 0: def(End of Option List)
+            TcpOption.type == 1: def(No-Operation)
+            TcpOption.type == 2 && TcpOption.length == 4: def(Maximum Segment Size)
+
+
+            TcpOption.type == 34 && (TcpOption.length == 0 || (TcpOption.length >= 4 && TcpOption.length <= 16)): def(TCP Fast Open)
+        }
+
+        REQUEST
+        {
+            ROUND ::ID:: name(::name::) definition(::string::)
+            {
+                ::packet_name:: : ::packet_field:: = ::value::
+            }
+        }
+
+        RESPONSE
+        {
+            ROUND ::ID:: name(::name::) definition(::string::)
+            {
+                ::packet_name:: : ::packet_field:: = ::value::
+            }
+        }
+    }
+
+    POLICY
+    {
+        VALIDATION
+        {
+
+        }
+
+        PROCESSING
+        {
+
+        }
+    }
+}
