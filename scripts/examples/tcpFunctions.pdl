@@ -4,5 +4,4 @@ FUNCTION CalculateTcpCheckSum() -> u16 owner(TCP)
     u16 protoNumber = IPv4.Ipv4Packet.protocol
     checkSum += protoNumber << 8
     checkSum += TcpPacket.headerLength
-
 }

@@ -1,0 +1,47 @@
+import frame
+
+protocol Ethernet
+{
+    defines
+    {
+        header EthernetHeader
+        {
+            mac src = AA:BB:CC:DD:EE:FF   ->   volatile   required   def(Destination MAC Address)
+            mac dst = default             ->   volatile   required   def(Source MAC Address)
+            u16 type = 1                  ->   def(Lower Protocol Type)
+        }
+
+        mapping EthernetHeader.type   ->   final   id(auto)   default(_1)   big_endian
+        {
+            0x0800   ->   def(Internet Protocol version 4)
+            0x0806   ->   def(Address Resolution Protocol)
+            0x86DD   ->   def(Internet Protocol version 6)
+        }
+
+        mapping EthernetHeader.dst   ->   default(0)   def(Ethernet Addresses)
+        {
+            FF:FF:FF:FF:FF:FF   ->   id(0)   def(Broadcast MAC Address)
+            F1:80:C2:00:00:08   ->   id(1)   def(STP Multicast Address)
+            01:00:5E:00:00:00   ->   id(2)   def(IPv4 Multicast Address)
+        }
+    }
+
+    declaration
+    {
+        request
+        {
+            round abc
+            {
+                EthernetHeader
+            }
+        }
+
+        response
+        {
+            round abc
+            {
+                EthernetHeader
+            }
+        }
+    }
+}

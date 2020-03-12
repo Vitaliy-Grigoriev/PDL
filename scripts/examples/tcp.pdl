@@ -1,5 +1,5 @@
-INCLUDE(ipv4.pdl)  // Indicates that file 'ipv4.pdl' will be included to 'tcp.pdl'.
-INCLUDE(tcpFunctions.pdl)  // Indicates that file 'tcpFunctions.pdl' will be included to 'tcp.pdl'.
+INCLUDE ipv4           // Indicates that file 'ipv4.pdl' will be included to 'tcp.pdl'.
+IMPORT tcpFunctions   // Indicates that file 'tcpFunctions.pdl' will be included to 'tcp.pdl'.
 
 
 PROTOCOL TCP def(TCP Protocol) next_protocol(PAYLOAD)
