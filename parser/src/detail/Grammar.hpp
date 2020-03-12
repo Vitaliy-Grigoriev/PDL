@@ -6,6 +6,7 @@
 #include <boost/spirit/home/x3.hpp>
 #include <boost/spirit/home/support/iterators/line_pos_iterator.hpp>
 
+
 namespace pdl::detail::grammar
 {
     namespace x3 = boost::spirit::x3;
@@ -197,11 +198,8 @@ namespace pdl::detail::grammar
     const auto protocolKeyword = keywords.make("protocol");
     const auto importKeyword = keywords.make("import");
 
-    template <typename Type>
-    static auto as = [](auto p) { return x3::rule<struct tag, Type> {"as"} = p; };
-
     const auto reservedWords = keywords | futureReservedWords | boolean | requiredKeyword | volatileKeyword;
-    const auto identifier = as<std::string>(x3::lexeme[(x3::alnum) >> *(x3::alnum | x3::char_('_'))] - reservedWords);
+    const auto identifier = x3::raw[x3::lexeme[(x3::alnum) >> *(x3::alnum | x3::char_('_'))] - reservedWords];
 
     const auto bin = x3::lit("0b") >> x3::bin;
     const auto hex = x3::lit("0x") >> x3::hex;
@@ -216,9 +214,9 @@ namespace pdl::detail::grammar
     const auto floatLiteral_def = x3::float_;
     const auto booleanLiteral_def = boolean;
     const auto stringLiteral_def = x3::lexeme['"' >> *(x3::char_ - '"') >> '"'];
-    const auto macAddressLiteral_def = as<std::string>(x3::lexeme[x3::repeat(5)[byte >> x3::char_(':')] >> byte]);
-    const auto ipv4AddressLiteral_def = as<std::string>(x3::lexeme[x3::repeat(3)[octet >> '.'] >> octet]);
-    const auto definitionLiteral_def = as<std::string>(x3::lexeme[x3::alpha >> *(x3::alnum | x3::char_('_') | x3::char_(' '))] - reservedWords);
+    const auto macAddressLiteral_def = x3::raw[x3::repeat(5)[byte >> x3::char_(':')] >> byte];
+    const auto ipv4AddressLiteral_def = x3::raw[x3::repeat(3)[octet >> '.'] >> octet];
+    const auto definitionLiteral_def = x3::raw[x3::lexeme[x3::alpha >> *(x3::alnum | x3::char_('_') | x3::char_(' '))] - reservedWords];
 
     const auto defaultValueLiteral_def = placeholderLiteral | numericLiteral | definitionLiteral;
     const auto idLiteral_def = autoLiteral | numericLiteral | definitionLiteral;

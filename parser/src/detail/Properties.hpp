@@ -11,7 +11,7 @@ namespace pdl::detail::syntax
     };
 
     struct DefinitionProperty : Annotation {
-        DefinitionLiteral definition;
+        DefinitionLiteral value;
     };
 
     struct RequiredProperty : Annotation {
@@ -54,7 +54,7 @@ namespace pdl::detail::syntax
 }  // namespace syntax.
 
 BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::DefaultProperty, value)
-BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::DefinitionProperty, definition)
+BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::DefinitionProperty, value)
 BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::RequiredProperty, discovered)
 BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::VolatileProperty, discovered)
 BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::FinalProperty, discovered)

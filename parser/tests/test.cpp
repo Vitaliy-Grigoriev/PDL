@@ -8,6 +8,9 @@
 
 #include <iostream>
 #include <Parser.hpp>
+#include <boost/hana.hpp>
+
+namespace syntax = pdl::detail::syntax;
 
 int32_t main (int32_t size, char** data)
 {
@@ -18,6 +21,14 @@ int32_t main (int32_t size, char** data)
 
     const auto& script = parser.getScript();
 
+    const auto& protocol = boost::get<syntax::ProtocolStatement>(script.statements[1]);
+    const auto& defines = boost::get<syntax::DefinesStatement>(protocol.statements[0]);
+    const auto& mapping = boost::get<syntax::MappingStatement>(defines.statements[2]);
+    for (auto&& value : mapping.values) {
+        const auto& mac = boost::get<syntax::MacAddressLiteral>(value.value);
+        const auto& def = boost::get<syntax::DefinitionProperty>(value.properties[1]);
+        std::cout << mac.value << " - " << def.value.value << std::endl;
+    }
 
     std::cout << "[+] Exit." << std::endl;
     return EXIT_SUCCESS;

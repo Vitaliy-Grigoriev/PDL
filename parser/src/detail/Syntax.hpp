@@ -7,6 +7,7 @@
 
 #include <optional>
 
+
 namespace pdl::detail::syntax
 {
     struct MemberExpr : std::vector<Identifier>, Annotation {
@@ -32,7 +33,7 @@ namespace pdl::detail::syntax
     struct MappingStatement : Annotation {
         MemberExpr field;
         std::vector<MappingProperties> properties;
-        std::vector<MappingEntry> mapping;
+        std::vector<MappingEntry> values;
     };
 
     struct DefinesStatements : x3::variant<HeaderStatement, MappingStatement>, Annotation
@@ -46,7 +47,7 @@ namespace pdl::detail::syntax
     };
 
     struct DefinesStatement : Annotation {
-        std::vector<DefinesStatements> defines;
+        std::vector<DefinesStatements> statements;
     };
 
     struct RoundStatement : Annotation {
@@ -123,9 +124,9 @@ BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::RoundStatement, name, identifier)
 BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::RequestStatement, rounds)
 BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::ResponseStatement, rounds)
 BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::HeaderStatement, name, fields)
-BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::MappingStatement, field, properties, mapping)
+BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::MappingStatement, field, properties, values)
 BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::DeclarationStatement, statements)
-BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::DefinesStatement, defines)
+BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::DefinesStatement, statements)
 BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::ProtocolStatement, name, statements)
 BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::ImportStatement, path)
 BOOST_FUSION_ADAPT_STRUCT(pdl::detail::syntax::Script, statements)

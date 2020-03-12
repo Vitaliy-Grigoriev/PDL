@@ -6,9 +6,9 @@ protocol Ethernet
     {
         header EthernetHeader
         {
-            mac src = AA:BB:CC:DD:EE:FF   ->   volatile   required   def(Destination MAC Address)
-            mac dst = default             ->   volatile   required   def(Source MAC Address)
-            u16 type = 1                  ->   def(Lower Protocol Type)
+            mac src              ->   volatile   required   def(Destination MAC Address)
+            mac dst = default    ->   volatile   required   def(Source MAC Address)
+            u16 type = default   ->   def(Lower Protocol Type)
         }
 
         mapping EthernetHeader.type   ->   final   id(auto)   default(_1)   big_endian

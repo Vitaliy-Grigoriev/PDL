@@ -8,7 +8,9 @@ namespace x3 = boost::spirit::x3;
 namespace syntax = pdl::detail::syntax;
 namespace grammar = pdl::detail::grammar;
 
-namespace pdl {
+
+namespace pdl
+{
 
 bool Parser::parse (const std::string& scr)
 {

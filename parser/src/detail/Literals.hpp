@@ -6,6 +6,7 @@
 #include <boost/fusion/include/adapt_struct.hpp>
 #include <boost/spirit/home/x3/support/ast/variant.hpp>
 
+
 namespace pdl::detail::syntax
 {
     struct AutoLiteral : Annotation {
@@ -17,7 +18,7 @@ namespace pdl::detail::syntax
     };
 
     struct PlaceholderLiteral : Annotation {
-        uint16_t value;
+        uint16_t value = 0;
     };
 
     struct NumericLiteral : Annotation {
