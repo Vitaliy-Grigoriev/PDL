@@ -17,8 +17,13 @@ bool Parser::parse (const std::string& scr)
     auto first = grammar::PositionIterator{scr.cbegin()};
     auto last = grammar::PositionIterator{scr.cend()};
 
+    grammar::ErrorHandler error{first, last, std::cerr};
     grammar::PositionCache pos{first, last};
-    const auto parser = x3::with<grammar::PositionTag>(std::ref(pos))[grammar::script];
+    const auto parser = x3::with<grammar::PositionTag>(std::ref(pos))[
+                            x3::with<x3::error_handler_tag>(std::ref(error))[
+                                grammar::script
+                            ]
+                        ];
     bool r = x3::phrase_parse(first, last, parser, grammar::skipper, script);
     if (!r)
     {

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <boost/spirit/home/x3.hpp>
+#include <boost/spirit/home/x3/support/utility/error_reporting.hpp>
 #include <boost/spirit/home/support/iterators/line_pos_iterator.hpp>
 
 
@@ -15,14 +16,16 @@ namespace pdl::detail::grammar
     };
     using PositionIterator = boost::spirit::line_pos_iterator<std::string::const_iterator>;
     using PositionCache = x3::position_cache<std::vector<PositionIterator>>;
+    using ErrorHandler = x3::error_handler<PositionIterator>;
 
     struct RuleId
     {
         template <typename Iterator, typename Expectation, typename Context>
-        x3::error_handler_result on_error (Iterator, Iterator last, const Expectation &x, const Context &context) const
+        x3::error_handler_result on_error (Iterator first, Iterator last, const Expectation& x, const Context& context) const
         {
-            std::string message = "Error! Expecting: " + x.which() + ", got: " + std::string(x.where(), last);
-            std::cerr << message << std::endl;
+            auto& error_handler = x3::get<x3::error_handler_tag>(context).get();
+            const std::string message = "Error! Expecting: " + x.which();
+            error_handler(first, x.where(), message);
             return x3::error_handler_result::fail;
         }
 
@@ -36,6 +39,8 @@ namespace pdl::detail::grammar
             ast.columnBegin = boost::spirit::get_column(pos.first().base(), first.base());
             ast.lineEnd = boost::spirit::get_line(last);
             ast.columnEnd = boost::spirit::get_column(pos.first().base(), last.base());
+
+            std::cout << ast.Position() + " [info] Parsing statement '" << ast.tag << "' finish successfully." << std::endl;
         }
     };
 
@@ -53,10 +58,10 @@ namespace pdl::detail::grammar
 
     const x3::rule<struct RuleId, syntax::AutoLiteral> autoLiteral{"autoLiteral"};
     const x3::rule<struct RuleId, syntax::DefaultLiteral> defaultLiteral{"defaultLiteral"};
-    const x3::rule<struct RuleId, syntax::PlaceholderLiteral> placeholderLiteral{"placeholderLiteral"};
+    const x3::rule<struct RuleId, syntax::PlaceholderLiteral, true> placeholderLiteral{"placeholderLiteral"};
     const x3::rule<struct RuleId, syntax::NumericLiteral> numericLiteral{"numericLiteral"};
     const x3::rule<struct RuleId, syntax::FloatLiteral> floatLiteral{"floatLiteral"};
-    const x3::rule<struct RuleId, syntax::BooleanLiteral> booleanLiteral{"booleanLiteral"};
+    const x3::rule<struct RuleId, syntax::BooleanLiteral, true> booleanLiteral{"booleanLiteral"};
     const x3::rule<struct RuleId, syntax::StringLiteral> stringLiteral{"stringLiteral"};
     const x3::rule<struct RuleId, syntax::MacAddressLiteral> macAddressLiteral{"macAddressLiteral"};
     const x3::rule<struct RuleId, syntax::IPv4AddressLiteral> ipv4AddressLiteral{"ipv4AddressLiteral"};
@@ -66,13 +71,16 @@ namespace pdl::detail::grammar
     const x3::rule<struct RuleId, syntax::IdLiteral> idLiteral{"idLiteral"};
     const x3::rule<struct RuleId, syntax::Literal> literal{"literal"};
 
+    const x3::rule<struct RuleId, syntax::Identifier> identifier{"identifier"};
     const x3::rule<struct RuleId, syntax::VariableDeclaration> variableDeclaration{"variableDeclaration"};
     const x3::rule<struct RuleId, syntax::MappingEntry> mappingEntry{"mappingEntry"};
     const x3::rule<struct RuleId, syntax::MemberExpr> memberExpr{"memberExpr"};
+    const x3::rule<struct RuleId, syntax::NameValue> nameValue{"nameValue"};
 
     const x3::rule<struct RuleId, syntax::RoundStatement> round{"round"};
     const x3::rule<struct RuleId, syntax::RequestStatement> request{"request"};
     const x3::rule<struct RuleId, syntax::ResponseStatement> response{"response"};
+    const x3::rule<struct RuleId, syntax::UsingStatement> usingStatement{"usingStatement"};
     const x3::rule<struct RuleId, syntax::HeaderStatement> header{"header"};
     const x3::rule<struct RuleId, syntax::MappingStatement> mapping{"mapping"};
     const x3::rule<struct RuleId, syntax::DeclarationStatements> declarationStatement{"declarationStatement"};
@@ -191,6 +199,7 @@ namespace pdl::detail::grammar
     const auto roundKeyword = keywords.make("round");
     const auto requestKeyword = keywords.make("request");
     const auto responseKeyword = keywords.make("response");
+    const auto usingKeyword = keywords.make("using");
     const auto headerKeyword = keywords.make("header");
     const auto mappingKeyword = keywords.make("mapping");
     const auto definesKeyword = keywords.make("defines");
@@ -199,7 +208,6 @@ namespace pdl::detail::grammar
     const auto importKeyword = keywords.make("import");
 
     const auto reservedWords = keywords | futureReservedWords | boolean | requiredKeyword | volatileKeyword;
-    const auto identifier = x3::raw[x3::lexeme[(x3::alnum) >> *(x3::alnum | x3::char_('_'))] - reservedWords];
 
     const auto bin = x3::lit("0b") >> x3::bin;
     const auto hex = x3::lit("0x") >> x3::hex;
@@ -207,12 +215,17 @@ namespace pdl::detail::grammar
     const auto word = byte >> byte;
     x3::uint_parser<uint8_t, 10, 1, 3> octet;
 
+    auto print = [](auto& ctx) {
+        bool attr = x3::_attr(ctx).value;
+        std::cout << "action: print " << attr << '.' << std::endl;
+    };
+
     const auto autoLiteral_def = autoKeyword;
     const auto defaultLiteral_def = defaultKeyword;
     const auto placeholderLiteral_def = '_' >> x3::uint16;
     const auto numericLiteral_def = bin | hex | x3::int_;
     const auto floatLiteral_def = x3::float_;
-    const auto booleanLiteral_def = boolean;
+    const auto booleanLiteral_def = boolean[print];
     const auto stringLiteral_def = x3::lexeme['"' >> *(x3::char_ - '"') >> '"'];
     const auto macAddressLiteral_def = x3::raw[x3::repeat(5)[byte >> x3::char_(':')] >> byte];
     const auto ipv4AddressLiteral_def = x3::raw[x3::repeat(3)[octet >> '.'] >> octet];
@@ -227,23 +240,26 @@ namespace pdl::detail::grammar
     const auto volatileProperty_def = volatileKeyword;
     const auto finalProperty_def = finalKeyword;
     const auto endianProperty_def = endian;
-    const auto defaultProperty_def = x3::lit("default") >> '(' >> defaultValueLiteral >> ')';
+    const auto defaultProperty_def = x3::lit("default") >> -('(' >> defaultValueLiteral >> ')');
     const auto idProperty_def = idKeyword >> '(' >> idLiteral >> ')';
 
-    const auto mappingEntryProperties_def = idProperty | definitionProperty;
+    const auto mappingEntryProperties_def = defaultProperty | idProperty | definitionProperty;
     const auto mappingProperties_def = defaultProperty | finalProperty | idProperty | definitionProperty | endianProperty;
     const auto variableProperties_def = definitionProperty | requiredProperty | volatileProperty;
 
+    const auto identifier_def = x3::raw[x3::lexeme[(x3::alnum) >> *(x3::alnum | x3::char_('_'))] - reservedWords];
     const auto variableDeclaration_def = variableType >> identifier >> -('=' >> literal) >> -("->" >> +variableProperties);
-    const auto memberExpr_def = identifier % '.';
+    const auto memberExpr_def = identifier >> +('.' >> identifier);
+    const auto nameValue_def = memberExpr | identifier;
 
     const auto round_def = roundKeyword >> identifier >> '{' >> identifier >> '}';
     const auto request_def = requestKeyword >> '{' >> +round >> '}';
     const auto response_def = responseKeyword >> '{' >> +round >> '}';
-    const auto header_def = headerKeyword >> identifier >> '{' >> +variableDeclaration >> '}';
+    const auto usingStatement_def = usingKeyword > identifier > '=' > nameValue;
+    const auto header_def = headerKeyword > identifier > '{' > +variableDeclaration > '}';
     const auto mappingEntry_def = literal >> -("->" >> +mappingEntryProperties);
-    const auto mapping_def = mappingKeyword >> memberExpr >> -("->" >> +mappingProperties) >> '{' >> +mappingEntry >> '}';
-    const auto definesStatement_def = header | mapping;
+    const auto mapping_def = mappingKeyword > nameValue > -("->" >> +mappingProperties) > '{' > +mappingEntry > '}';
+    const auto definesStatement_def = header | mapping | usingStatement;
     const auto declarationStatement_def = request | response;
     const auto defines_def = definesKeyword >> '{' >> +definesStatement >> '}';
     const auto declaration_def = declarationKeyword >> '{' >> +declarationStatement >> '}';
@@ -279,11 +295,15 @@ namespace pdl::detail::grammar
     BOOST_SPIRIT_DEFINE(mappingProperties);
     BOOST_SPIRIT_DEFINE(variableProperties);
 
+    BOOST_SPIRIT_DEFINE(identifier);
     BOOST_SPIRIT_DEFINE(variableDeclaration);
     BOOST_SPIRIT_DEFINE(memberExpr);
+    BOOST_SPIRIT_DEFINE(nameValue);
+
     BOOST_SPIRIT_DEFINE(round);
     BOOST_SPIRIT_DEFINE(request);
     BOOST_SPIRIT_DEFINE(response);
+    BOOST_SPIRIT_DEFINE(usingStatement);
     BOOST_SPIRIT_DEFINE(header);
     BOOST_SPIRIT_DEFINE(mappingEntry);
     BOOST_SPIRIT_DEFINE(mapping);

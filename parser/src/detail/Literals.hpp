@@ -9,59 +9,59 @@
 
 namespace pdl::detail::syntax
 {
-    struct AutoLiteral : Annotation {
+    struct AutoLiteral : Annotation<AutoLiteral> {
         bool discovered = false;
     };
 
-    struct DefaultLiteral : Annotation {
+    struct DefaultLiteral : Annotation<DefaultLiteral> {
         bool discovered = false;
     };
 
-    struct PlaceholderLiteral : Annotation {
+    struct PlaceholderLiteral : Annotation<PlaceholderLiteral> {
         uint16_t value = 0;
     };
 
-    struct NumericLiteral : Annotation {
+    struct NumericLiteral : Annotation<NumericLiteral> {
         std::int64_t value = 0;
     };
 
-    struct FloatLiteral : Annotation {
+    struct FloatLiteral : Annotation<FloatLiteral> {
         float value = 0.0;
     };
 
-    struct BooleanLiteral : Annotation {
+    struct BooleanLiteral : Annotation<BooleanLiteral> {
         bool value = false;
     };
 
-    struct StringLiteral : Annotation {
+    struct StringLiteral : Annotation<StringLiteral> {
         std::string value;
     };
 
-    struct MacAddressLiteral : Annotation {
+    struct MacAddressLiteral : Annotation<MacAddressLiteral> {
         std::string value;
     };
 
-    struct IPv4AddressLiteral : Annotation {
+    struct IPv4AddressLiteral : Annotation<IPv4AddressLiteral> {
         std::string value;
     };
 
-    struct DefinitionLiteral : Annotation {
+    struct DefinitionLiteral : Annotation<DefinitionLiteral> {
         std::string value;
     };
 
 
 
-    struct DefaultValueLiteral : x3::variant<PlaceholderLiteral, NumericLiteral, DefinitionLiteral>, Annotation {
+    struct DefaultValueLiteral : x3::variant<PlaceholderLiteral, NumericLiteral, DefinitionLiteral>, Annotation<DefaultValueLiteral> {
         using base_type::base_type;
         using base_type::operator=;
     };
 
-    struct Literal : x3::variant<DefaultLiteral, NumericLiteral, FloatLiteral, BooleanLiteral, StringLiteral, MacAddressLiteral, IPv4AddressLiteral>, Annotation {
+    struct Literal : x3::variant<DefaultLiteral, NumericLiteral, FloatLiteral, BooleanLiteral, StringLiteral, MacAddressLiteral, IPv4AddressLiteral>, Annotation<Literal> {
         using base_type::base_type;
         using base_type::operator=;
     };
 
-    struct IdLiteral : x3::variant<AutoLiteral, NumericLiteral, DefinitionLiteral>, Annotation {
+    struct IdLiteral : x3::variant<AutoLiteral, NumericLiteral, DefinitionLiteral>, Annotation<IdLiteral> {
         using base_type::base_type;
         using base_type::operator=;
     };

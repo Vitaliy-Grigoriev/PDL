@@ -6,8 +6,6 @@
 
 namespace pdl::detail::syntax
 {
-    using Identifier = std::string;
-
     enum class VariableType : uint16_t {
         BIT = 0,
         BOOLEAN,

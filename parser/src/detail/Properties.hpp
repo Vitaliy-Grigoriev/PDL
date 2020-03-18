@@ -6,47 +6,47 @@
 
 namespace pdl::detail::syntax
 {
-    struct DefaultProperty : Annotation {
-        DefaultValueLiteral value;
+    struct DefaultProperty : Annotation<DefaultProperty> {
+        std::optional<DefaultValueLiteral> value;
     };
 
-    struct DefinitionProperty : Annotation {
+    struct DefinitionProperty : Annotation<DefinitionProperty> {
         DefinitionLiteral value;
     };
 
-    struct RequiredProperty : Annotation {
+    struct RequiredProperty : Annotation<RequiredProperty> {
         bool discovered = false;
     };
 
-    struct VolatileProperty : Annotation {
+    struct VolatileProperty : Annotation<VolatileProperty> {
         bool discovered = false;
     };
 
-    struct FinalProperty : Annotation {
+    struct FinalProperty : Annotation<FinalProperty> {
         bool discovered = false;
     };
 
-    struct EndianProperty : Annotation {
+    struct EndianProperty : Annotation<EndianProperty> {
         EndianType type = EndianType::LITTLE;
     };
 
-    struct IdProperty : Annotation {
+    struct IdProperty : Annotation<IdProperty> {
         IdLiteral id;
     };
 
 
 
-    struct MappingEntryProperties : x3::variant<IdProperty, DefinitionProperty>, Annotation {
+    struct MappingEntryProperties : x3::variant<DefaultProperty, IdProperty, DefinitionProperty>, Annotation<MappingEntryProperties> {
         using base_type::base_type;
         using base_type::operator=;
     };
 
-    struct MappingProperties : x3::variant<DefaultProperty, FinalProperty, IdProperty, DefinitionProperty, EndianProperty>, Annotation {
+    struct MappingProperties : x3::variant<DefaultProperty, FinalProperty, IdProperty, DefinitionProperty, EndianProperty>, Annotation<MappingProperties> {
         using base_type::base_type;
         using base_type::operator=;
     };
 
-    struct VariableProperties : x3::variant<DefinitionProperty, RequiredProperty, VolatileProperty>, Annotation {
+    struct VariableProperties : x3::variant<DefinitionProperty, RequiredProperty, VolatileProperty>, Annotation<VariableProperties> {
         using base_type::base_type;
         using base_type::operator=;
     };
