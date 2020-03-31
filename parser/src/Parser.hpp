@@ -1,6 +1,6 @@
 #pragma once
 
-#include "detail/Syntax.hpp"
+#include "spirit/syntax/Syntax.hpp"
 
 #include <filesystem>
 
@@ -16,10 +16,10 @@ namespace pdl
         bool parse (const std::string & script);
         bool parse (const std::filesystem::path & file);
 
-        detail::syntax::Script::CRef getScript() const noexcept;
+        spirit::syntax::Script::CRef getScript() const noexcept;
 
     private:
-        detail::syntax::Script script;
+        spirit::syntax::Script script;
         std::string currentPath;
     };
 

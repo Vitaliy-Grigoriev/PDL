@@ -3,13 +3,13 @@
 //#define BOOST_SPIRIT_X3_DEBUG
 #define BOOST_SPIRIT_X3_UNICODE
 
+#include <string>
+#include <cstddef>
 #include <boost/type_index.hpp>
 #include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
 
-#include <string>
-#include <cstddef>
 
-namespace pdl::detail::syntax
+namespace pdl::spirit
 {
     namespace x3 = boost::spirit::x3;
 
@@ -40,4 +40,4 @@ namespace pdl::detail::syntax
         return std::to_string(lineBegin) + '.' + std::to_string(columnBegin) + '-' + std::to_string(lineEnd) + '.' + std::to_string(columnEnd) + ':';
     }
 
-}  // namespace syntax.
+}  // namespace spirit.

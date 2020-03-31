@@ -4,9 +4,14 @@
 #include <cstdint>
 
 
-namespace pdl::detail::syntax
+namespace pdl::spirit::syntax::types
 {
-    enum class VariableType : uint16_t {
+    enum class VariableScope : uint16_t {
+        LOCAL = 0,
+        GLOBAL
+    };
+
+    enum class InternalVariableType : uint16_t {
         BIT = 0,
         BOOLEAN,
         BYTE,
@@ -21,7 +26,8 @@ namespace pdl::detail::syntax
         FLOAT,
         MAC,
         IPv4,
-        IPv6
+        IPv6,
+        STRING
     };
 
     enum class EndianType : uint16_t {
@@ -29,4 +35,4 @@ namespace pdl::detail::syntax
         LITTLE
     };
 
-}  // namespace syntax.
+}  // namespace types.

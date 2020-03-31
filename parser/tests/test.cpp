@@ -8,9 +8,8 @@
 
 #include <iostream>
 #include <Parser.hpp>
-#include <boost/hana.hpp>
 
-namespace syntax = pdl::detail::syntax;
+namespace syntax = pdl::spirit::syntax;
 
 int32_t main (int32_t size, char** data)
 {
@@ -25,21 +24,21 @@ int32_t main (int32_t size, char** data)
 
     const auto& script = parser.getScript();
 
-    const auto& protocol = boost::get<syntax::ProtocolStatement>(script.statements[1]);
-    const auto& defines = boost::get<syntax::DefinesStatement>(protocol.statements[0]);
-    const auto& mapping = boost::get<syntax::MappingStatement>(defines.statements[4]);
+    const auto& protocol = boost::get<syntax::statements::ProtocolStatement>(script.statements[1]);
+    const auto& defines = boost::get<syntax::statements::DefinesStatement>(protocol.statements[0]);
+    const auto& mapping = boost::get<syntax::statements::MappingStatement>(defines.statements[4]);
     for (auto&& value : mapping.values) {
-        const auto& mac = boost::get<syntax::MacAddressLiteral>(value.value);
-        const auto& def = boost::get<syntax::DefinitionProperty>(value.properties[1]);
+        const auto& mac = boost::get<syntax::literals::MacAddressLiteral>(value.value);
+        const auto& def = boost::get<syntax::properties::DefinitionProperty>(value.properties[1]);
         std::cout << mac.value << " - " << def.value.value << std::endl;
     }
 
-    const auto& usingSt1 = boost::get<syntax::UsingStatement>(defines.statements[1]);
-    const auto& value1 = boost::get<syntax::Identifier>(usingSt1.value);
+    const auto& usingSt1 = boost::get<syntax::statements::UsingStatement>(defines.statements[1]);
+    const auto& value1 = boost::get<syntax::variables::Identifier>(usingSt1.value);
     std::cout << "Using 1 " << value1.value << std::endl;
 
-    const auto& usingSt2 = boost::get<syntax::UsingStatement>(defines.statements[2]);
-    const auto& value2 = boost::get<syntax::MemberExpr>(usingSt2.value);
+    const auto& usingSt2 = boost::get<syntax::statements::UsingStatement>(defines.statements[2]);
+    const auto& value2 = boost::get<syntax::variables::MemberVariable>(usingSt2.value);
     std::cout << "Using 2 " << value2[0].value << std::endl;
 
     std::cout << "[+] Exit." << std::endl;

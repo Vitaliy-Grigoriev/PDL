@@ -1,12 +1,12 @@
 #include "Parser.hpp"
-#include "detail/Grammar.hpp"
+#include "spirit/grammar/Grammar.hpp"
 
 #include <fstream>
 #include <iostream>
 
 namespace x3 = boost::spirit::x3;
-namespace syntax = pdl::detail::syntax;
-namespace grammar = pdl::detail::grammar;
+namespace syntax = pdl::spirit::syntax;
+namespace grammar = pdl::spirit::grammar;
 
 
 namespace pdl
@@ -18,15 +18,15 @@ bool Parser::parse (const std::string& scr)
     auto last = grammar::PositionIterator{scr.cend()};
 
     grammar::ErrorHandler error{first, last, std::cerr};
-    grammar::PositionCache pos{first, last};
-    const auto parser = x3::with<grammar::PositionTag>(std::ref(pos))[
-                            x3::with<x3::error_handler_tag>(std::ref(error))[
+    grammar::PositionCache position{first, last};
+    const auto parser = x3::with<grammar::PositionTag>(std::ref(position))[
+                            x3::with<grammar::ErrorTag>(std::ref(error))[
                                 grammar::script
                             ]
                         ];
+
     bool r = x3::phrase_parse(first, last, parser, grammar::skipper, script);
-    if (!r)
-    {
+    if (!r) {
         std::cerr << "Fail." << std::endl;
         return false;
     }

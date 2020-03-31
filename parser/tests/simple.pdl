@@ -1,4 +1,4 @@
-import ipv4
+import frame
 
 protocol Ethernet
 {
@@ -6,14 +6,14 @@ protocol Ethernet
     {
         header EthernetHeader
         {
-            mac src = true       ->   volatile   required   def(Destination MAC Address)
-            mac dst = default    ->   volatile   required   def(Source MAC Address)
-            u16 type = default   ->   def(Lower Protocol Type)
+            mac dst              ->   volatile   required   def(Destination MAC Address)
+            mac src = default    ->   volatile   required   def(Source MAC Address)
+            u16 type = default   ->   const   def(Lower Protocol Type)
         }
-        using Eth = EthernetHeader
-        using EthType = Eth.type
+        local using Eth = EthernetHeader
+        global using EthType = Eth.type
 
-        mapping EthType   ->   final   id(auto)   default(_1)   big_endian
+        mapping EthType   ->   final   id(auto).prefix(TYPE_)  default(_1)   big_endian
         {
             0x0800   ->   default   def(Internet Protocol version 4)
             0x0806   ->   def(Address Resolution Protocol)
@@ -32,17 +32,17 @@ protocol Ethernet
     {
         request
         {
-            round abc
+            round
             {
-                EthernetHeader
+                local string send_string = "123"
             }
         }
 
         response
         {
-            round abc
+            round asc
             {
-                EthernetHeader
+                local string send_string = "123"
             }
         }
     }
