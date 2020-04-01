@@ -8,14 +8,14 @@ namespace pdl::spirit::syntax::statements
     struct UsingStatement : Annotation<UsingStatement>
     {
         types::VariableScope scope = types::VariableScope::LOCAL;
-        variables::Identifier name;
+        Identifier name;
         variables::VariableName value;
     };
 
     struct HeaderStatement : Annotation<HeaderStatement>
     {
-        variables::Identifier name;
-        std::vector<variables::VariableDeclaration> fields;
+        Identifier name;
+        std::vector<variables::Variable> fields;
     };
 
     struct MappingEntryProperty : x3::variant<properties::DefaultProperty,
@@ -71,8 +71,8 @@ namespace pdl::spirit::syntax::statements
 
     struct RoundStatement : Annotation<RoundStatement>
     {
-        variables::Identifier name;
-        variables::VariableDeclaration identifier;
+        Identifier name;
+        std::vector<variables::Variable> statements;
     };
 
     struct RequestStatement : Annotation<RequestStatement>
@@ -116,26 +116,26 @@ namespace pdl::spirit::syntax::statements
 
     struct ProtocolStatement : Annotation<ProtocolStatement>
     {
-        variables::Identifier name;
+        Identifier name;
         std::vector<ProtocolEntry> statements;
     };
 
     struct ImportStatement : Annotation<ImportStatement>
     {
-        variables::Identifier path;
+        Identifier path;
     };
 
 }  // namespace statements.
 
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::MappingEntry,         value, properties)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::MappingEntry,           value, properties)
 
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::UsingStatement,       scope, name, value)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::RoundStatement,       name, identifier)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::RequestStatement,     rounds)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::ResponseStatement,    rounds)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::HeaderStatement,      name, fields)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::MappingStatement,     field, properties, values)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::DeclarationStatement, statements)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::DefinesStatement,     statements)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::ProtocolStatement,    name, statements)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::ImportStatement,      path)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::UsingStatement,         scope, name, value)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::RoundStatement,         name, statements)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::RequestStatement,       rounds)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::ResponseStatement,      rounds)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::HeaderStatement,        name, fields)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::MappingStatement,       field, properties, values)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::DeclarationStatement,   statements)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::DefinesStatement,       statements)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::ProtocolStatement,      name, statements)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::ImportStatement,        path)

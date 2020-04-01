@@ -1,9 +1,8 @@
 #pragma once
 
-#include "../Annotation.hpp"
+#include "Identifier.hpp"
 
 #include <cstdint>
-#include <boost/fusion/include/adapt_struct.hpp>
 #include <boost/spirit/home/x3/support/ast/variant.hpp>
 
 
@@ -22,6 +21,11 @@ namespace pdl::spirit::syntax::literals
     struct PlaceholderLiteral : Annotation<PlaceholderLiteral>
     {
         uint16_t value = 0;
+    };
+
+    struct DesignatorLiteral : Annotation<DesignatorLiteral>
+    {
+        Identifier member;
     };
 
     struct NumericLiteral : Annotation<NumericLiteral>
@@ -102,6 +106,7 @@ namespace pdl::spirit::syntax::literals
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::AutoLiteral,          discovered)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::DefaultLiteral,       discovered)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::PlaceholderLiteral,   value)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::DesignatorLiteral,    member)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::NumericLiteral,       value)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::FloatLiteral,         value)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::BooleanLiteral,       value)

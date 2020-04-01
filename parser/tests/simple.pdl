@@ -10,7 +10,7 @@ protocol Ethernet
             mac src = default    ->   volatile   required   def(Source MAC Address)
             u16 type = default   ->   const   def(Lower Protocol Type)
         }
-        local using Eth = EthernetHeader
+        global using Eth = EthernetHeader
         global using EthType = Eth.type
 
         mapping EthType   ->   final   id(auto).prefix(TYPE_)  default(_1)   big_endian
@@ -32,9 +32,17 @@ protocol Ethernet
     {
         request
         {
-            round
+            round asd
             {
-                local string send_string = "123"
+                string send_string = "123" -> const
+                local EthernetHeader qwe_header0
+                local EthernetHeader qwe_header1 = default
+                local EthernetHeader qwe_header2 = { .dst = { .dst = "123",
+                                                              .src = "123" },
+                                                     .src = "123",
+                                                     .type = "123" }
+                global EthernetHeader qwe_header3 = { "123", "123", "123" }
+                local string send_string = "123" -> const
             }
         }
 

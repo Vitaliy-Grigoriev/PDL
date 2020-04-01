@@ -21,6 +21,7 @@ namespace pdl::spirit::grammar::symbols
     const auto property = x3::lit("->");
 
     const auto dot = x3::lit('.');
+    const auto comma = x3::lit(',');
     const auto colon = x3::lit(':');
     const auto semicolon = x3::lit(';');
 

@@ -28,29 +28,29 @@ namespace pdl::spirit::grammar::statements
     const x3::rule<StatementRuleId, syntax::statements::ProtocolStatement>      protocolStatement      {"Protocol Statement"};
 
 
-    const auto mappingEntryProperty_def = properties::defaultProperty |
-                                          properties::idProperty |
-                                          properties::definitionProperty;
+    const auto mappingEntryProperty_def     = properties::defaultProperty |
+                                              properties::idProperty |
+                                              properties::definitionProperty;
     const auto mappingStatementProperty_def = properties::defaultProperty |
                                               properties::finalProperty |
                                               properties::idProperty |
                                               properties::definitionProperty |
                                               properties::endianProperty;
 
-    const auto usingStatement_def       = -keywords::variableScope >> keywords::usingKeyword > variables::identifier > '=' > variables::variableName;
-    const auto headerStatement_def      = keywords::headerKeyword > variables::identifier > '{' > +variables::variableDeclaration > '}';
-    const auto mappingEntry_def         = literals::literal >> -("->" >> +mappingEntryProperty);
-    const auto mappingStatement_def     = keywords::mappingKeyword > variables::variableName > -("->" >> +mappingStatementProperty) > '{' > +mappingEntry > '}';
+    const auto usingStatement_def       = -keywords::variableScope >> keywords::usingKeyword > identifier > symbols::equality > variables::variableName;
+    const auto headerStatement_def      = keywords::headerKeyword > identifier > symbols::openBlockBrace > +variables::variable > symbols::closeBlockBrace;
+    const auto mappingEntry_def         = literals::literal >> -(symbols::property > +mappingEntryProperty);
+    const auto mappingStatement_def     = keywords::mappingKeyword > variables::variableName > -(symbols::property >> +mappingStatementProperty) > symbols::openBlockBrace > +mappingEntry > symbols::closeBlockBrace;
     const auto definesEntry_def         = headerStatement | mappingStatement | usingStatement;
     const auto declarationEntry_def     = requestStatement | responseStatement;
-    const auto definesStatement_def     = keywords::definesKeyword >> '{' >> +definesEntry >> '}';
-    const auto roundStatement_def       = keywords::roundKeyword > -variables::identifier >> symbols::openBlockBrace > variables::variableDeclaration > symbols::closeBlockBrace;
-    const auto requestStatement_def     = keywords::requestKeyword >> '{' >> +roundStatement >> '}';
-    const auto responseStatement_def    = keywords::responseKeyword >> '{' >> +roundStatement >> '}';
-    const auto declarationStatement_def = keywords::declarationKeyword >> '{' >> +declarationEntry >> '}';
+    const auto definesStatement_def     = keywords::definesKeyword > symbols::openBlockBrace > +definesEntry > symbols::closeBlockBrace;
+    const auto roundStatement_def       = keywords::roundKeyword > identifier > symbols::openBlockBrace > +variables::variable > symbols::closeBlockBrace;
+    const auto requestStatement_def     = keywords::requestKeyword > symbols::openBlockBrace > +roundStatement > symbols::closeBlockBrace;
+    const auto responseStatement_def    = keywords::responseKeyword > symbols::openBlockBrace > +roundStatement > symbols::closeBlockBrace;
+    const auto declarationStatement_def = keywords::declarationKeyword > symbols::openBlockBrace > +declarationEntry > symbols::closeBlockBrace;
     const auto protocolEntry_def        = definesStatement | declarationStatement;
-    const auto protocolStatement_def    = keywords::protocolKeyword > variables::identifier > '{' > +protocolEntry > '}';
-    const auto importStatement_def      = keywords::importKeyword > variables::identifier;
+    const auto protocolStatement_def    = keywords::protocolKeyword > identifier > symbols::openBlockBrace > +protocolEntry > symbols::closeBlockBrace;
+    const auto importStatement_def      = keywords::importKeyword > identifier;
 
 
     BOOST_SPIRIT_DEFINE(mappingEntryProperty);

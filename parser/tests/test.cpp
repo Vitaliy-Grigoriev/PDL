@@ -34,7 +34,7 @@ int32_t main (int32_t size, char** data)
     }
 
     const auto& usingSt1 = boost::get<syntax::statements::UsingStatement>(defines.statements[1]);
-    const auto& value1 = boost::get<syntax::variables::Identifier>(usingSt1.value);
+    const auto& value1 = boost::get<syntax::Identifier>(usingSt1.value);
     std::cout << "Using 1 " << value1.value << std::endl;
 
     const auto& usingSt2 = boost::get<syntax::statements::UsingStatement>(defines.statements[2]);
