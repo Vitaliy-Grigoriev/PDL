@@ -35,14 +35,25 @@ namespace pdl::spirit::grammar::keywords
                ("float",  syntax::types::InternalVariableType::FLOAT)
                ("mac",    syntax::types::InternalVariableType::MAC)
                ("ipv4",   syntax::types::InternalVariableType::IPv4)
-               ("ipv6",   syntax::types::InternalVariableType::IPv6)
-               ("string", syntax::types::InternalVariableType::STRING);
+               ("ipv6",   syntax::types::InternalVariableType::IPv6);
         }
     } reservedTypes;
 
+    static struct ReservedDefines : x3::symbols<syntax::types::InternalDefines>
+    {
+        ReservedDefines()
+        {
+            add("LOCAL_MAC_ADDRESS",  syntax::types::InternalDefines::LOCAL_MAC_ADDRESS)
+               ("TARGET_MAC_ADDRESS", syntax::types::InternalDefines::TARGET_MAC_ADDRESS)
+               ("LOCAL_IP_ADDRESS",   syntax::types::InternalDefines::LOCAL_IP_ADDRESS)
+               ("TARGET_IP_ADDRESS",  syntax::types::InternalDefines::TARGET_IP_ADDRESS);
+        }
+    } reservedDefines;
+
     static struct Endian : x3::symbols<syntax::types::EndianType>
     {
-        Endian() {
+        Endian()
+        {
             add("big_endian",    syntax::types::EndianType::BIG)
                ("little_endian", syntax::types::EndianType::LITTLE);
         }
@@ -50,7 +61,8 @@ namespace pdl::spirit::grammar::keywords
 
     static struct VariableScope : x3::symbols<syntax::types::VariableScope>
     {
-        VariableScope() {
+        VariableScope()
+        {
             add("local",  syntax::types::VariableScope::LOCAL)
                ("global", syntax::types::VariableScope::GLOBAL);
         }
@@ -58,7 +70,8 @@ namespace pdl::spirit::grammar::keywords
 
     static struct Boolean : x3::symbols<bool>
     {
-        Boolean() {
+        Boolean()
+        {
             add("true",  true)
                ("false", false);
         }
@@ -66,71 +79,99 @@ namespace pdl::spirit::grammar::keywords
 
     static struct Required : x3::symbols<bool>
     {
-        Required() {
+        Required()
+        {
             add("required", true);
         }
     } requiredKeyword;
 
-    static struct Volatile : x3::symbols<bool>
+    static struct Variable : x3::symbols<bool>
     {
-        Volatile() {
-            add("volatile", true);
+        Variable()
+        {
+            add("variable", true);
         }
-    } volatileKeyword;
+    } variableKeyword;
 
     static struct Final : x3::symbols<bool>
     {
-        Final() {
+        Final()
+        {
             add("final", true);
         }
     } finalKeyword;
 
     static struct Const : x3::symbols<bool>
     {
-        Const() {
+        Const()
+        {
             add("const", true);
         }
     } constKeyword;
 
+    static struct Calculated : x3::symbols<bool>
+    {
+        Calculated()
+        {
+            add("calculated", true);
+        }
+    } calculatedKeyword;
+
     static struct Auto : x3::symbols<bool>
     {
-        Auto() {
+        Auto()
+        {
             add("auto", true);
         }
     } autoKeyword;
 
     static struct Default : x3::symbols<bool>
     {
-        Default() {
+        Default()
+        {
             add("default", true);
         }
     } defaultKeyword;
 
+    static struct Root : x3::symbols<bool>
+    {
+        Root()
+        {
+            add("root", true);
+        }
+    } rootKeyword;
 
-    const auto idKeyword          = keywords.make("id");
-    const auto definitionKeyword  = keywords.make("def");
-    const auto roundKeyword       = keywords.make("round");
-    const auto requestKeyword     = keywords.make("request");
-    const auto responseKeyword    = keywords.make("response");
-    const auto usingKeyword       = keywords.make("using");
-    const auto headerKeyword      = keywords.make("header");
-    const auto mappingKeyword     = keywords.make("mapping");
-    const auto definesKeyword     = keywords.make("defines");
-    const auto declarationKeyword = keywords.make("declaration");
-    const auto protocolKeyword    = keywords.make("protocol");
-    const auto importKeyword      = keywords.make("import");
-    const auto prefixKeyword      = keywords.make("prefix");
-    const auto suffixKeyword      = keywords.make("suffix");
+
+    const auto asKeyword           = keywords.make("as");
+    const auto idKeyword           = keywords.make("id");
+    const auto definitionKeyword   = keywords.make("def");
+    const auto ieeeKeyword         = keywords.make("ieee");
+    const auto rfcKeyword          = keywords.make("rfc");
+    const auto nextProtocolKeyword = keywords.make("next_protocol");
+    const auto priorityKeyword     = keywords.make("priority");
+    const auto roundKeyword        = keywords.make("round");
+    const auto requestKeyword      = keywords.make("request");
+    const auto responseKeyword     = keywords.make("response");
+    const auto usingKeyword        = keywords.make("using");
+    const auto structKeyword       = keywords.make("struct");
+    const auto headerKeyword       = keywords.make("header");
+    const auto mappingKeyword      = keywords.make("mapping");
+    const auto defineKeyword       = keywords.make("define");
+    const auto declarationKeyword  = keywords.make("declaration");
+    const auto protocolKeyword     = keywords.make("protocol");
+    const auto importKeyword       = keywords.make("import");
+    const auto prefixKeyword       = keywords.make("prefix");
+    const auto suffixKeyword       = keywords.make("suffix");
 
 
     static struct FutureReservedWords : x3::symbols<x3::unused_type>
     {
         FutureReservedWords()
         {
-            add("abstract")("break")("case")("continue")
+            add("break")("case")("continue")
                ("do")("enum")("for")("while")("function")
-               ("implements")("in")("interface")("null")("package")
-               ("return")("static")("struct")("switch")
+               ("in")("interface")("null")("package")
+               ("return")("static")("switch")
                ("union")("until")("with");
         }
     } futureReservedWords;
@@ -139,13 +180,16 @@ namespace pdl::spirit::grammar::keywords
                                futureReservedWords |
                                booleanKeywords |
                                requiredKeyword |
-                               volatileKeyword |
+                               variableKeyword |
                                endianKeywords |
                                variableScope |
                                finalKeyword |
                                constKeyword |
+                               calculatedKeyword |
                                autoKeyword |
                                defaultKeyword |
-                               reservedTypes;
+                               rootKeyword |
+                               reservedTypes |
+                               reservedDefines;
 
 }  // namespace keywords.

@@ -30,8 +30,13 @@ namespace pdl::spirit::grammar::variables
     const auto variableName_def     = memberVariable | identifier;
     const auto variableProperty_def = properties::definitionProperty |
                                       properties::requiredProperty |
-                                      properties::volatileProperty |
-                                      properties::constProperty;
+                                      properties::endianProperty |
+                                      properties::priorityProperty |
+                                      properties::ieeeProperty |
+                                      properties::rfcProperty |
+                                      properties::variableProperty |
+                                      properties::constProperty |
+                                      properties::calculatedProperty;
 
     const auto variableDeclaration_def = -keywords::variableScope >> variableType > identifier;
 

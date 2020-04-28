@@ -26,13 +26,19 @@ namespace pdl::spirit::syntax::types
         FLOAT,
         MAC,
         IPv4,
-        IPv6,
-        STRING
+        IPv6
     };
 
     enum class EndianType : uint16_t {
         BIG = 0,
         LITTLE
+    };
+
+    enum class InternalDefines : uint16_t {
+        LOCAL_MAC_ADDRESS = 0,
+        TARGET_MAC_ADDRESS,
+        LOCAL_IP_ADDRESS,
+        TARGET_IP_ADDRESS
     };
 
 }  // namespace types.

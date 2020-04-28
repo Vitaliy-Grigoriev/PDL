@@ -1,19 +1,17 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-
 // ============================================================================
-// Copyright (c) 2017-2019, by Vitaly Grigoriev, <Vit.link420@gmail.com>.
-// This file is part of ProtocolAnalyzer open source project under MIT License.
+// Copyright (c) 2017-2020, by Vitaly Grigoriev, <Vit.link420@gmail.com>.
+// This file is part of ProtocolDeclarationLanguage open source project under MIT License.
 // ============================================================================
 
 #include <iostream>
 #include <Parser.hpp>
 
+
 namespace syntax = pdl::spirit::syntax;
 
 int32_t main (int32_t size, char** data)
 {
-    std::filesystem::path path{"../tests/simple.pdl"};
+    std::filesystem::path path{"../tests/ethernet.pdl"};
 
     pdl::Parser parser;
     bool res = parser.parse(path);
@@ -25,7 +23,7 @@ int32_t main (int32_t size, char** data)
     const auto& script = parser.getScript();
 
     const auto& protocol = boost::get<syntax::statements::ProtocolStatement>(script.statements[1]);
-    const auto& defines = boost::get<syntax::statements::DefinesStatement>(protocol.statements[0]);
+    const auto& defines = boost::get<syntax::statements::DefineStatement>(protocol.statements[0]);
     const auto& mapping = boost::get<syntax::statements::MappingStatement>(defines.statements[4]);
     for (auto&& value : mapping.values) {
         const auto& mac = boost::get<syntax::literals::MacAddressLiteral>(value.value);

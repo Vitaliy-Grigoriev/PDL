@@ -1,3 +1,8 @@
+// ============================================================================
+// Copyright (c) 2017-2020, by Vitaly Grigoriev, <Vit.link420@gmail.com>.
+// This file is part of ProtocolDeclarationLanguage open source project under MIT License.
+// ============================================================================
+
 #include "Parser.hpp"
 #include "spirit/grammar/Grammar.hpp"
 
@@ -41,8 +46,7 @@ bool Parser::parse (const std::string& scr)
 std::size_t getFileSize (const std::filesystem::path& path) noexcept
 {
     std::ifstream file(path, std::ios_base::binary);
-    if (file.is_open() && file.good())
-    {
+    if (file.is_open() && file.good()) {
         const auto size = file.seekg(0, std::ios_base::end).tellg();
         file.close();
         return static_cast<std::size_t>(size);
@@ -60,8 +64,7 @@ bool readFileToEnd (const std::filesystem::path& path, std::string& data) noexce
         data.reserve(size);
 
         std::ifstream file(path, std::ios_base::in);
-        if (file.is_open() && file.good())
-        {
+        if (file.is_open() && file.good()) {
             data.assign(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
             return true;
         }

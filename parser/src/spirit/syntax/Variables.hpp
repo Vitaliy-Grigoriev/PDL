@@ -37,8 +37,13 @@ namespace pdl::spirit::syntax::variables
 
     struct VariableProperty : x3::variant<properties::DefinitionProperty,
                                           properties::RequiredProperty,
-                                          properties::VolatileProperty,
-                                          properties::ConstProperty>,
+                                          properties::EndianProperty,
+                                          properties::PriorityProperty,
+                                          properties::IeeeProperty,
+                                          properties::RfcProperty,
+                                          properties::VariableProperty,
+                                          properties::ConstProperty,
+                                          properties::CalculatedProperty>,
                               Annotation<VariableProperty>
     {
         using base_type::base_type;

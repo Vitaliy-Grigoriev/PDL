@@ -11,6 +11,6 @@ namespace pdl::spirit::grammar::types
     const auto hex = x3::lit("0x") > x3::hex;
     const auto byte = x3::xdigit >> x3::xdigit;
     const auto word = byte >> byte;
-    x3::uint_parser<uint8_t, 10, 1, 3> octet;
+    const auto octet = x3::uint_parser<uint8_t, 10, 1, 3>{};
 
 }  // namespace types.

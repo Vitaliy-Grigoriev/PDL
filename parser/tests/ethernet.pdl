@@ -1,0 +1,170 @@
+# Ethernet protocol implementation.
+import ip
+
+
+protocol Ethernet   ->   root   next_protocol[IPv4, IPv6, ARP]
+{
+    structure
+    {
+        struct TagControlInformation as u16   ->   ieee(802.1Q-2014)
+        {
+            bit[3] pcp    ->   variable   priority(3)   ieee(802.1p)   def(Priority Code Point)
+            bit dei       ->   variable   priority(4)                  def(Drop Eligible Indicator)
+            bit[12] vid   ->   const                                   def(VLAN Identifier)
+        }
+
+        header EthernetHeader   ->   ieee(802.3)
+        {
+        [static]
+            mac dst    ->   const                                 def(Destination MAC Address)
+            mac src    ->   const                                 def(Source MAC Address)
+            u16 type   ->   variable   priority(1)   big_endian   def(Lower Protocol Type)
+
+		[optional   single]
+			group VlanGroup
+			{
+				TagControlInformation tag   ->   variable   priority(2)                def(Tag Control Information)
+                u16 ethType                 ->   variable   priority(5)   big_endian   def(Lower Protocol Type)
+			}
+        }
+
+        using Eth = EthernetHeader
+        using EthDst = Eth.dst
+        using EthSrc = Eth.src
+        using EthType = Eth.type
+
+        using VlanTag = Eth.tag
+        using VlanEthType = Eth.ethType
+    }
+
+
+	declaration
+	{
+		request
+        {
+            EthernetHeader.dst   ->   value(TARGET_MAC_ADDRESS)
+            EthernetHeader.src   ->   value(SOURCE_MAC_ADDRESS)
+        }
+
+        response
+        {
+            EthDst   ->   value(SOURCE_MAC_ADDRESS)
+            EthSrc   ->   value(TARGET_MAC_ADDRESS)
+        }
+
+		EthType   ->   default(ETH_TYPE_IPv4)   little_endian
+        {
+            0x0800   ->   id(ETH_TYPE_IPv4)   use_next_protocol(IPv4)                     def(Internet Protocol version 4)
+            0x0806   ->   id(ETH_TYPE_ARP)    use_next_protocol(ARP)                      def(Address Resolution Protocol)
+            0x86DD   ->   id(ETH_TYPE_IPv6)   use_next_protocol(IPv6)                     def(Internet Protocol version 6)
+
+            0x8100   ->   id(ETH_TYPE_VLAN)   use_option(VlanGroup)   ieee(802.1Q-2014)   def(VLAN Tag)
+        }
+
+        EthernetHeader.tag
+        {
+            pcp   ->   default(0)
+            {
+				0       ->   id(BE)   def(Best Effort)
+				0b001   ->   id(BK)   def(Background)
+				2       ->   id(EE)   def(Excellent Effort)
+				0b011   ->   id(CA)   def(Critical Applications)
+				4       ->   id(VI)   def(Video)
+				5       ->   id(VO)   def(Voice)
+				6       ->   id(IC)   def(Internetwork Control)
+				0b111   ->   id(NC)   def(Network Control)
+            }
+
+            dei   ->   values[0b0, 0b1]   default(0)
+
+            vid   ->   value(NETWORK_VLAN_ID)
+        }
+
+        VlanEthType   ->   default(ETH_TYPE_IPv4)   little_endian
+        {
+            0x0800   ->   id(ETH_TYPE_IPv4)   next_protocol(IPv4)   def(Internet Protocol version 4)
+            0x0806   ->   id(ETH_TYPE_ARP)    next_protocol(ARP)    def(Address Resolution Protocol)
+            0x86DD   ->   id(ETH_TYPE_IPv6)   next_protocol(IPv6)   def(Internet Protocol version 6)
+        }
+
+        Eth.VlanGroup   ->   exist_if(EthType == ETH_TYPE_VLAN || USE_NETWORK_VLAN_ID == true)
+	}
+
+
+    definition
+    {
+        request
+        {
+            round req
+            {
+                /*prepare
+                {
+                    // use EthernetHeader = default
+                    EthernetHeader
+                    {
+                        dst = TARGET_MAC_ADDRESS
+                        src = SOURCE_MAC_ADDRESS
+                        if (response && response.EthernetHeader.type == ETH_TYPE_VLAN) {
+                            type = ETH_TYPE_VLAN
+                            tag = { default, 0, response.header.tag.vid }
+                            ethType = future
+                        }
+                        elif (USE_NETWORK_VLAN_ID == true) {
+							type = ETH_TYPE_VLAN
+                            tag = { default, 0, NETWORK_VLAN_ID }
+                            ethType = future
+                        }
+                        else {
+                            type = future
+                        }
+                    }
+                }
+
+                match
+                {
+					// use EthernetHeader == default
+                    EthernetHeader
+                    {
+                        dst == SOURCE_MAC_ADDRESS
+                        src == TARGET_MAC_ADDRESS
+                        if (type == ETH_TYPE_VLAN)
+                        {
+                            tag = { default, 0, response.header.tag.vid }
+                            ethType = future
+                        }
+                        elif (USE_NETWORK_VLAN_ID == true)
+                        {
+                            type = ETH_TYPE_VLAN
+                            tag = { default, 0, NETWORK_VLAN_ID }
+                            ethType = future
+                        }
+                        else
+                        {
+                            type = future
+                        }
+                    }
+                }
+
+                send
+                {
+
+                }*/
+                local mac temp
+            }
+        }
+
+        response
+        {
+            round resp
+            {
+				local mac temp
+            }
+        }
+    }
+
+
+    /*implementation
+    {
+
+    }*/
+}

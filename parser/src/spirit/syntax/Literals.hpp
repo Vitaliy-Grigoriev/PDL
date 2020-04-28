@@ -10,11 +10,13 @@ namespace pdl::spirit::syntax::literals
 {
     struct AutoLiteral : Annotation<AutoLiteral>
     {
+        [[maybe_unused]]
         bool discovered = false;
     };
 
     struct DefaultLiteral : Annotation<DefaultLiteral>
     {
+        [[maybe_unused]]
         bool discovered = false;
     };
 
@@ -68,6 +70,18 @@ namespace pdl::spirit::syntax::literals
         std::string value;
     };
 
+    struct MappingMemberAccessLiteral : x3::variant<PlaceholderLiteral,
+                                                    NumericLiteral,
+                                                    DefinitionLiteral>,
+                                        Annotation<MappingMemberAccessLiteral>
+    { };
+
+    struct MappingMemberLiteral : Annotation<MappingMemberLiteral>
+    {
+        std::string statement;
+        std::string member;
+        MappingMemberAccessLiteral value;
+    };
 
 
     struct DefaultValueLiteral : x3::variant<PlaceholderLiteral,
@@ -96,6 +110,15 @@ namespace pdl::spirit::syntax::literals
                                    NumericLiteral,
                                    DefinitionLiteral>,
                        Annotation<IdLiteral>
+    {
+        using base_type::base_type;
+        using base_type::operator=;
+    };
+
+    struct VariableLiteral : x3::variant<Literal,
+                                         types::InternalDefines,
+                                         DefinitionLiteral>,
+                             Annotation<VariableLiteral>
     {
         using base_type::base_type;
         using base_type::operator=;

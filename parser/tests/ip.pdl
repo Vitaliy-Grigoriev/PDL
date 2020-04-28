@@ -1,0 +1,237 @@
+# IPv4 protocol implementation.
+
+
+protocol IPv4   ->   next_protocols[TCP, UDP, ICMPv4]
+{
+    define
+    {
+        struct VersionAndLength as u8
+        {
+            bit[4] version = 0b0100   ->   const        def(IPv4 Protocol Version)
+            bit[4] length = 5         ->   calculated   def(IPv4 Header Length)
+        }
+
+        struct Fragmentation as u16   ->   big_endian
+        {
+            bit[3] flags             ->   def(IPv4 Flags)
+            bit[13] fragmentOffset   ->   def(IPv4 Offset)
+        }
+
+        struct DSCP as bit[6]   ->   rfc(2597)
+        {
+            group AF as bit[3]   ->   rfc_section(6)   def(IPv4 DSCP Assured Forwarding Bit Group)
+            {
+                bit ds5   ->   variable   def(IPv4 DSCP DS5 Bit)
+                bit ds4   ->   variable   def(IPv4 DSCP DS4 Bit)
+                bit ds3   ->   variable   def(IPv4 DSCP DS3 Bit)
+            }
+            group DP as bit[2]   ->   rfc_section(6)   def(IPv4 DSCP Drop Probability Bit Group)
+            {
+                bit ds2   ->   variable   def(IPv4 DSCP DS2 Bit)
+                bit ds1   ->   variable   def(IPv4 DSCP DS1 Bit)
+            }
+            bit ds0 = 0b0   ->   const   def(IPv4 DSCP DS0 Bit)
+        }
+
+        struct ECN as bit[2]   ->   rfc(3168)
+        {
+            bit ect   ->   variable   def(IPv4 ECN ECT Bit)
+            bit ce    ->   variable   def(IPv4 ECN CE Bit)
+        }
+
+        struct DifferentiatedServices as u8
+        {
+            DSCP dscp   ->   rfc(2474)   def(IPv4 Differentiated Services Code Point)
+            ECN ecn     ->   rfc(3168)   def(IPv4 Explicit Congestion Notification)
+        }
+
+        header IPv4Header   ->   rfc(791)   big_endian
+        {
+        [static]
+            VersionAndLength verLen = 0x45   ->   calculated   def(IPv4 Version and Header Length Fields)
+            u8 DifferentiatedServices = 0    ->   const        def(IPv4 Differentiated Services Field)
+            u16 totalLength                  ->   calculated   def(IPv4 Total Length Field)
+            u16 identifier                   ->   variable     def(IPv4 Identifier Field)
+            Fragmentation fragmentation      ->   variable     def(IPv4 Fragmentation Fields)
+            u8 ttl                           ->   variable     def(IPv4 TTL Field)
+            u8 protocol                      ->   variable     def(IPv4 Protocol Field)
+            u16 checksum                     ->   calculated   def(IPv4 Checksum Field)
+            ipv4 src                         ->   const        def(IPv4 Source Address Field)
+            ipv4 dst                         ->   const        def(IPv4 Destination Address Field)
+
+		[conditional]
+			...
+
+        [optional   multi   option_enumerator]
+            IPv4Option opt   ->   def(IPv4 Option)
+        }
+
+
+        option IPv4Option as u8   ->   multi   align(40)
+        {
+        [static]
+            bit[1] copy     ->   variable   def(IPv4 Option Copy)
+            bit[2] class    ->   variable   def(IPv4 Option Class)
+            bit[5] number   ->   variable   def(IPv4 Option Number)
+
+        [optional   all-of   ordered]
+            u8 length               ->   calculated   def(IPv4 Option Length)
+            byte[length - 2] data   ->   calculated   def(IPv4 Option Data)
+        }
+
+        extension IPv4OptionWithData of IPv4Option
+        {
+            u8 length               ->   calculated   def(IPv4 Option Length)
+            byte[length - 2] data   ->   calculated   def(IPv4 Option Data)
+        }
+
+		struct TimeStampOverflowAndFlag as u8   ->   rfc(791/3.1)
+		{
+			group Overflow as bit[4]   ->   def(IPv4 Option Time Stamp Overflow)
+            {
+                bit ov1   ->   variable
+                bit ov2   ->   variable
+                bit ov3   ->   variable
+                bit ov4   ->   variable
+            }
+            group Flag as bit[4]   ->   def(IPv4 Option Time Stamp Flag)
+            {
+                bit fl1   ->   variable
+                bit fl2   ->   variable
+                bit fl3   ->   variable
+                bit fl4   ->   variable
+            }
+		}
+
+		struct TimeStampData as IPv4OptionWithData.data
+        {
+            u8 pointer                          ->   variable   def(IPv4 Option Time Stamp Pointer)
+			TimeStampOverflowAndFlag overFlag   ->   variable   def(IPv4 Option Time Stamp Overflow and Flag)
+			byte[length - 4] tsData             ->   variable   def(IPv4 Option Time Stamp Data)
+        }
+
+		struct CIPSOData as IPv4OptionWithData.data
+		{
+			u32 doi                ->   variable   big_endian   def(IPv4 Option CIPSO Domain of Interpretation Identifier)
+			byte[length - 6] tag   ->   calculated   def(IPv4 Option CIPSO Tag)
+		}
+
+		struct CIPSOTag as CIPSOData.tag
+        {
+            u8 tagType                    ->   variable     def(IPv4 Option CIPSO Tag Type)
+            u8 tagLength                  ->   calculated   def(IPv4 Option CIPSO Tag Length)
+            byte[tagLength - 2] tagData   ->   calculated   def(IPv4 Option CIPSO Tag Data)
+        }
+
+        struct CIPSOTagInformation as CIPSOTag.tagData
+        {
+            byte alignment = 0x00             ->   const      def(IPv4 Option CIPSO Tag Alignment)
+            u8 sensitiveLevel                 ->   variable   def(IPv4 Option CIPSO Tag Sensitive Level)
+            byte[tagLength - 4] information   ->   variable   def(IPv4 Option CIPSO Tag Information)
+        }
+    }
+
+
+    declaration
+    {
+        VersionAndLength.length   ->   range[5, 15]   default(5)
+
+        DifferentiatedServices.dscp   ->   rfc(2597/6)   final   default(_1)
+        {
+            0b000000   ->   def(DSCP Default Value)
+
+            0b001010   ->   def(DSCP Class 1 Low Drop Probability)
+            0b001100   ->   def(DSCP Class 1 Middle Drop Probability)
+            0b001110   ->   def(DSCP Class 1 High Drop Probability)
+
+            0b010010   ->   def(DSCP Class 2 Low Drop Probability)
+            0b010100   ->   def(DSCP Class 2 Middle Drop Probability)
+            0b010110   ->   def(DSCP Class 2 High Drop Probability)
+
+            0b011010   ->   def(DSCP Class 3 Low Drop Probability)
+            0b011100   ->   def(DSCP Class 3 Middle Drop Probability)
+            0b011110   ->   def(DSCP Class 3 High Drop Probability)
+
+            0b100010   ->   def(DSCP Class 4 Low Drop Probability)
+            0b100100   ->   def(DSCP Class 4 Middle Drop Probability)
+            0b100110   ->   def(DSCP Class 4 High Drop Probability)
+
+            0b101110   ->   rfc(2598)   def(DSCP Expedited Forwarding)
+        }
+
+        DifferentiatedServices.ecn   ->   rfc(3168/5)   final   default(_1)
+        {
+            0b00   –>   def(Non ECN-Capable Transport)
+            0b01   –>   def(ECN 1 Capable Transport)
+            0b10   –>   def(ECN 0 Capable Transport)
+            0b11   –>   def(Congestion Encountered)
+        }
+
+        IPv4Header.protocol   ->   final   default(6)
+        {
+            6    ->   def(Transmission Control Protocol)
+            17   ->   def(User Datagram Protocol)
+        }
+
+        IPv4Header.ttl   ->   less[128]   default(128)
+
+        request
+        {
+            IPv4Header.src   ->   value(LOCAL_IP_ADDRESS)
+            IPv4Header.dst   ->   value(TARGET_IP_ADDRESS)
+        }
+
+        response
+        {
+            IPv4Header.src   ->   value(TARGET_IP_ADDRESS)
+            IPv4Header.dst   ->   value(LOCAL_IP_ADDRESS)
+        }
+
+		IPv4Option   ->   exist_if(IPv4Header.velLen.length > 5)
+		{
+            0   ->   def(End of Options List)
+            1   ->   def(No Operation)
+		}
+
+		IPv4OptionWithData   ->   condition(IPv4Option >= 2)
+        {
+            IPv4Option   ->   final
+            {
+                68    ->   id(OPTION_TIMESTAMP)   def(Time Stamp Option)
+                134   ->   id(OPTION_CIPSO)       def(Commercial IP Security Option)
+            }
+
+            length[IPv4Option]   ->   final
+            {
+                OPTION_TIMESTAMP    ->   range[4, 40]   multiple(4)
+                OPTION_CIPSO        ->   range[6, 40]   multiple(2)
+            }
+
+            data[IPv4Option]   ->   final
+            {
+                OPTION_TIMESTAMP    ->   value(TimeStampData)   def(Time Stamp Option Data)
+                OPTION_CIPSO        ->   value(CIPSOData)       def(Commercial IP Security Option Data)
+            }
+        }
+
+		TimeStampData
+		{
+
+		}
+
+		CIPSOData.doi   ->   values[1, 2, 5]   not(0)
+
+    }
+
+
+    definition
+    {
+
+    }
+
+
+    checks
+    {
+
+    }
+}
