@@ -38,7 +38,7 @@ namespace pdl::spirit::grammar::literals
     const auto stringLiteral_def      = x3::lexeme[symbols::quote > *(x3::char_ - symbols::quote) > symbols::quote];
     const auto macAddressLiteral_def  = x3::raw[x3::repeat(5)[types::byte >> symbols::colon] >> types::byte];
     const auto ipv4AddressLiteral_def = x3::raw[x3::repeat(3)[types::octet >> symbols::dot] >> types::octet];
-    const auto definitionLiteral_def  = x3::raw[x3::lexeme[x3::alpha >> *(x3::alnum | symbols::underline | symbols::space | symbols::dot | symbols::minus)]];
+    const auto definitionLiteral_def  = x3::raw[x3::lexeme[x3::alnum >> *(x3::alnum | symbols::underline | symbols::space | symbols::dot | symbols::minus)]];
     const auto prefixLiteral_def      = x3::raw[x3::lexeme[x3::upper >> *(x3::upper | symbols::underline)] - keywords::reservedWords];
 
     const auto defaultValueLiteral_def = placeholderLiteral | numericLiteral | definitionLiteral;

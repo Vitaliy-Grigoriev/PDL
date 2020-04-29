@@ -11,7 +11,7 @@ namespace syntax = pdl::spirit::syntax;
 
 int32_t main (int32_t size, char** data)
 {
-    std::filesystem::path path{"../tests/ethernet.pdl"};
+    std::filesystem::path path{"../parser/tests/ethernet.pdl"};
 
     pdl::Parser parser;
     bool res = parser.parse(path);
