@@ -23,13 +23,13 @@ int32_t main (int32_t size, char** data)
     const auto& script = parser.getScript();
 
     const auto& protocol = boost::get<syntax::statements::ProtocolStatement>(script.statements[1]);
-    const auto& defines = boost::get<syntax::statements::DefineStatement>(protocol.statements[0]);
+    const auto& defines = boost::get<syntax::statements::StructureStatement>(protocol.statements[0]);
     const auto& mapping = boost::get<syntax::statements::MappingStatement>(defines.statements[4]);
-    for (auto&& value : mapping.values) {
+    /*for (auto&& value : mapping.values) {
         const auto& mac = boost::get<syntax::literals::MacAddressLiteral>(value.value);
         const auto& def = boost::get<syntax::properties::DefinitionProperty>(value.properties[1]);
         std::cout << mac.value << " - " << def.value.value << std::endl;
-    }
+    }*/
 
     const auto& usingSt1 = boost::get<syntax::statements::UsingStatement>(defines.statements[1]);
     const auto& value1 = boost::get<syntax::Identifier>(usingSt1.value);

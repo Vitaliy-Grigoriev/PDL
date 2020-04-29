@@ -38,7 +38,7 @@ protocol Ethernet   ->   root   next_protocol[IPv4, IPv6, ARP]
     }
 
 
-	declaration
+	/*declaration
 	{
 		request
         {
@@ -61,7 +61,7 @@ protocol Ethernet   ->   root   next_protocol[IPv4, IPv6, ARP]
             0x8100   ->   id(ETH_TYPE_VLAN)   use_option(VlanGroup)   ieee(802.1Q-2014)   def(VLAN Tag)
         }
 
-        EthernetHeader.tag
+        mapping EthernetHeader.tag
         {
             pcp   ->   default(0)
             {
@@ -88,7 +88,7 @@ protocol Ethernet   ->   root   next_protocol[IPv4, IPv6, ARP]
         }
 
         Eth.VlanGroup   ->   exist_if(EthType == ETH_TYPE_VLAN || USE_NETWORK_VLAN_ID == true)
-	}
+	}*/
 
 
     definition

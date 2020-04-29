@@ -41,4 +41,9 @@ namespace pdl::spirit::syntax::types
         TARGET_IP_ADDRESS
     };
 
+    enum class OptionalGroupType : uint16_t {
+        SINGLE = 0,
+        MULTI
+    };
+
 }  // namespace types.

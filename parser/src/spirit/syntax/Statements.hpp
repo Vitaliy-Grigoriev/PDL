@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Variables.hpp"
+#include "Groups.hpp"
 
 
 namespace pdl::spirit::syntax::statements
@@ -11,10 +11,11 @@ namespace pdl::spirit::syntax::statements
         variables::VariableName value;
     };
 
-    struct StructProperty : x3::variant<properties::EndianProperty,
+    struct HeaderProperty : x3::variant<properties::EndianProperty,
                                         properties::IeeeProperty,
-                                        properties::RfcProperty>,
-                            Annotation<StructProperty>
+                                        properties::RfcProperty,
+                                        properties::DefinitionProperty>,
+                            Annotation<HeaderProperty>
     {
         using base_type::base_type;
         using base_type::operator=;
@@ -24,14 +25,14 @@ namespace pdl::spirit::syntax::statements
     {
         Identifier name;
         std::optional<types::InternalVariableType> type;
-        std::vector<StructProperty> properties;
+        std::vector<HeaderProperty> properties;
         std::vector<variables::Variable> fields;
     };
 
-    struct HeaderProperty : x3::variant<properties::EndianProperty,
-                                        properties::IeeeProperty,
-                                        properties::RfcProperty>,
-                            Annotation<HeaderProperty>
+    struct HeaderEntry : x3::variant<groups::StaticGroup,
+                                     groups::ConditionalGroup,
+                                     groups::OptionalGroup>,
+                         Annotation<HeaderEntry>
     {
         using base_type::base_type;
         using base_type::operator=;
@@ -41,7 +42,7 @@ namespace pdl::spirit::syntax::statements
     {
         Identifier name;
         std::vector<HeaderProperty> properties;
-        std::vector<variables::Variable> fields;
+        std::vector<HeaderEntry> groups;
     };
 
     struct MappingEntryProperty : x3::variant<properties::DefaultProperty,
@@ -77,23 +78,19 @@ namespace pdl::spirit::syntax::statements
         std::vector<MappingEntry> values;
     };
 
-    struct DefineEntry : x3::variant<UsingStatement,
-                                     StructStatement,
-                                     HeaderStatement,
-                                     MappingStatement>,
-                          Annotation<DefineEntry>
+    struct StructureEntry : x3::variant<UsingStatement,
+                                        StructStatement,
+                                        HeaderStatement,
+                                        MappingStatement>,
+                            Annotation<StructureEntry>
     {
-        DefineEntry & operator= (const DefineEntry &) = default;
-        DefineEntry (const DefineEntry &) = default;
-        DefineEntry() = default;
-
         using base_type::base_type;
         using base_type::operator=;
     };
 
-    struct DefineStatement : Annotation<DefineStatement>
+    struct StructureStatement : Annotation<StructureStatement>
     {
-        std::vector<DefineEntry> statements;
+        std::vector<StructureEntry> statements;
     };
 
     struct RoundStatement : Annotation<RoundStatement>
@@ -137,7 +134,7 @@ namespace pdl::spirit::syntax::statements
         using base_type::operator=;
     };
 
-    struct ProtocolEntry : x3::variant<DefineStatement,
+    struct ProtocolEntry : x3::variant<StructureStatement,
                                        DeclarationStatement>,
                            Annotation<ProtocolEntry>
     {
@@ -170,9 +167,9 @@ BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::RoundStatement,      
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::RequestStatement,       rounds)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::ResponseStatement,      rounds)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::StructStatement,        name, type, properties, fields)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::HeaderStatement,        name, properties, fields)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::HeaderStatement,        name, properties, groups)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::MappingStatement,       field, properties, values)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::DeclarationStatement,   statements)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::DefineStatement,        statements)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::StructureStatement,     statements)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::ProtocolStatement,      name, protocols, statements)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::statements::ImportStatement,        path)

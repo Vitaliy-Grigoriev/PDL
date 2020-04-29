@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Symbols.hpp"
-#include "Keywords.hpp"
+#include "Utils.hpp"
 #include "Handlers.hpp"
 #include "../syntax/Identifier.hpp"
 

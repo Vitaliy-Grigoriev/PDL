@@ -7,8 +7,8 @@ namespace pdl::spirit::grammar::symbols
 {
     namespace x3 = boost::spirit::x3;
 
-    const auto openAccessBrace = x3::lit('[');
-    const auto closeAccessBrace = x3::lit(']');
+    const auto openSquareBrace = x3::lit('[');
+    const auto closeSquareBrace = x3::lit(']');
 
     const auto openParamBrace = x3::lit('(');
     const auto closeParamBrace = x3::lit(')');
@@ -29,7 +29,8 @@ namespace pdl::spirit::grammar::symbols
     const auto underline = x3::lit('_');
 
     const auto equality = x3::lit('=');
-
+    const auto plus = x3::lit('+');
+    const auto minus = x3::lit('-');
 
 }  // namespace symbols.
 

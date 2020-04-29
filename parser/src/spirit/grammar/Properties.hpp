@@ -25,7 +25,7 @@ namespace pdl::spirit::grammar::properties
     const x3::rule<PropertyRuleId, syntax::properties::IdProperty>             idProperty             {"Id Property"};
 
     const auto rootProperty_def         = keywords::rootKeyword;
-    const auto nextProtocolProperty_def = keywords::nextProtocolKeyword > symbols::openAccessBrace > (identifier % symbols::comma) > symbols::closeAccessBrace;
+    const auto nextProtocolProperty_def = keywords::nextProtocolKeyword > symbols::openSquareBrace > (identifier % symbols::comma) > symbols::closeSquareBrace;
     const auto defaultProperty_def      = x3::lit("default") >> -(symbols::openParamBrace >> literals::defaultValueLiteral >> symbols::closeParamBrace);
     const auto definitionProperty_def   = keywords::definitionKeyword >> symbols::openParamBrace >> literals::definitionLiteral >> symbols::closeParamBrace;
     const auto priorityProperty_def     = keywords::priorityKeyword > symbols::openParamBrace > x3::uint16 > symbols::closeParamBrace;

@@ -50,6 +50,15 @@ namespace pdl::spirit::grammar::keywords
         }
     } reservedDefines;
 
+    static struct OptionalGroupType : x3::symbols<syntax::types::OptionalGroupType>
+    {
+        OptionalGroupType()
+        {
+            add("SINGLE",  syntax::types::OptionalGroupType::SINGLE)
+               ("MULTI",   syntax::types::OptionalGroupType::MULTI);
+        }
+    } optionalGroupType;
+
     static struct Endian : x3::symbols<syntax::types::EndianType>
     {
         Endian()
@@ -147,6 +156,10 @@ namespace pdl::spirit::grammar::keywords
     const auto definitionKeyword   = keywords.make("def");
     const auto ieeeKeyword         = keywords.make("ieee");
     const auto rfcKeyword          = keywords.make("rfc");
+    const auto groupKeyword        = keywords.make("group");
+    const auto staticKeyword       = keywords.make("static");
+    const auto conditionalKeyword  = keywords.make("conditional");
+    const auto optionalKeyword     = keywords.make("optional");
     const auto nextProtocolKeyword = keywords.make("next_protocol");
     const auto priorityKeyword     = keywords.make("priority");
     const auto roundKeyword        = keywords.make("round");
@@ -156,7 +169,7 @@ namespace pdl::spirit::grammar::keywords
     const auto structKeyword       = keywords.make("struct");
     const auto headerKeyword       = keywords.make("header");
     const auto mappingKeyword      = keywords.make("mapping");
-    const auto defineKeyword       = keywords.make("define");
+    const auto structureKeyword    = keywords.make("structure");
     const auto declarationKeyword  = keywords.make("declaration");
     const auto protocolKeyword     = keywords.make("protocol");
     const auto importKeyword       = keywords.make("import");
@@ -190,6 +203,7 @@ namespace pdl::spirit::grammar::keywords
                                defaultKeyword |
                                rootKeyword |
                                reservedTypes |
-                               reservedDefines;
+                               reservedDefines |
+                               optionalGroupType;
 
 }  // namespace keywords.
