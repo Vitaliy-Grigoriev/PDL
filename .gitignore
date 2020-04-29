@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+
+PDL.srctrlbm
+PDL.srctrldb
+PDL.srctrlprj
+bin/
+cmake-build-*
+.idea

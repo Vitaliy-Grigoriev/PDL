@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION   3.15)
+include_directories(${PDL_PARSER_INCLUDE_PATH})
 
 # Select source files of PDL tests.
 set(PDL_TEST_SOURCES
@@ -7,4 +7,4 @@ set(PDL_TEST_SOURCES
 
 # Build PDL tests.
 add_executable(test   ${PDL_TEST_SOURCES})
-target_link_libraries(test   pdl)
+target_link_libraries(test   pdl::parser)
