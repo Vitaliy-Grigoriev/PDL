@@ -7,14 +7,25 @@
 
 namespace pdl::spirit::syntax::variables
 {
-    struct VariableType : x3::variant<types::InternalVariableType,
+    struct ArrayType : x3::variant<types::InternalVariableType,
+                                   Identifier>,
+                       Annotation<ArrayType>
+    {
+        using base_type::base_type;
+        using base_type::operator=;
+    };
+
+    struct ArrayVariable : Annotation<ArrayVariable>
+    {
+        ArrayType type;
+        uint16_t size;
+    };
+
+    struct VariableType : x3::variant<ArrayVariable,
+                                      types::InternalVariableType,
                                       Identifier>,
                           Annotation<VariableType>
     {
-        VariableType & operator= (const VariableType &) = default;
-        VariableType (const VariableType &) = default;
-        VariableType() = default;
-
         using base_type::base_type;
         using base_type::operator=;
     };
@@ -110,6 +121,7 @@ namespace pdl::spirit::syntax::variables
 
 }  // namespace variables.
 
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::variables::ArrayVariable,              type, size)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::variables::VariableDeclaration,        scope, type, name)
 
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::variables::VariableListInit,           values)

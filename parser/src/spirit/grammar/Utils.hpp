@@ -40,6 +40,12 @@ namespace pdl::spirit::grammar::utils
     }
 
     template <typename... Args>
+    auto makeSquareBraceExpect (const Args&... args) noexcept
+    {
+        return symbols::openSquareBrace > detail::makeSequence(args...) > symbols::closeSquareBrace;
+    }
+
+    template <typename... Args>
     auto makeParamBrace (const Args&... args) noexcept
     {
         return symbols::openParamBrace >> detail::makeSequence(args...) > symbols::closeParamBrace;
@@ -52,5 +58,3 @@ namespace pdl::spirit::grammar::utils
     }
 
 }  // namespace utils.
-
-

@@ -9,6 +9,8 @@ namespace pdl::spirit::grammar::variables
     struct VariableRuleId : RuleId {
     };
 
+    const x3::rule<VariableRuleId, syntax::variables::ArrayType>          arrayType          {"Array Type"};
+    const x3::rule<VariableRuleId, syntax::variables::ArrayVariable>      arrayVariable      {"Array Variable"};
     const x3::rule<VariableRuleId, syntax::variables::VariableType>       variableType       {"Variable Type"};
     const x3::rule<VariableRuleId, syntax::variables::MemberVariable>     memberVariable     {"Member Variable"};
     const x3::rule<VariableRuleId, syntax::variables::VariableName>       variableName       {"Variable Name"};
@@ -25,7 +27,9 @@ namespace pdl::spirit::grammar::variables
 
     const x3::rule<VariableRuleId, syntax::variables::Variable>   variable   {"Variable"};
 
-    const auto variableType_def     = keywords::reservedTypes | identifier;
+    const auto arrayType_def        = keywords::reservedTypes | identifier;
+    const auto arrayVariable_def    = arrayType >> utils::makeSquareBraceExpect(x3::uint16);
+    const auto variableType_def     = arrayVariable | keywords::reservedTypes | identifier;
     const auto memberVariable_def   = identifier >> +(symbols::dot > identifier);
     const auto variableName_def     = memberVariable | identifier;
     const auto variableProperty_def = properties::definitionProperty |
@@ -50,6 +54,8 @@ namespace pdl::spirit::grammar::variables
     const auto variable_def = variableDeclaration > -(symbols::equality > variableInitialization) > -(symbols::property > +variableProperty);
 
 
+    BOOST_SPIRIT_DEFINE(arrayType);
+    BOOST_SPIRIT_DEFINE(arrayVariable);
     BOOST_SPIRIT_DEFINE(variableType);
     BOOST_SPIRIT_DEFINE(memberVariable);
     BOOST_SPIRIT_DEFINE(variableName);
