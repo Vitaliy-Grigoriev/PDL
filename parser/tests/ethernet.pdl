@@ -91,13 +91,13 @@ protocol Ethernet   ->   root   next_protocol[IPv4, IPv6, ARP]
 	}*/
 
 
-    definition
+    /*definition
     {
         request
         {
             round req
             {
-                /*prepare
+                prepare
                 {
                     // use EthernetHeader = default
                     EthernetHeader
@@ -148,7 +148,7 @@ protocol Ethernet   ->   root   next_protocol[IPv4, IPv6, ARP]
                 send
                 {
 
-                }*/
+                }
                 local mac temp
             }
         }
@@ -160,11 +160,5 @@ protocol Ethernet   ->   root   next_protocol[IPv4, IPv6, ARP]
 				local mac temp
             }
         }
-    }
-
-
-    /*implementation
-    {
-
     }*/
 }

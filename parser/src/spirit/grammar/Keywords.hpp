@@ -54,8 +54,8 @@ namespace pdl::spirit::grammar::keywords
     {
         OptionalGroupType()
         {
-            add("SINGLE",  syntax::types::OptionalGroupType::SINGLE)
-               ("MULTI",   syntax::types::OptionalGroupType::MULTI);
+            add("single",  syntax::types::OptionalGroupType::SINGLE)
+               ("multi",   syntax::types::OptionalGroupType::MULTI);
         }
     } optionalGroupType;
 

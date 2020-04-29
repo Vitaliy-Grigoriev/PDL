@@ -61,7 +61,7 @@ namespace pdl::spirit::grammar::statements
     const auto responseStatement_def    = keywords::responseKeyword > symbols::openBlockBrace > +roundStatement > symbols::closeBlockBrace;
     const auto declarationStatement_def = keywords::declarationKeyword > symbols::openBlockBrace > +declarationEntry > symbols::closeBlockBrace;
     const auto protocolEntry_def        = structureStatement | declarationStatement;
-    const auto protocolStatement_def    = keywords::protocolKeyword > identifier > -(symbols::property > +protocolProperty) > symbols::openBlockBrace > +protocolEntry > symbols::closeBlockBrace;
+    const auto protocolStatement_def    = keywords::protocolKeyword > identifier > utils::makeProperty(+protocolProperty) > utils::makeBlockBrace(+protocolEntry);
     const auto importStatement_def      = keywords::importKeyword > identifier;
 
 
