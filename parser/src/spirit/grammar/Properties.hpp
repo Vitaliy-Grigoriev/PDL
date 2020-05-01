@@ -24,20 +24,20 @@ namespace pdl::spirit::grammar::properties
     const x3::rule<PropertyRuleId, syntax::properties::EndianProperty>         endianProperty         {"Endian Property"};
     const x3::rule<PropertyRuleId, syntax::properties::IdProperty>             idProperty             {"Id Property"};
 
-    const auto rootProperty_def         = keywords::rootKeyword;
-    const auto nextProtocolProperty_def = keywords::nextProtocolKeyword > utils::makeSquareBrace(identifier % symbols::comma);
+    const auto rootProperty_def         = keywords::_root;
+    const auto nextProtocolProperty_def = keywords::_nextProtocol > utils::makeSquareBrace(identifier % symbols::comma);
     const auto defaultProperty_def      = x3::lit("default") >> -(symbols::openParamBrace >> literals::defaultValueLiteral >> symbols::closeParamBrace);
-    const auto definitionProperty_def   = keywords::definitionKeyword >> symbols::openParamBrace >> literals::definitionLiteral >> symbols::closeParamBrace;
-    const auto priorityProperty_def     = keywords::priorityKeyword > symbols::openParamBrace > x3::uint16 > symbols::closeParamBrace;
-    const auto ieeeProperty_def         = keywords::ieeeKeyword > symbols::openParamBrace > literals::definitionLiteral > symbols::closeParamBrace;
-    const auto rfcProperty_def          = keywords::rfcKeyword > symbols::openParamBrace > x3::uint16 > -(x3::lit("/") > literals::definitionLiteral) > symbols::closeParamBrace;
-    const auto requiredProperty_def     = keywords::requiredKeyword;
-    const auto variableProperty_def     = keywords::variableKeyword;
-    const auto finalProperty_def        = keywords::finalKeyword;
-    const auto constProperty_def        = keywords::constKeyword;
-    const auto calculatedProperty_def   = keywords::calculatedKeyword;
-    const auto endianProperty_def       = keywords::endianKeywords;
-    const auto idProperty_def           = keywords::idKeyword > symbols::openParamBrace > literals::idLiteral > symbols::closeParamBrace > -methods::prefixMethod;
+    const auto definitionProperty_def   = keywords::_definition >> symbols::openParamBrace >> literals::definitionLiteral >> symbols::closeParamBrace;
+    const auto priorityProperty_def     = keywords::_priority > symbols::openParamBrace > x3::uint16 > symbols::closeParamBrace;
+    const auto ieeeProperty_def         = keywords::_ieee > symbols::openParamBrace > literals::definitionLiteral > symbols::closeParamBrace;
+    const auto rfcProperty_def          = keywords::_rfc > symbols::openParamBrace > x3::uint16 > -(x3::lit("/") > literals::definitionLiteral) > symbols::closeParamBrace;
+    const auto requiredProperty_def     = keywords::_required;
+    const auto variableProperty_def     = keywords::_variable;
+    const auto finalProperty_def        = keywords::_final;
+    const auto constProperty_def        = keywords::_const;
+    const auto calculatedProperty_def   = keywords::_calculated;
+    const auto endianProperty_def       = keywords::_endian;
+    const auto idProperty_def           = keywords::_id > symbols::openParamBrace > literals::idLiteral > symbols::closeParamBrace > -methods::prefixMethod;
 
 
     BOOST_SPIRIT_DEFINE(rootProperty);

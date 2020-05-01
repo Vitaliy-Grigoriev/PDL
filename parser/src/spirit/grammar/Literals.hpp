@@ -28,13 +28,13 @@ namespace pdl::spirit::grammar::literals
     const x3::rule<LiteralRuleId, syntax::literals::Literal>               literal               {"Literal"};
 
 
-    const auto autoLiteral_def        = keywords::autoKeyword;
-    const auto defaultLiteral_def     = keywords::defaultKeyword;
+    const auto autoLiteral_def        = keywords::_auto;
+    const auto defaultLiteral_def     = keywords::_default;
     const auto placeholderLiteral_def = symbols::underline > x3::uint16;
     const auto designatorLiteral_def  = symbols::dot > identifier;
     const auto numericLiteral_def     = types::bin | types::hex | x3::int_;
     const auto floatLiteral_def       = x3::float_;
-    const auto booleanLiteral_def     = keywords::booleanKeywords;
+    const auto booleanLiteral_def     = keywords::_boolean;
     const auto stringLiteral_def      = x3::lexeme[symbols::quote > *(x3::char_ - symbols::quote) > symbols::quote];
     const auto macAddressLiteral_def  = x3::raw[x3::repeat(5)[types::byte >> symbols::colon] >> types::byte];
     const auto ipv4AddressLiteral_def = x3::raw[x3::repeat(3)[types::octet >> symbols::dot] >> types::octet];

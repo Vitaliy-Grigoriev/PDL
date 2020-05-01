@@ -1,7 +1,7 @@
 # Select paths to include files of PDL library.
 set(PDL_PARSER_INCLUDE_PATH   ${CMAKE_CURRENT_SOURCE_DIR}   PARENT_SCOPE)
 
-# Build PDL library.
+# Build PDL Parser library.
 add_library(pdl_parser   STATIC)
 add_library(pdl::parser   ALIAS   pdl_parser)
 set_target_properties(pdl_parser   PROPERTIES   OUTPUT_NAME   parser)

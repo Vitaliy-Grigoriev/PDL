@@ -66,7 +66,7 @@ namespace pdl::spirit::grammar::keywords
             add("big_endian",    syntax::types::EndianType::BIG)
                ("little_endian", syntax::types::EndianType::LITTLE);
         }
-    } endianKeywords;
+    } _endian;
 
     static struct VariableScope : x3::symbols<syntax::types::VariableScope>
     {
@@ -84,7 +84,7 @@ namespace pdl::spirit::grammar::keywords
             add("true",  true)
                ("false", false);
         }
-    } booleanKeywords;
+    } _boolean;
 
     static struct Required : x3::symbols<bool>
     {
@@ -92,7 +92,7 @@ namespace pdl::spirit::grammar::keywords
         {
             add("required", true);
         }
-    } requiredKeyword;
+    } _required;
 
     static struct Variable : x3::symbols<bool>
     {
@@ -100,7 +100,7 @@ namespace pdl::spirit::grammar::keywords
         {
             add("variable", true);
         }
-    } variableKeyword;
+    } _variable;
 
     static struct Final : x3::symbols<bool>
     {
@@ -108,7 +108,7 @@ namespace pdl::spirit::grammar::keywords
         {
             add("final", true);
         }
-    } finalKeyword;
+    } _final;
 
     static struct Const : x3::symbols<bool>
     {
@@ -116,7 +116,7 @@ namespace pdl::spirit::grammar::keywords
         {
             add("const", true);
         }
-    } constKeyword;
+    } _const;
 
     static struct Calculated : x3::symbols<bool>
     {
@@ -124,7 +124,7 @@ namespace pdl::spirit::grammar::keywords
         {
             add("calculated", true);
         }
-    } calculatedKeyword;
+    } _calculated;
 
     static struct Auto : x3::symbols<bool>
     {
@@ -132,7 +132,7 @@ namespace pdl::spirit::grammar::keywords
         {
             add("auto", true);
         }
-    } autoKeyword;
+    } _auto;
 
     static struct Default : x3::symbols<bool>
     {
@@ -140,7 +140,7 @@ namespace pdl::spirit::grammar::keywords
         {
             add("default", true);
         }
-    } defaultKeyword;
+    } _default;
 
     static struct Root : x3::symbols<bool>
     {
@@ -148,33 +148,33 @@ namespace pdl::spirit::grammar::keywords
         {
             add("root", true);
         }
-    } rootKeyword;
+    } _root;
 
 
-    const auto asKeyword           = keywords.make("as");
-    const auto idKeyword           = keywords.make("id");
-    const auto definitionKeyword   = keywords.make("def");
-    const auto ieeeKeyword         = keywords.make("ieee");
-    const auto rfcKeyword          = keywords.make("rfc");
-    const auto groupKeyword        = keywords.make("group");
-    const auto staticKeyword       = keywords.make("static");
-    const auto conditionalKeyword  = keywords.make("conditional");
-    const auto optionalKeyword     = keywords.make("optional");
-    const auto nextProtocolKeyword = keywords.make("next_protocol");
-    const auto priorityKeyword     = keywords.make("priority");
-    const auto roundKeyword        = keywords.make("round");
-    const auto requestKeyword      = keywords.make("request");
-    const auto responseKeyword     = keywords.make("response");
-    const auto usingKeyword        = keywords.make("using");
-    const auto structKeyword       = keywords.make("struct");
-    const auto headerKeyword       = keywords.make("header");
-    const auto mappingKeyword      = keywords.make("mapping");
-    const auto structureKeyword    = keywords.make("structure");
-    const auto declarationKeyword  = keywords.make("declaration");
-    const auto protocolKeyword     = keywords.make("protocol");
-    const auto importKeyword       = keywords.make("import");
-    const auto prefixKeyword       = keywords.make("prefix");
-    const auto suffixKeyword       = keywords.make("suffix");
+    const auto _as           = keywords.make("as");
+    const auto _id           = keywords.make("id");
+    const auto _definition   = keywords.make("def");
+    const auto _ieee         = keywords.make("ieee");
+    const auto _rfc          = keywords.make("rfc");
+    const auto _group        = keywords.make("group");
+    const auto _static       = keywords.make("static");
+    const auto _conditional  = keywords.make("conditional");
+    const auto _optional     = keywords.make("optional");
+    const auto _nextProtocol = keywords.make("next_protocol");
+    const auto _priority     = keywords.make("priority");
+    const auto _round        = keywords.make("round");
+    const auto _request      = keywords.make("request");
+    const auto _response     = keywords.make("response");
+    const auto _using        = keywords.make("using");
+    const auto _struct       = keywords.make("struct");
+    const auto _header       = keywords.make("header");
+    const auto _mapping      = keywords.make("mapping");
+    const auto _structure    = keywords.make("structure");
+    const auto _declaration  = keywords.make("declaration");
+    const auto _protocol     = keywords.make("protocol");
+    const auto _import       = keywords.make("import");
+    const auto _prefix       = keywords.make("prefix");
+    const auto _suffix       = keywords.make("suffix");
 
 
     static struct FutureReservedWords : x3::symbols<x3::unused_type>
@@ -191,17 +191,16 @@ namespace pdl::spirit::grammar::keywords
 
     const auto reservedWords = keywords |
                                futureReservedWords |
-                               booleanKeywords |
-                               requiredKeyword |
-                               variableKeyword |
-                               endianKeywords |
+                               _boolean |
+                               _required |
+                               _variable |
+                               _endian |
                                variableScope |
-                               finalKeyword |
-                               constKeyword |
-                               calculatedKeyword |
-                               autoKeyword |
-                               defaultKeyword |
-                               rootKeyword |
+                               _final |
+                               _const |
+                               _calculated |
+                               _auto |
+                               _default | _root |
                                reservedTypes |
                                reservedDefines |
                                optionalGroupType;

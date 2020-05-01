@@ -15,7 +15,7 @@ namespace pdl::spirit::grammar::utils
     template <typename Cast>
     auto makeCast (const Cast& to) noexcept
     {
-        return keywords::asKeyword > to;
+        return keywords::_as > to;
     }
 
     namespace detail

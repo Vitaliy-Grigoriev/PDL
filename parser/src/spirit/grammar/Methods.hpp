@@ -6,13 +6,14 @@
 
 namespace pdl::spirit::grammar::methods
 {
-    struct MethodRuleId : RuleId {
-    };
 
-    const x3::rule<MethodRuleId, syntax::methods::PrefixMethod>   prefixMethod   {"Prefix Method"};
+struct MethodRuleId : RuleId {
+};
 
-    const auto prefixMethod_def = symbols::dot > keywords::prefixKeyword > symbols::openParamBrace > literals::prefixLiteral > symbols::closeParamBrace;
+const x3::rule<MethodRuleId, syntax::methods::PrefixMethod>   prefixMethod   {"Prefix Method"};
 
-    BOOST_SPIRIT_DEFINE(prefixMethod);
+const auto prefixMethod_def = symbols::dot > keywords::_prefix > utils::makeParamBrace(literals::prefixLiteral);
+
+BOOST_SPIRIT_DEFINE(prefixMethod);
 
 }  // namespace methods.

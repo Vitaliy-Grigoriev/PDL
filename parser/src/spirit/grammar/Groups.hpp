@@ -16,11 +16,11 @@ namespace pdl::spirit::grammar::groups
     const x3::rule<GroupRuleId, syntax::groups::OptionalGroup>        optionalGroup        {"Optional Group"};
 
 
-    const auto groupEntry_def         = keywords::groupKeyword > identifier > utils::makeBlockBrace(+variables::variable);
-    const auto staticGroup_def        = utils::makeSquareBrace(keywords::staticKeyword) > +variables::variable;
-    const auto conditionalGroup_def   = utils::makeSquareBrace(keywords::conditionalKeyword) > +variables::variable;
+    const auto groupEntry_def         = keywords::_group > identifier > utils::makeBlockBrace(+variables::variable);
+    const auto staticGroup_def        = utils::makeSquareBrace(keywords::_static) > +variables::variable;
+    const auto conditionalGroup_def   = utils::makeSquareBrace(keywords::_conditional) > +variables::variable;
     const auto optionalGroupEntry_def = variables::variable | groupEntry;
-    const auto optionalGroup_def      = utils::makeSquareBrace(keywords::optionalKeyword, keywords::optionalGroupType) > +optionalGroupEntry;
+    const auto optionalGroup_def      = utils::makeSquareBrace(keywords::_optional, keywords::optionalGroupType) > +optionalGroupEntry;
 
 
     BOOST_SPIRIT_DEFINE(groupEntry);
