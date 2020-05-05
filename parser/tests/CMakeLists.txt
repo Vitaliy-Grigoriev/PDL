@@ -6,5 +6,5 @@ set(PDL_TEST_SOURCES
 )
 
 # Build PDL tests.
-add_executable(test   ${PDL_TEST_SOURCES})
-target_link_libraries(test   pdl::parser)
+add_executable(_test   ${PDL_TEST_SOURCES})
+target_link_libraries(_test   pdl::parser)

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION   3.15)
-project(ProtocolDeclarationLanguageFramework   CXX)
+project(PdlFramework   CXX)
 
 # Select CPP standard.
 set(CMAKE_CXX_STANDARD   17)
@@ -8,13 +8,22 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Select output binary paths.
 set(EXECUTABLE_OUTPUT_PATH   ${PROJECT_SOURCE_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH )
 
 # Info about a compiler.
-message("Compiler ID is '${CMAKE_CXX_COMPILER_ID}'.")
+message("[info] Compiler is '${CMAKE_CXX_COMPILER_ID}'.")
 
 # Find Boost library.
 find_package(Boost   1.73   REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
+
+# Find GTest library.
+if (DEFINED   PDL_WITH_TESTS)
+    message("[info] PDL Tests Included.")
+    find_package(GTest   1.10   REQUIRED)
+    add_subdirectory(tests)
+    pdl_test_init()
+endif()
 
 set(DISABLE_WARNINGS         "-Wno-unknown-pragmas -Wno-unused-parameter -Wno-zero-as-null-pointer-constant -Wno-deprecated-declarations")
 set(DISABLE_WARNINGS_GCC     "-Wno-variadic-macros -Wno-unknown-pragmas")
@@ -47,10 +56,12 @@ endif()
 
 # Output compile flags.
 if (${CMAKE_BUILD_TYPE}   MATCHES   "Release")
-    message("Compiler flags:   ${CMAKE_CXX_FLAGS_RELEASE}.")
+    message("[info] Compiler flags:   ${CMAKE_CXX_FLAGS_RELEASE}.")
 else()
-    message("Compiler flags:   ${CMAKE_CXX_FLAGS_DEBUG}.")
+    message("[info] Compiler flags:   ${CMAKE_CXX_FLAGS_DEBUG}.")
 endif()
 
-add_subdirectory(tools)
+add_subdirectory(common)
 add_subdirectory(parser)
+add_subdirectory(model)
+add_subdirectory(tools)
