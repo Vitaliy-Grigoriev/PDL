@@ -59,8 +59,8 @@ protocol IPv4   ->   next_protocols[TCP, UDP, ICMPv4]
             ipv4 src                         ->   const        def(IPv4 Source Address Field)
             ipv4 dst                         ->   const        def(IPv4 Destination Address Field)
 
-		[conditional]
-			...
+        [conditional]
+            ...
 
         [optional   multi   option_enumerator]
             IPv4Option opt   ->   def(IPv4 Option)
@@ -85,9 +85,9 @@ protocol IPv4   ->   next_protocols[TCP, UDP, ICMPv4]
             byte[length - 2] data   ->   calculated   def(IPv4 Option Data)
         }
 
-		struct TimeStampOverflowAndFlag as u8   ->   rfc(791/3.1)
-		{
-			group Overflow as bit[4]   ->   def(IPv4 Option Time Stamp Overflow)
+        struct TimeStampOverflowAndFlag as u8   ->   rfc(791/3.1)
+        {
+            group Overflow as bit[4]   ->   def(IPv4 Option Time Stamp Overflow)
             {
                 bit ov1   ->   variable
                 bit ov2   ->   variable
@@ -101,22 +101,22 @@ protocol IPv4   ->   next_protocols[TCP, UDP, ICMPv4]
                 bit fl3   ->   variable
                 bit fl4   ->   variable
             }
-		}
-
-		struct TimeStampData as IPv4OptionWithData.data
-        {
-            u8 pointer                          ->   variable   def(IPv4 Option Time Stamp Pointer)
-			TimeStampOverflowAndFlag overFlag   ->   variable   def(IPv4 Option Time Stamp Overflow and Flag)
-			byte[length - 4] tsData             ->   variable   def(IPv4 Option Time Stamp Data)
         }
 
-		struct CIPSOData as IPv4OptionWithData.data
-		{
-			u32 doi                ->   variable   big_endian   def(IPv4 Option CIPSO Domain of Interpretation Identifier)
-			byte[length - 6] tag   ->   calculated   def(IPv4 Option CIPSO Tag)
-		}
+        struct TimeStampData as IPv4OptionWithData.data
+        {
+            u8 pointer                          ->   variable   def(IPv4 Option Time Stamp Pointer)
+            TimeStampOverflowAndFlag overFlag   ->   variable   def(IPv4 Option Time Stamp Overflow and Flag)
+            byte[length - 4] tsData             ->   variable   def(IPv4 Option Time Stamp Data)
+        }
 
-		struct CIPSOTag as CIPSOData.tag
+        struct CIPSOData as IPv4OptionWithData.data
+        {
+            u32 doi                ->   variable   big_endian   def(IPv4 Option CIPSO Domain of Interpretation Identifier)
+            byte[length - 6] tag   ->   calculated   def(IPv4 Option CIPSO Tag)
+        }
+
+        struct CIPSOTag as CIPSOData.tag
         {
             u8 tagType                    ->   variable     def(IPv4 Option CIPSO Tag Type)
             u8 tagLength                  ->   calculated   def(IPv4 Option CIPSO Tag Length)
@@ -187,13 +187,13 @@ protocol IPv4   ->   next_protocols[TCP, UDP, ICMPv4]
             IPv4Header.dst   ->   value(LOCAL_IP_ADDRESS)
         }
 
-		IPv4Option   ->   exist_if(IPv4Header.velLen.length > 5)
-		{
+        IPv4Option   ->   exist_if(IPv4Header.velLen.length > 5)
+        {
             0   ->   def(End of Options List)
             1   ->   def(No Operation)
-		}
+        }
 
-		IPv4OptionWithData   ->   condition(IPv4Option >= 2)
+        IPv4OptionWithData   ->   condition(IPv4Option >= 2)
         {
             IPv4Option   ->   final
             {
@@ -214,12 +214,12 @@ protocol IPv4   ->   next_protocols[TCP, UDP, ICMPv4]
             }
         }
 
-		TimeStampData
-		{
+        TimeStampData
+        {
 
-		}
+        }
 
-		CIPSOData.doi   ->   values[1, 2, 5]   not(0)
+        CIPSOData.doi   ->   values[1, 2, 5]   not(0)
 
     }
 

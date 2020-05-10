@@ -20,12 +20,12 @@ protocol Ethernet   ->   root   next_protocol[IPv4, IPv6, ARP]
             mac src    ->   const                                 def(Source MAC Address)
             u16 type   ->   variable   priority(1)   big_endian   def(Lower Protocol Type)
 
-		[optional   single]
-			group VlanGroup
-			{
-				TagControlInformation tag   ->   variable   priority(2)                def(Tag Control Information)
+        [optional   single]
+            group VlanGroup
+            {
+                TagControlInformation tag   ->   variable   priority(2)                def(Tag Control Information)
                 u16 ethType                 ->   variable   priority(5)   big_endian   def(Lower Protocol Type)
-			}
+            }
         }
 
         using Eth = EthernetHeader
@@ -38,9 +38,9 @@ protocol Ethernet   ->   root   next_protocol[IPv4, IPv6, ARP]
     }
 
 
-	/*declaration
-	{
-		request
+    /*declaration
+    {
+        request
         {
             EthernetHeader.dst   ->   value(TARGET_MAC_ADDRESS)
             EthernetHeader.src   ->   value(SOURCE_MAC_ADDRESS)
@@ -52,7 +52,7 @@ protocol Ethernet   ->   root   next_protocol[IPv4, IPv6, ARP]
             EthSrc   ->   value(TARGET_MAC_ADDRESS)
         }
 
-		EthType   ->   default(ETH_TYPE_IPv4)   little_endian
+        EthType   ->   default(ETH_TYPE_IPv4)   little_endian
         {
             0x0800   ->   id(ETH_TYPE_IPv4)   use_next_protocol(IPv4)                     def(Internet Protocol version 4)
             0x0806   ->   id(ETH_TYPE_ARP)    use_next_protocol(ARP)                      def(Address Resolution Protocol)
@@ -65,14 +65,14 @@ protocol Ethernet   ->   root   next_protocol[IPv4, IPv6, ARP]
         {
             pcp   ->   default(0)
             {
-				0       ->   id(BE)   def(Best Effort)
-				0b001   ->   id(BK)   def(Background)
-				2       ->   id(EE)   def(Excellent Effort)
-				0b011   ->   id(CA)   def(Critical Applications)
-				4       ->   id(VI)   def(Video)
-				5       ->   id(VO)   def(Voice)
-				6       ->   id(IC)   def(Internetwork Control)
-				0b111   ->   id(NC)   def(Network Control)
+                0       ->   id(BE)   def(Best Effort)
+                0b001   ->   id(BK)   def(Background)
+                2       ->   id(EE)   def(Excellent Effort)
+                0b011   ->   id(CA)   def(Critical Applications)
+                4       ->   id(VI)   def(Video)
+                5       ->   id(VO)   def(Voice)
+                6       ->   id(IC)   def(Internetwork Control)
+                0b111   ->   id(NC)   def(Network Control)
             }
 
             dei   ->   values[0b0, 0b1]   default(0)
@@ -88,7 +88,7 @@ protocol Ethernet   ->   root   next_protocol[IPv4, IPv6, ARP]
         }
 
         Eth.VlanGroup   ->   exist_if(EthType == ETH_TYPE_VLAN || USE_NETWORK_VLAN_ID == true)
-	}*/
+    }*/
 
 
     /*definition
@@ -110,7 +110,7 @@ protocol Ethernet   ->   root   next_protocol[IPv4, IPv6, ARP]
                             ethType = future
                         }
                         elif (USE_NETWORK_VLAN_ID == true) {
-							type = ETH_TYPE_VLAN
+                            type = ETH_TYPE_VLAN
                             tag = { default, 0, NETWORK_VLAN_ID }
                             ethType = future
                         }
@@ -122,7 +122,7 @@ protocol Ethernet   ->   root   next_protocol[IPv4, IPv6, ARP]
 
                 match
                 {
-					// use EthernetHeader == default
+                    // use EthernetHeader == default
                     EthernetHeader
                     {
                         dst == SOURCE_MAC_ADDRESS
@@ -157,7 +157,7 @@ protocol Ethernet   ->   root   next_protocol[IPv4, IPv6, ARP]
         {
             round resp
             {
-				local mac temp
+                local mac temp
             }
         }
     }*/
