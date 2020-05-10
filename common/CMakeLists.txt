@@ -10,6 +10,7 @@ target_sources(pdl_common
         BinaryData.cpp
     PUBLIC
         Types.hpp
+        Memory.hpp
         BinaryData.hpp
         ClassDeclaration.hpp
 )
