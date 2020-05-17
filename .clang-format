@@ -58,6 +58,23 @@ ForEachMacros:
     - Q_FOREACH
     - BOOST_FOREACH
 IncludeBlocks: Regroup
+IncludeCategories:
+    - Regex: '^".+\.hpp"$'
+      Priority: 1
+    - Regex: '^<(cstdlib|csignal|csetjmp|cstdarg|ctime|cstddef|climits|cfloat|cstdint|cinttypes|cassert|cerrno|cctype|cwctype|cstring|cwchar|cuchar|cmath|cfenv|cstdio|clocale)>$'
+      Priority: 2
+    - Regex: '^<(typeinfo|typeindex|type_traits|bitset|functional|utility|chrono|initializer_list|tuple|any|optional|variant|compare|new|memory|scoped_allocator|memory_resource|limits|exception|stdexcept|system_error|string|string_view|charconv|array|vector|deque|list|forward_list|set|map|unordered_set|unordered_map|stack|queue|algorithm|execution|iterator|complex|valarray|random|numeric|ratio|iosfwd|ios|istream|ostream|iostream|fstream|sstream|syncstream|iomanip|streambuf|locale|codecvt|regex|atomic|thread|mutex|shared_mutex|future|condition_variable|filesystem|format|span|compare|source_location|version|concepts|coroutine|ranges|bit|numbers|syncstream|semaphore|latch|barrier|stop_token)>$'
+      Priority: 2
+    - Regex: '^<experimental/.+>$'
+      Priority: 3
+    - Regex: '^<(sys|arpa|net|netinet|linux)/.+>$'
+      Priority: 4
+    - Regex: '^<.+/.+>$'
+      Priority: 5
+    - Regex: '^<.+\.h>$'
+      Priority: 6
+    - Regex: '^<.+>$'
+      Priority: 7
 IndentCaseLabels: false
 IndentPPDirectives: BeforeHash
 IndentWidth: 4
