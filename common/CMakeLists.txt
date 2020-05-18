@@ -7,12 +7,14 @@ set_target_properties(pdl_common   PROPERTIES   OUTPUT_NAME   common)
 
 target_sources(pdl_common
     PRIVATE
+        Endian.cpp
         BinaryData.cpp
     PUBLIC
         Types.hpp
+        Endian.hpp
         Memory.hpp
         BinaryData.hpp
-        ClassDeclaration.hpp
+        Declaration.hpp
 )
 
 add_subdirectory(tests)

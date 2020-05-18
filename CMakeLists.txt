@@ -8,7 +8,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Select output binary paths.
 set(EXECUTABLE_OUTPUT_PATH   ${PROJECT_SOURCE_DIR}/bin)
-set(LIBRARY_OUTPUT_PATH )
 
 # Info about a compiler.
 message("[info] Compiler is '${CMAKE_CXX_COMPILER_ID}'.")
@@ -60,6 +59,8 @@ if (${CMAKE_BUILD_TYPE}   MATCHES   "Release")
 else()
     message("[info] Compiler flags:   ${CMAKE_CXX_FLAGS_DEBUG}.")
 endif()
+
+include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 add_subdirectory(common)
 add_subdirectory(parser)

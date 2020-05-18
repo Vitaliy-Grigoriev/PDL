@@ -1,11 +1,10 @@
 #pragma once
 
-
 namespace pdl::common
 {
 
 template <typename Type>
-class ClassDeclaration
+class Declaration
 {
 public:
     using Ref = Type &;
@@ -13,8 +12,7 @@ public:
     using Ptr = Type *;
     using CPtr = const Type *;
 
-    ClassDeclaration() = default;
-    virtual ~ClassDeclaration() = default;
+    Declaration() = default;
 };
 
 }  // namespace common.

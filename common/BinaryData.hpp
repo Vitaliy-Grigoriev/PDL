@@ -5,71 +5,112 @@
 
 #pragma once
 
-// ////////////// DATA ENDIAN TYPE ////////////////
-//
-//  Little Endian Model.
-//  |7______0|15______8|23______16|31______24|
-//
-//  Big Endian Model.
-//  |31______24|23______16|15______8|7______0|
-//
-//  Reverse Big Endian Model.
-//  |24______31|16______23|8______15|0______7|
-//
-//  Endian Independent Model.
-//  |0______7|8______15|16______23|24______31|
-//
-//
-//  Another endian models (not supported).
-//
-//  Middle Endian Big Model. (PDP-11)
-//  |23______16|31______24|7______0|15______8|
-//
-//  Middle Endian Little Model. (Honeywell 316)
-//  |15______8|7______0|31______24|23______16|
-//
-// ////////////////////////////////////////////////
+#include "Declaration.hpp"
+#include "Endian.hpp"
+
+#include <memory>   // std::unique_ptr.
 
 
 namespace pdl::common::data
 {
 
 /**
- * @defgroup BYTE_CONSTANTS   Byte defines.
- * @brief This group of constants defines all bytes which are used in BinaryData class.
- * @{
+ * @class BinaryData   BinaryData.hpp   "common/BinaryData.hpp"
+ * @brief This class implements the container of binary data and gives an interface to work with it.
  */
-inline constexpr std::byte HighByte = std::byte(0xFF);
-inline constexpr std::byte LowByte = std::byte(0x00);
-
-inline constexpr std::byte HighPartByte = std::byte(0xF0);
-inline constexpr std::byte LowPartByte = std::byte(0x0F);
-
-inline constexpr std::byte HighAlternateByte = std::byte(0xAA);
-inline constexpr std::byte LowAlternateByte = std::byte(0x55);
-
-inline constexpr std::byte HighBitsInHalvesByte = std::byte(0xCC);
-inline constexpr std::byte LowBitsInHalvesByte = std::byte(0x33);
-
-inline constexpr std::byte HighBitInByte = std::byte(0x80);
-inline constexpr std::byte LowBitInByte = std::byte(0x01);
-/** @} */
-
-/**
- * @enum DATA_ENDIAN_TYPE
- * @brief Endian type of data in BinaryData class.
- *
- * @note Default initial type of internal data in BinaryDataEngine class the same as system type.
- */
-enum class DATA_ENDIAN_TYPE
+class BinaryData : Declaration<BinaryData>
 {
-    DATA_BIG_ENDIAN         = 0x01,  // First byte of the multibyte data-type is stored first.
-    DATA_LITTLE_ENDIAN      = 0x02,  // Last byte of the multibyte data-type is stored first.
-    DATA_REVERSE_BIG_ENDIAN = 0x03,  // First byte of the multibyte data-type is stored first in reverse bit sequence.
-    DATA_SYSTEM_ENDIAN      = 0xFE,  // This endian type determine the system endian type and using only in constructors.
-    DATA_NO_ENDIAN          = 0xFF   // This endian type means that endian value does not set.
+public:
+    /**
+     * @brief Default constructor.
+     */
+    BinaryData() = default;
+
+    /**
+     * @brief Copy assignment constructor.
+     *
+     * @param [in] other - Constant lvalue reference of copied BinaryData class.
+     */
+    BinaryData (const BinaryData & other);
+
+    /**
+     * @brief Move assignment constructor.
+     *
+     * @param [in] other - Rvalue reference of moved BinaryData class.
+     */
+    BinaryData (BinaryData && other) noexcept;
+
+    /**
+     * @brief Method that returns the size of stored data.
+     *
+     * @return Size of stored data in bytes.
+     */
+    std::size_t Size() const noexcept;
+
+    /**
+     * @brief Method that returns the pointer to the const internal data.
+     *
+     * @return Pointer to the const internal data.
+     *
+     * @note This method does not consider the type of endian in which stored data are presented.
+     */
+    const std::byte * Data() const noexcept;
+
+    /**
+     * @brief Method that returns the state of stored binary data in BinaryDataEngine class.
+     *
+     * @return TRUE - if stored data is empty, otherwise - FALSE.
+     */
+    bool IsEmpty() const noexcept;
+
+    /**
+     * @brief Operator that returns the internal state of BinaryDataEngine class.
+     *
+     * @return TRUE - if BinaryDataEngine class is not empty, otherwise - FALSE.
+     */
+    operator bool() const noexcept;
+
+    /**
+     * @brief Operator that returns a byte of data under selected index.
+     *
+     * @param [in] index - Index of byte in byte sequence of stored data.
+     * @return Return a byte of data under selected index.
+     *
+     * @note This method does not consider the type of endian in which data are presented.
+     */
+    std::byte operator[] (std::size_t /*index*/) const noexcept;
+
+    /**
+     * @brief Method that returns a pointer to an element by selected index.
+     *
+     * @param [in] index - Index of byte in byte sequence of stored data.
+     * @return Pointer to an element by selected index or nullptr in an error occurred.
+     *
+     * @note This method DOES NOT consider the endian type in which stored data are presented.
+     */
+    [[nodiscard]]
+    std::byte * GetAt (std::size_t /*index*/) const noexcept;
+
+    /**
+     * @brief Method that destroys stored data.
+     */
+    void Destroy() noexcept;
+
+    ~BinaryData();
+
+private:
+    /**
+     * @brief Storage that contains binary data.
+     */
+    std::unique_ptr<std::byte[]> data = nullptr;
+    /**
+     * @brief Length of stored data in bytes.
+     */
+    std::size_t length = 0;
+    /**
+     * @brief Flag indicates that stored data
+     */
+    bool allocated = false;
 };
-
-
 
 }  // namespace data.
