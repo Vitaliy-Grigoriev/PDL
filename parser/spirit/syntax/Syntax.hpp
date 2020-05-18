@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../../Common.hpp"
 #include "Statements.hpp"
+
+#include <common/Declaration.hpp>
 
 
 namespace pdl::spirit::syntax
@@ -18,7 +19,7 @@ namespace pdl::spirit::syntax
         using base_type::operator=;
     };
 
-    struct Script : common::ClassDeclaration<Script>,
+    struct Script : common::Declaration<Script>,
                     Annotation<Script>
     {
         std::vector<ScriptEntry> statements;
