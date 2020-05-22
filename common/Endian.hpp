@@ -38,15 +38,13 @@
 #include <cstdint>  // std::uint32_t.
 
 
-namespace pdl::common::data::endian
-{
+namespace pdl::common::data::endian {
 
 /**
  * @enum Endian
  * @brief Endian type of block of data in BinaryData class.
  */
-enum class Endian
-{
+enum class Endian {
     big                   = 0x01,  // First byte of the 32-bit data type is stored first.
     middle_big            = 0x02,  // Second byte of the 32-bit data type is stored first.
     middle_little         = 0x03,  // Third byte of the 32-bit data type is stored first.
@@ -64,7 +62,7 @@ enum class Endian
  *
  * @return Endian object that indicates system endian type.
  */
-constexpr inline Endian GetSystemEndian() noexcept
+constexpr inline Endian getSystemEndian() noexcept
 {
     constexpr uint32_t value = 0x01020304;
     return static_cast<Endian>(static_cast<const uint8_t&>(value));
@@ -79,6 +77,6 @@ constexpr inline Endian GetSystemEndian() noexcept
  *
  * Example: 10100011  ->  11000101.
  */
-std::byte ReverseBits (std::byte byte) noexcept;
+std::byte reverseBits (std::byte byte) noexcept;
 
 }  // namespace endian.

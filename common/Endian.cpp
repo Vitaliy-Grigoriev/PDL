@@ -9,7 +9,7 @@
 namespace pdl::common::data::endian
 {
 
-std::byte ReverseBits (std::byte byte) noexcept
+std::byte reverseBits(std::byte byte) noexcept
 {
     byte = (byte & std::byte(0xF0)) >> 4U | (byte & std::byte(0x0F)) << 4U;
     byte = (byte & std::byte(0xCC)) >> 2U | (byte & std::byte(0x33)) << 2U;

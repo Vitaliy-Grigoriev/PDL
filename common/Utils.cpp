@@ -1,0 +1,72 @@
+#include "Utils.hpp"
+
+#include <sstream>
+
+
+namespace pdl::common::utils {
+
+std::string toString (Module module)
+{
+    switch (module) {
+    case Module::system:
+        return "System";
+    case Module::framework:
+        return "Framework";
+    case Module::memory:
+        return "Memory";
+    case Module::binary_data:
+        return "BinaryData";
+    default:
+        std::ostringstream str;
+        str << "Module '" << std::to_string(static_cast<uint32_t>(module)) << "' not found";
+        panic(Module::framework, Code::internal_error, str.str());
+    }
+}
+
+std::string toString (Code code)
+{
+    switch (code) {
+    case Code::system_error:
+        return "SystemError";
+    case Code::internal_error:
+        return "InternalError";
+    case Code::not_implemented:
+        return "NotImplemented";
+    case Code::zero_memory_allocation:
+        return "ZeroMemoryAllocation";
+    default:
+        std::ostringstream str;
+        str << "Code '" << std::to_string(static_cast<uint32_t>(code)) << "' not found";
+        panic(Module::framework, Code::internal_error, str.str());
+    }
+}
+
+std::string toString (data::endian::Endian endian)
+{
+    switch (endian) {
+    case data::endian::Endian::big:
+        return "BigEndian";
+    case data::endian::Endian::middle_big:
+        return "MiddleBigEndian";
+    case data::endian::Endian::middle_little:
+        return "MiddleLittleEndian";
+    case data::endian::Endian::little:
+        return "LittleEndian";
+    case data::endian::Endian::reverse_little:
+        return "ReverseLittleEndian";
+    case data::endian::Endian::reverse_middle_big:
+        return "ReverseMiddleBigEndian";
+    case data::endian::Endian::reverse_big:
+        return "ReverseBigEndian";
+    case data::endian::Endian::reverse_middle_little:
+        return "ReverseMiddleLittleEndian";
+    case data::endian::Endian::system:
+        return toString(data::endian::getSystemEndian());
+    default:
+        std::ostringstream str;
+        str << "Endian '" << std::to_string(static_cast<uint32_t>(endian)) << "' not found";
+        panic(Module::framework, Code::internal_error, str.str());
+    }
+}
+
+}  // namespace utils.

@@ -7,9 +7,13 @@ set_target_properties(pdl_common   PROPERTIES   OUTPUT_NAME   common)
 
 target_sources(pdl_common
     PRIVATE
+        Error.cpp
+        Utils.cpp
         Endian.cpp
         BinaryData.cpp
     PUBLIC
+        Error.hpp
+        Utils.hpp
         Types.hpp
         Endian.hpp
         Memory.hpp
