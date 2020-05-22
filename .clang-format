@@ -27,9 +27,9 @@ BraceWrapping:
     AfterCaseLabel: false
     AfterClass: true
     AfterControlStatement: Never
-    AfterEnum: true
+    AfterEnum: false
     AfterFunction: true
-    AfterNamespace: true
+    AfterNamespace: false
     AfterStruct: true
     AfterUnion: true
     BeforeCatch: true
@@ -44,7 +44,7 @@ BreakBeforeInheritanceComma: false
 BreakBeforeTernaryOperators: false
 BreakConstructorInitializers: AfterColon
 BreakStringLiterals: false
-ColumnLimit: 140
+ColumnLimit: 0
 CompactNamespaces: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
 ConstructorInitializerIndentWidth: 4
