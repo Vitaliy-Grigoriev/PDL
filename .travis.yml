@@ -92,7 +92,7 @@ before_install:
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/DEPS"
   - mkdir -p ${DEPS_DIR}
   - cd ${DEPS_DIR}
-  - ${CXX_FOR_BUILD} --version
+  - ${CXX} --version
 
 
 install:
@@ -112,6 +112,7 @@ install:
   - cd googletest
   - cmake -j4 .
   - make -j4
+  - make install
   - sudo apt-get install -qq g++-7
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
 
@@ -120,6 +121,7 @@ before_script:
   - export PATH=${DEPS_DIR}/boost:${PATH}
   - export PATH=${DEPS_DIR}/cmake/bin:${PATH}
   - export PATH=${DEPS_DIR}/googletest:${PATH}
+  - ${CXX} --version
   - cd ${TRAVIS_BUILD_DIR}
 
 
