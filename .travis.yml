@@ -110,9 +110,8 @@ before_script:
     BOOST_URL="https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.tar.gz"
     mkdir boost && travis_retry wget --no-check-certificate --quiet -O - ${BOOST_URL} | tar --strip-components=1 -xz -C boost
   - cd ${DEPS_DIR}/boost/
-  - ls -al
-  - bootstrap.sh --prefix=${TRAVIS_BUILD_DIR}/boost --with-icu
-  - b2 --prefix=${TRAVIS_BUILD_DIR}/boost cxxflags="-std=c++17 -g -fPIC" variant=release link=static runtime-link=shared threading=multi --layout=tagged --build-type=complete --with-atomic --with-chrono --with-context --with-date_time --with-filesystem --with-iostreams --with-locale --with-program_options --with-random --with-regex --with-serialization --with-system --with-thread
+  - ./bootstrap.sh --prefix=${DEPS_DIR}/boost --with-icu
+  - ./b2 --prefix=${TRAVIS_BUILD_DIR}/boost cxxflags="-std=c++17 -g -fPIC" variant=release link=static runtime-link=shared threading=multi --layout=tagged --build-type=complete --with-atomic --with-chrono --with-context --with-date_time --with-filesystem --with-iostreams --with-locale --with-program_options --with-random --with-regex --with-serialization --with-system --with-thread
   - export PATH=${DEPS_DIR}/boost:${PATH}
   - cd ${TRAVIS_BUILD_DIR}
 
