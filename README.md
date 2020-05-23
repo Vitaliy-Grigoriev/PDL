@@ -1,7 +1,8 @@
 # Network Protocol Declaration Language (PDL)
 <h2><b>Matching-Oriented Declaration Language for Network Protocols.</b></h2>
 
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Vitaliy-Grigoriev/Protocol-Analyzer/blob/master/LICENSE)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Vitaliy-Grigoriev/PDL/blob/master/LICENSE)
+[![Build Status](https://travis-ci.com/Vitaliy-Grigoriev/PDL.svg?branch=master)](/Vitaliy-Grigoriev/PDL)
 
 <h3><b>PDL Language and its C++ Parser under the deep development.</b> Version 0.0.1.</h3>
 
@@ -16,6 +17,10 @@
 --------------
 <h2><b>Requirements for building the project</b></h2>
 
-* CMake >= 3.8.0 (for C++17 standard support);
+* Boost >= 1.73.0
 
-* Compiler, supported full C++17 standard ('clang-6.0.0', 'gcc-7.0', icc-19.0 or higher).
+* GTest >= 1.10
+
+* CMake >= 3.17.0 (for C++20 standard support);
+
+* Compiler, supported C++20 standard ('clang-9.0.0', 'gcc-9.0' or higher).

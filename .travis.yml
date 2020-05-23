@@ -6,6 +6,9 @@ branches:
   only:
     - master
 
+stdlib:
+  - stdlibc++
+
 matrix:
   include:
     - os: linux
@@ -15,6 +18,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-9
+            - libstdc++-9-dev
       env: CXX=g++-9 BUILD_TYPE=Release
 
     - os: linux
@@ -24,6 +28,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-9
+            - libstdc++-9-dev
       env: CXX=g++-9 BUILD_TYPE=Debug
 
     - os: linux
@@ -33,6 +38,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-10
+            - libstdc++-10-dev
       env: CXX=g++-10 BUILD_TYPE=Release
 
     - os: linux
@@ -42,6 +48,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-10
+            - libstdc++-10-dev
       env: CXX=g++-10 BUILD_TYPE=Debug
       
     - os: linux
@@ -52,6 +59,7 @@ matrix:
             - llvm-toolchain-bionic-9
           packages:
             - clang-9
+            - libstdc++-9-dev
       env: CXX=clang++-9 BUILD_TYPE=Release
 
     - os: linux
@@ -62,6 +70,7 @@ matrix:
             - llvm-toolchain-bionic-9
           packages:
             - clang-9
+            - libstdc++-9-dev
       env: CXX=clang++-9 BUILD_TYPE=Debug
 
     - os: linux
@@ -72,6 +81,7 @@ matrix:
             - llvm-toolchain-bionic-10
           packages:
             - clang-10
+            - libstdc++-10-dev
       env: CXX=clang++-10 BUILD_TYPE=Release
 
     - os: linux
@@ -82,6 +92,7 @@ matrix:
             - llvm-toolchain-bionic-10
           packages:
             - clang-10
+            - libstdc++-10-dev
       env: CXX=clang++-10 BUILD_TYPE=Debug
 
 
@@ -92,7 +103,6 @@ before_install:
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/DEPS"
   - mkdir -p ${DEPS_DIR}
   - cd ${DEPS_DIR}
-  - ${CXX} --version
 
 
 install:
