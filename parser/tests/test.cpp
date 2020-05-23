@@ -14,7 +14,7 @@ int32_t main (int32_t size, char** data)
 {
     std::filesystem::path path{"../parser/tests/ethernet.pdl"};
 
-    pdl::Parser parser;
+    pdl::parser::Parser parser;
     bool res = parser.parse(path);
     std::cout << "[*] Result: " << res << std::endl;
     if (!res) {
