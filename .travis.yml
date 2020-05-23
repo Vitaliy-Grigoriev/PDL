@@ -1,0 +1,132 @@
+dist: bionic
+sudo: required
+language: cpp
+
+branches:
+  only:
+    - master
+
+matrix:
+  include:
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-9
+      env: CXX=g++-9 BUILD_TYPE=Release
+
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-9
+      env: CXX=g++-9 BUILD_TYPE=Debug
+
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-10
+      env: CXX=g++-10 BUILD_TYPE=Release
+
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-10
+      env: CXX=g++-10 BUILD_TYPE=Debug
+      
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-bionic-9
+          packages:
+            - clang-9
+      env: CXX=clang++-9 BUILD_TYPE=Release
+
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-bionic-9
+          packages:
+            - clang-9
+      env: CXX=clang++-9 BUILD_TYPE=Debug
+
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-bionic-10
+          packages:
+            - clang-10
+      env: CXX=clang++-10 BUILD_TYPE=Release
+
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-bionic-10
+          packages:
+            - clang-10
+      env: CXX=clang++-10 BUILD_TYPE=Debug
+
+
+before_install:
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get -qq update
+  - DEPS_DIR="${TRAVIS_BUILD_DIR}/DEPS"
+  - mkdir -p ${DEPS_DIR}
+
+
+install:
+  - cd ${DEPS_DIR}
+  - |
+    CMAKE_URL="https://cmake.org/files/v3.17/cmake-3.17.2-Linux-x86_64.tar.gz"
+    mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+  - export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+  - cd ${TRAVIS_BUILD_DIR}
+  - sudo apt install libicu-dev libicu60
+  - sudo apt-get install -qq g++-7
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
+
+
+before_script:
+  - cd ${DEPS_DIR}
+  - |
+    BOOST_URL="https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.tar.gz"
+    mkdir boost && travis_retry wget --no-check-certificate --quiet -O - ${BOOST_URL} | tar --strip-components=1 -xz -C boost
+  - cd boost/boost_1_73_0/
+  - bootstrap.sh --prefix=${TRAVIS_BUILD_DIR}/boost --with-icu
+  - b2 --prefix=${TRAVIS_BUILD_DIR}/boost cxxflags="-std=c++17 -g -fPIC" variant=release link=static runtime-link=shared threading=multi --layout=tagged --build-type=complete --with-atomic --with-chrono --with-context --with-date_time --with-filesystem --with-iostreams --with-locale --with-program_options --with-random --with-regex --with-serialization --with-system --with-thread
+  - export PATH=${DEPS_DIR}/boost:${PATH}
+  - cd ${TRAVIS_BUILD_DIR}
+
+
+script:
+  - cd ${TRAVIS_BUILD_DIR}
+  - pwd
+  - uname -a
+  - cmake --version
+  - ${CXX} --version
+  - cmake -DPDL_WITH_TESTS=1 -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_CXX_COMPILER=${CXX} -j4 .
+  - make -j4
+
+
+notifications:
+  email:
+    on_failure: always
+    on_success: never
