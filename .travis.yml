@@ -113,15 +113,12 @@ install:
   - cmake -j4 .
   - make -j4
   - sudo make install
-  - sudo apt-get install -qq g++-7
-  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
 
 
 before_script:
   - export PATH=${DEPS_DIR}/boost:${PATH}
   - export PATH=${DEPS_DIR}/cmake/bin:${PATH}
   - export PATH=${DEPS_DIR}/googletest:${PATH}
-  - ${CXX} --version
   - cd ${TRAVIS_BUILD_DIR}
 
 
