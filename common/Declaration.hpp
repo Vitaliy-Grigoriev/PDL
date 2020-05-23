@@ -1,7 +1,6 @@
 #pragma once
 
-namespace pdl::common
-{
+namespace pdl::common {
 
 template <typename Type>
 class Declaration

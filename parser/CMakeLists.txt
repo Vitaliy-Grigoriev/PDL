@@ -60,4 +60,9 @@ target_link_libraries(pdl_parser
         pdl::common
 )
 
+target_precompile_headers(pdl_parser
+    PRIVATE
+        spirit/BoostPrecompile.hpp
+)
+
 add_subdirectory(tests)

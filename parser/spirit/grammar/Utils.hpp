@@ -4,57 +4,57 @@
 #include "Keywords.hpp"
 
 
-namespace pdl::spirit::grammar::utils
+namespace pdl::spirit::grammar::utils {
+
+template <typename Property>
+auto makeProperty (const Property& pr) noexcept
 {
-    template <typename Property>
-    auto makeProperty (const Property& pr) noexcept
+    return symbols::property > pr;
+}
+
+template <typename Cast>
+auto makeCast (const Cast& to) noexcept
+{
+    return keywords::_as > to;
+}
+
+namespace detail
+{
+    template <typename Statement>
+    auto makeSequence (const Statement& st) noexcept
     {
-        return symbols::property > pr;
+        return st;
     }
 
-    template <typename Cast>
-    auto makeCast (const Cast& to) noexcept
+    template <typename Statement, typename... Args>
+    auto makeSequence (const Statement& st, const Args&... args) noexcept
     {
-        return keywords::_as > to;
+        return st > detail::makeSequence(args...);
     }
+}
 
-    namespace detail
-    {
-        template <typename Statement>
-        auto makeSequence (const Statement& st) noexcept
-        {
-            return st;
-        }
+template <typename... Args>
+auto makeSquareBrace (const Args&... args) noexcept
+{
+    return symbols::openSquareBrace >> detail::makeSequence(args...) > symbols::closeSquareBrace;
+}
 
-        template <typename Statement, typename... Args>
-        auto makeSequence (const Statement& st, const Args&... args) noexcept
-        {
-            return st > detail::makeSequence(args...);
-        }
-    }
+template <typename... Args>
+auto makeSquareBraceExpect (const Args&... args) noexcept
+{
+    return symbols::openSquareBrace > detail::makeSequence(args...) > symbols::closeSquareBrace;
+}
 
-    template <typename... Args>
-    auto makeSquareBrace (const Args&... args) noexcept
-    {
-        return symbols::openSquareBrace >> detail::makeSequence(args...) > symbols::closeSquareBrace;
-    }
+template <typename... Args>
+auto makeParamBrace (const Args&... args) noexcept
+{
+    return symbols::openParamBrace >> detail::makeSequence(args...) > symbols::closeParamBrace;
+}
 
-    template <typename... Args>
-    auto makeSquareBraceExpect (const Args&... args) noexcept
-    {
-        return symbols::openSquareBrace > detail::makeSequence(args...) > symbols::closeSquareBrace;
-    }
-
-    template <typename... Args>
-    auto makeParamBrace (const Args&... args) noexcept
-    {
-        return symbols::openParamBrace >> detail::makeSequence(args...) > symbols::closeParamBrace;
-    }
-
-    template <typename... Args>
-    auto makeBlockBrace (const Args&... args) noexcept
-    {
-        return symbols::openBlockBrace > detail::makeSequence(args...) > symbols::closeBlockBrace;
-    }
+template <typename... Args>
+auto makeBlockBrace (const Args&... args) noexcept
+{
+    return symbols::openBlockBrace > detail::makeSequence(args...) > symbols::closeBlockBrace;
+}
 
 }  // namespace utils.

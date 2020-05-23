@@ -14,8 +14,7 @@ namespace syntax = pdl::spirit::syntax;
 namespace grammar = pdl::spirit::grammar;
 
 
-namespace pdl
-{
+namespace pdl::parser {
 
 bool Parser::parse (const std::string& scr)
 {
@@ -79,7 +78,8 @@ bool Parser::parse (const std::filesystem::path& file)
     std::string scr;
     if (readFileToEnd(file, scr)) {
         return parse(scr);
-    } else {
+    }
+    else {
         return false;
     }
 

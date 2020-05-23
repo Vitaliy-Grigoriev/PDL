@@ -39,7 +39,7 @@ namespace pdl::spirit::grammar
             ast.lineEnd = boost::spirit::get_line(last);
             ast.columnEnd = boost::spirit::get_column(position.first().base(), last.base());
 
-            std::cout << ast.Position() + " [info] Parsing '" << ast.tag << "' finish successfully." << std::endl;
+            std::cout << ast.position() + " [info] Parsing '" << ast.tag << "' finish successfully." << std::endl;
         }
 
         virtual ~RuleId() = default;

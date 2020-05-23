@@ -5,25 +5,25 @@
 #include <common/Declaration.hpp>
 
 
-namespace pdl::spirit::syntax
+namespace pdl::spirit::syntax {
+
+struct ScriptEntry : x3::variant<statements::ImportStatement,
+                                 statements::ProtocolStatement>,
+                     Annotation<ScriptEntry>
 {
-    struct ScriptEntry : x3::variant<statements::ImportStatement,
-                                     statements::ProtocolStatement>,
-                         Annotation<ScriptEntry>
-    {
-        ScriptEntry & operator= (const ScriptEntry &) = default;
-        ScriptEntry (const ScriptEntry &) = default;
-        ScriptEntry() = default;
+    ScriptEntry & operator= (const ScriptEntry &) = default;
+    ScriptEntry (const ScriptEntry &) = default;
+    ScriptEntry() = default;
 
-        using base_type::base_type;
-        using base_type::operator=;
-    };
+    using base_type::base_type;
+    using base_type::operator=;
+};
 
-    struct Script : common::Declaration<Script>,
-                    Annotation<Script>
-    {
-        std::vector<ScriptEntry> statements;
-    };
+struct Script : common::Declaration<Script>,
+                Annotation<Script>
+{
+    std::vector<ScriptEntry> statements;
+};
 
 }  // namespace syntax.
 

@@ -5,22 +5,22 @@
 #include <filesystem>
 
 
-namespace pdl
+namespace pdl::parser {
+
+class Parser final
 {
-    class Parser final
-    {
-    public:
-        Parser() = default;
-        ~Parser() = default;
+public:
+    Parser() = default;
+    ~Parser() = default;
 
-        bool parse (const std::string & script);
-        bool parse (const std::filesystem::path & file);
+    bool parse (const std::string & script);
+    bool parse (const std::filesystem::path & file);
 
-        spirit::syntax::Script::CRef getScript() const noexcept;
+    spirit::syntax::Script::CRef getScript() const noexcept;
 
-    private:
-        spirit::syntax::Script script;
-        std::string currentPath;
-    };
+private:
+    spirit::syntax::Script script;
+    std::string currentPath;
+};
 
 }  // namespace pdl.
