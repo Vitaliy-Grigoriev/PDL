@@ -23,7 +23,8 @@ enum class Code {
     system_error = 0,
     internal_error,
     not_implemented,
-    zero_memory_allocation
+    zero_memory_allocation,
+    index_out_of_range
 };
 
 using Message = std::string;
@@ -67,6 +68,7 @@ std::ostream & operator<< (std::ostream & out, const Exception & error);
  *
  * @throw error::Exception - PDL Framework based exception.
  */
+[[noreturn]]
 void panic (Module module, Code code, Message message, Where where = Where::current());
 
 }  // namespace common.

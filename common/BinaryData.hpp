@@ -6,13 +6,13 @@
 #pragma once
 
 #include "Declaration.hpp"
-#include "Endian.hpp"
 
+#include <cstddef>  // std::byte.
+#include <cstdint>  // std::uint32_t.
 #include <memory>   // std::unique_ptr.
 
 
-namespace pdl::common::data
-{
+namespace pdl::common::data {
 
 /**
  * @class BinaryData   BinaryData.hpp   "common/BinaryData.hpp"
@@ -27,74 +27,81 @@ public:
     BinaryData() = default;
 
     /**
+     * @brief Constructor that allocates specified count of bytes.
+     *
+     * @param [in] count - Number of bytes for allocate.
+     */
+    explicit BinaryData (std::size_t count);
+
+    /**
+     * @brief Constructor that accepts a pointer to allocated (or static) data.
+     *
+     * @param [in] data - Pointer to allocated (or static) data.
+     * @param [in] size - Number of bytes in data.
+     */
+    BinaryData (void * data, std::size_t size) noexcept;
+
+    /**
      * @brief Copy assignment constructor.
      *
      * @param [in] other - Constant lvalue reference of copied BinaryData class.
      */
-    BinaryData (const BinaryData & other);
+    explicit BinaryData (const BinaryData & other);
 
     /**
      * @brief Move assignment constructor.
      *
      * @param [in] other - Rvalue reference of moved BinaryData class.
      */
-    BinaryData (BinaryData && other) noexcept;
+    explicit BinaryData (BinaryData && other) noexcept;
 
     /**
-     * @brief Method that returns the size of stored data.
+     * @brief Method that returns the size of stored data in bytes.
      *
      * @return Size of stored data in bytes.
      */
-    std::size_t Size() const noexcept;
+    std::size_t size() const noexcept;
 
     /**
-     * @brief Method that returns the pointer to the const internal data.
+     * @brief Operator that returns a byte of stored data under specified index.
      *
-     * @return Pointer to the const internal data.
+     * @param [in] index - Index of byte in stored data.
      *
-     * @note This method does not consider the type of endian in which stored data are presented.
+     * @return Return a byte of data under selected index.
      */
-    const std::byte * Data() const noexcept;
+    std::byte operator[] (std::size_t index) const;
 
     /**
-     * @brief Method that returns the state of stored binary data in BinaryDataEngine class.
+     * @brief Method that returns a pointer to byte of stored data under specified index.
      *
-     * @return TRUE - if stored data is empty, otherwise - FALSE.
+     * @param [in] index - Index of byte in stored data. Default: 0.
+     *
+     * @return Pointer to byte of stored data under specified index or nullptr if index out of range.
      */
-    bool IsEmpty() const noexcept;
+    [[nodiscard]]
+    std::byte * get (std::size_t index = 0) noexcept;
 
     /**
-     * @brief Operator that returns the internal state of BinaryDataEngine class.
+     * @brief Method that returns a pointer to const byte of stored data under specified index.
      *
-     * @return TRUE - if BinaryDataEngine class is not empty, otherwise - FALSE.
+     * @param [in] index - Index of byte in stored data. Default: 0.
+     *
+     * @return Pointer to const byte of stored data under specified index or nullptr if index out of range.
+     */
+    [[nodiscard]]
+    const std::byte * get (std::size_t index = 0) const noexcept;
+
+    /**
+     * @brief Operator that returns internal state of BinaryData class.
+     *
+     * @return TRUE - if BinaryData class initialized, otherwise - FALSE.
      */
     operator bool() const noexcept;
 
     /**
-     * @brief Operator that returns a byte of data under selected index.
-     *
-     * @param [in] index - Index of byte in byte sequence of stored data.
-     * @return Return a byte of data under selected index.
-     *
-     * @note This method does not consider the type of endian in which data are presented.
-     */
-    std::byte operator[] (std::size_t /*index*/) const noexcept;
-
-    /**
-     * @brief Method that returns a pointer to an element by selected index.
-     *
-     * @param [in] index - Index of byte in byte sequence of stored data.
-     * @return Pointer to an element by selected index or nullptr in an error occurred.
-     *
-     * @note This method DOES NOT consider the endian type in which stored data are presented.
-     */
-    [[nodiscard]]
-    std::byte * GetAt (std::size_t /*index*/) const noexcept;
-
-    /**
      * @brief Method that destroys stored data.
      */
-    void Destroy() noexcept;
+    void destroy() noexcept;
 
     ~BinaryData();
 
@@ -102,7 +109,7 @@ private:
     /**
      * @brief Storage that contains binary data.
      */
-    std::unique_ptr<std::byte[]> data = nullptr;
+    std::unique_ptr<std::byte[]> memory = nullptr;
     /**
      * @brief Length of stored data in bytes.
      */

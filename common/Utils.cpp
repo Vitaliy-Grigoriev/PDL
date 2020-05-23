@@ -5,7 +5,7 @@
 
 namespace pdl::common::utils {
 
-std::string toString (Module module)
+std::string toString (const Module module)
 {
     switch (module) {
     case Module::system:
@@ -23,7 +23,7 @@ std::string toString (Module module)
     }
 }
 
-std::string toString (Code code)
+std::string toString (const Code code)
 {
     switch (code) {
     case Code::system_error:
@@ -34,6 +34,8 @@ std::string toString (Code code)
         return "NotImplemented";
     case Code::zero_memory_allocation:
         return "ZeroMemoryAllocation";
+    case Code::index_out_of_range:
+        return "IndexOutOfRange";
     default:
         std::ostringstream str;
         str << "Code '" << std::to_string(static_cast<uint32_t>(code)) << "' not found";
@@ -41,7 +43,7 @@ std::string toString (Code code)
     }
 }
 
-std::string toString (data::endian::Endian endian)
+std::string toString (const data::endian::Endian endian)
 {
     switch (endian) {
     case data::endian::Endian::big:
