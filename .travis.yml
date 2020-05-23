@@ -112,7 +112,7 @@ install:
   - cd googletest
   - cmake -j4 .
   - make -j4
-  - make install
+  - sudo make install
   - sudo apt-get install -qq g++-7
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
 
@@ -132,7 +132,6 @@ script:
   - ${CXX} --version
   - cmake -DPDL_WITH_TESTS=1 -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_CXX_COMPILER=${CXX} -j4 .
   - make -j4
-  - make install
 
 
 notifications:
