@@ -23,4 +23,4 @@
 
 * CMake >= 3.17.0 (for C++20 standard support);
 
-* Compiler, supported C++20 standard ('clang-9.0.0', 'gcc-9.0' or higher).
+* Compiler, supported C++20 standard ('clang-9.0', 'gcc-10.0' or higher).
