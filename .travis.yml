@@ -101,7 +101,7 @@ install:
   - cd googletest
   - cmake -DBUILD_SHARED_LIBS=ON -j4 .
   - make -j4
-  - sudo cp -a googetest/include/gtest /usr/include
+  - sudo cp -a googletest/include/gtest /usr/include
   - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
   - sudo make install
 
