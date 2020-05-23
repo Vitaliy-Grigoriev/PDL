@@ -6,31 +6,8 @@ branches:
   only:
     - master
 
-stdlib:
-  - stdlibc++
-
 matrix:
   include:
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-9
-            - libstdc++-9-dev
-      env: CXX=g++-9 BUILD_TYPE=Release
-
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-9
-            - libstdc++-9-dev
-      env: CXX=g++-9 BUILD_TYPE=Debug
-
     - os: linux
       addons:
         apt:
@@ -67,7 +44,8 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-bionic-9
+            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
+              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
           packages:
             - clang-9
             - libstdc++-9-dev
@@ -78,7 +56,8 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-bionic-10
+            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
+              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
           packages:
             - clang-10
             - libstdc++-10-dev
@@ -120,7 +99,7 @@ install:
     GOOGLETEST_URL="https://github.com/google/googletest/archive/release-1.10.0.tar.gz"
     mkdir googletest && travis_retry wget --no-check-certificate --quiet -O - ${GOOGLETEST_URL} | tar --strip-components=1 -xz -C googletest
   - cd googletest
-  - cmake -j4 .
+  - cmake -DBUILD_SHARED_LIBS=ON -j4 .
   - make -j4
   - sudo make install
 
