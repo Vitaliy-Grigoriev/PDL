@@ -73,7 +73,7 @@ const std::byte* BinaryData::get (const std::size_t index) const noexcept
 // Operator that returns internal state of BinaryData class.
 BinaryData::operator bool() const noexcept
 {
-    return memory != nullptr && length != 0;
+    return memory && length;
 }
 
 // Method that destroys stored data.

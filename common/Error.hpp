@@ -6,7 +6,9 @@
 #pragma once
 
 #include <iosfwd>
+#include <ostream>
 #include <stdexcept>
+
 #include <experimental/source_location>
 
 
@@ -44,17 +46,18 @@ public:
      * @param [in] message - Message that describes exception.
      * @param [in] where   - Place in code where exception occurred.
      */
-    Exception (Module module, Code code, Message message, Where where = Where::current());
-};
+    Exception (Module module, Code code, const Message & message, const Where & where = Where::current());
 
-/**
- * @brief Operator that outputs exception information to stream.
- *
- * @param [in,out] out   - Reference of out stream.
- * @param [in]     error - Constant lvalue reference of Error class.
- * @return Lvalue reference of out stream.
- */
-std::ostream & operator<< (std::ostream & out, const Exception & error);
+    /**
+     * @brief Operator that outputs exception information to stream.
+     *
+     * @param [in,out] os        - Reference of out stream.
+     * @param [in]     exception - Reference of Exception class.
+     * @return Lvalue reference of out stream.
+     */
+    friend std::ostream & operator<< (std::ostream & os, const Exception & exception);
+
+};
 
 }  // namespace error.
 
@@ -64,11 +67,11 @@ std::ostream & operator<< (std::ostream & out, const Exception & error);
  * @param [in] module  - Module in which exception occurred.
  * @param [in] code    - Code that indicates the type of exception.
  * @param [in] message - Message that describes exception.
- * @param [in] where   - Place in code where exception occurred.
+ * @param [in] where   - Location in source code where exception occurred.
  *
  * @throw error::Exception - PDL Framework based exception.
  */
 [[noreturn]]
-void panic (Module module, Code code, Message message, Where where = Where::current());
+void panic (Module module, Code code, const Message & message, Where where = Where::current());
 
 }  // namespace common.

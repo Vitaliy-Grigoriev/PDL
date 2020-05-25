@@ -5,20 +5,20 @@
 
 #pragma once
 
-#include "Declaration.hpp"
+#include "Declaration.hpp"  // Declaration.
 
-#include <cstddef>  // std::byte.
-#include <cstdint>  // std::uint32_t.
-#include <memory>   // std::unique_ptr.
+#include <cstddef>
+#include <cstdint>
+#include <memory>
 
 
 namespace pdl::common::data {
 
 /**
  * @class BinaryData   BinaryData.hpp   "common/BinaryData.hpp"
- * @brief This class implements the container of binary data and gives an interface to work with it.
+ * @brief This class implements the binary data container and gives an interface to work with it.
  */
-class BinaryData : Declaration<BinaryData>
+class BinaryData : public Declaration<BinaryData>
 {
 public:
     /**
@@ -44,14 +44,14 @@ public:
     /**
      * @brief Copy assignment constructor.
      *
-     * @param [in] other - Constant lvalue reference of copied BinaryData class.
+     * @param [in] other - Reference of copied BinaryData class.
      */
     explicit BinaryData (const BinaryData & other);
 
     /**
      * @brief Move assignment constructor.
      *
-     * @param [in] other - Rvalue reference of moved BinaryData class.
+     * @param [in] other - Reference of moved BinaryData class.
      */
     explicit BinaryData (BinaryData && other) noexcept;
 
@@ -103,6 +103,9 @@ public:
      */
     void destroy() noexcept;
 
+    /**
+     * @brief Destructor.
+     */
     ~BinaryData();
 
 private:

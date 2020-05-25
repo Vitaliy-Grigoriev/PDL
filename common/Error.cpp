@@ -14,7 +14,7 @@ namespace error {
 namespace {
 
 // TODO: Migrate to std::format in C++20.
-std::string createDescription (Module module, Code code, Message message, Where where)
+std::string createDescription (Module module, Code code, const Message& message, const Where& where)
 {
     std::ostringstream out;
     out << where.file_name() << '.'
@@ -22,7 +22,7 @@ std::string createDescription (Module module, Code code, Message message, Where 
         << where.line() << ": ("
         << utils::toString(module) << '.'
         << utils::toString(code) << ") - "
-        << std::move(message) << '.';
+        << message << '.';
     return out.str();
 }
 
@@ -30,24 +30,24 @@ std::string createDescription (Module module, Code code, Message message, Where 
 
 
 // Constructor that specifies PDL Framework based exception.
-Exception::Exception (Module module, Code code, Message message, Where where) :
-    std::runtime_error{createDescription(module, code, std::move(message), std::move(where))}
+Exception::Exception (Module module, Code code, const Message& message, const Where& where) :
+    std::runtime_error{createDescription(module, code, message, where)}
 { }
 
 // Operator that outputs exception information to stream.
-std::ostream& operator<< (std::ostream& out, const Exception& error)
+std::ostream& operator<< (std::ostream& os, const Exception& exception)
 {
-    out << error.what();
-    return out;
+    os << exception.what();
+    return os;
 }
 
 }
 
 
 // Function that throws the specified error::Exception.
-void panic (Module module, Code code, Message message, Where where)
+void panic (Module module, Code code, const Message& message, Where where)
 {
-    throw error::Exception {module, code, std::move(message), std::move(where)};
+    throw error::Exception {module, code, message, where};
 }
 
 }

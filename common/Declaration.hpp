@@ -1,4 +1,10 @@
+// ============================================================================
+// Copyright (c) 2017-2020, by Vitaly Grigoriev, <Vit.link420@gmail.com>.
+// This file is part of PdlFramework open source project under MIT License.
+// ============================================================================
+
 #pragma once
+
 
 namespace pdl::common {
 
@@ -10,8 +16,6 @@ public:
     using CRef = const Type &;
     using Ptr = Type *;
     using CPtr = const Type *;
-
-    Declaration() = default;
 };
 
 }  // namespace common.

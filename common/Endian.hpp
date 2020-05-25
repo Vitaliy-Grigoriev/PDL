@@ -42,7 +42,7 @@ namespace pdl::common::data::endian {
 
 /**
  * @enum Endian
- * @brief Endian type of block of data in BinaryData class.
+ * @brief Endian types.
  */
 enum class Endian {
     big                   = 0x01,  // First byte of the 32-bit data type is stored first.
@@ -58,9 +58,9 @@ enum class Endian {
 };
 
 /**
- * @brief Function that returns system endian type.
+ * @brief Function that calculates system endian type.
  *
- * @return Endian object that indicates system endian type.
+ * @return System endian type.
  */
 constexpr inline Endian getSystemEndian() noexcept
 {

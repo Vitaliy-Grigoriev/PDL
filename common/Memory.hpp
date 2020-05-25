@@ -12,8 +12,7 @@
 #include <memory>
 
 
-namespace pdl::common::memory
-{
+namespace pdl::common::memory {
 
 /**
   * @brief Function that allocates and constructs object.
