@@ -44,7 +44,7 @@ namespace pdl::common::data::endian {
  * @enum Endian
  * @brief Endian types.
  */
-enum class Endian {
+enum class Endian : uint16_t {
     big                   = 0x01,  // First byte of the 32-bit data type is stored first.
     middle_big            = 0x02,  // Second byte of the 32-bit data type is stored first.
     middle_little         = 0x03,  // Third byte of the 32-bit data type is stored first.

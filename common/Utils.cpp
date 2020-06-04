@@ -16,6 +16,12 @@ std::string toString (const Module module)
         return "Memory";
     case Module::binary_data:
         return "BinaryData";
+    case Module::field:
+        return "Field";
+    case Module::subfield:
+        return "Subfield";
+    case Module::header:
+        return "Header";
     default:
         std::ostringstream str;
         str << "Module '" << std::to_string(static_cast<uint32_t>(module)) << "' not found";
@@ -36,6 +42,8 @@ std::string toString (const Code code)
         return "ZeroMemoryAllocation";
     case Code::index_out_of_range:
         return "IndexOutOfRange";
+    case Code::object_not_found:
+        return "ObjectNotFound";
     default:
         std::ostringstream str;
         str << "Code '" << std::to_string(static_cast<uint32_t>(code)) << "' not found";

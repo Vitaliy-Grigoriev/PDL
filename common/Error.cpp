@@ -35,10 +35,10 @@ Exception::Exception (Module module, Code code, const Message& message, const Wh
 { }
 
 // Operator that outputs exception information to stream.
-std::ostream& operator<< (std::ostream& os, const Exception& exception)
+std::ostream& operator<< (std::ostream& _os, const Exception& _exception)
 {
-    os << exception.what();
-    return os;
+    _os << _exception.what();
+    return _os;
 }
 
 }

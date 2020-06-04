@@ -21,39 +21,54 @@ namespace pdl::common::data {
 class BinaryData : public Declaration<BinaryData>
 {
 public:
+    using ValueType      = std::byte;
+    using Pointer        = ValueType *;
+    using ConstPointer   = const ValueType *;
+    using Reference      = ValueType &;
+    using ConstReference = const ValueType &;
+
     /**
      * @brief Default constructor.
      */
-    BinaryData() = default;
+    BinaryData() noexcept;
 
     /**
      * @brief Constructor that allocates specified count of bytes.
      *
      * @param [in] count - Number of bytes for allocate.
      */
-    explicit BinaryData (std::size_t count);
+    explicit BinaryData (std::size_t _count);
 
     /**
      * @brief Constructor that accepts a pointer to allocated (or static) data.
      *
      * @param [in] data - Pointer to allocated (or static) data.
-     * @param [in] size - Number of bytes in data.
+     * @param [in] _size - Number of bytes in data.
      */
-    BinaryData (void * data, std::size_t size) noexcept;
+    BinaryData (void * _data, std::size_t _size) noexcept;
 
     /**
      * @brief Copy assignment constructor.
      *
      * @param [in] other - Reference of copied BinaryData class.
      */
-    explicit BinaryData (const BinaryData & other);
+    explicit BinaryData (const BinaryData & _other);
 
     /**
      * @brief Move assignment constructor.
      *
      * @param [in] other - Reference of moved BinaryData class.
      */
-    explicit BinaryData (BinaryData && other) noexcept;
+    explicit BinaryData (BinaryData && _other) noexcept;
+
+    /**
+     * @brief Method that appends specified bytes at the end.
+     *
+     * @param [in] size - Number of addition bytes for allocation to stored data.
+     *
+     * @return Pointer to the beginning of the appended block.
+     */
+    Pointer append (std::size_t _size);
 
     /**
      * @brief Method that returns the size of stored data in bytes.
@@ -69,7 +84,7 @@ public:
      *
      * @return Return a byte of data under selected index.
      */
-    std::byte operator[] (std::size_t index) const;
+    ValueType operator[] (std::size_t _index) const;
 
     /**
      * @brief Method that returns a pointer to byte of stored data under specified index.
@@ -79,7 +94,7 @@ public:
      * @return Pointer to byte of stored data under specified index or nullptr if index out of range.
      */
     [[nodiscard]]
-    std::byte * get (std::size_t index = 0) noexcept;
+    Pointer get (std::size_t _index = 0) noexcept;
 
     /**
      * @brief Method that returns a pointer to const byte of stored data under specified index.
@@ -89,7 +104,7 @@ public:
      * @return Pointer to const byte of stored data under specified index or nullptr if index out of range.
      */
     [[nodiscard]]
-    const std::byte * get (std::size_t index = 0) const noexcept;
+    ConstPointer get (std::size_t _index = 0) const noexcept;
 
     /**
      * @brief Operator that returns internal state of BinaryData class.
@@ -112,15 +127,11 @@ private:
     /**
      * @brief Storage that contains binary data.
      */
-    std::unique_ptr<std::byte[]> memory = nullptr;
+    std::unique_ptr<ValueType[]> memory = nullptr;
     /**
      * @brief Length of stored data in bytes.
      */
     std::size_t length = 0;
-    /**
-     * @brief Flag indicates that stored data
-     */
-    bool allocated = false;
 };
 
 }  // namespace data.

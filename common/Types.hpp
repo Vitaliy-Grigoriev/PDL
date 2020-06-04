@@ -6,6 +6,8 @@
 
 namespace pdl::common {
 
+using Name = std::string;
+
 using Type = std::string;
 using TypeRef = std::string_view;
 

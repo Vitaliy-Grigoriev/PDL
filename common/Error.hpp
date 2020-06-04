@@ -18,7 +18,10 @@ enum class Module {
     system = 0,
     framework,
     memory,
-    binary_data
+    binary_data,
+    field,
+    subfield,
+    header
 };
 
 enum class Code {
@@ -26,7 +29,8 @@ enum class Code {
     internal_error,
     not_implemented,
     zero_memory_allocation,
-    index_out_of_range
+    index_out_of_range,
+    object_not_found
 };
 
 using Message = std::string;
@@ -35,6 +39,10 @@ using Where   = std::experimental::source_location;
 
 namespace error {
 
+/**
+ * @class Exception   Error.hpp   "common/Error.hpp"
+ * @brief This class implements error exception of PdlFramework.
+ */
 class Exception final : public std::runtime_error
 {
 public:
@@ -51,11 +59,11 @@ public:
     /**
      * @brief Operator that outputs exception information to stream.
      *
-     * @param [in,out] os        - Reference of out stream.
-     * @param [in]     exception - Reference of Exception class.
+     * @param [in,out] _os        - Reference of out stream.
+     * @param [in]     _exception - Reference of Exception class.
      * @return Lvalue reference of out stream.
      */
-    friend std::ostream & operator<< (std::ostream & os, const Exception & exception);
+    friend std::ostream & operator<< (std::ostream & _os, const Exception & _exception);
 
 };
 

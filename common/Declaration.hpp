@@ -16,6 +16,33 @@ public:
     using CRef = const Type &;
     using Ptr = Type *;
     using CPtr = const Type *;
+
+    explicit Declaration (Type * _pointer) noexcept :
+        pointer{_pointer}
+    { }
+
+    Ref ref() noexcept
+    {
+        return *pointer;
+    }
+
+    CRef ref() const noexcept
+    {
+        return *pointer;
+    }
+
+    Ptr ptr() noexcept
+    {
+        return pointer;
+    }
+
+    CPtr ptr() const noexcept
+    {
+        return pointer;
+    }
+
+private:
+    Type * pointer = nullptr;
 };
 
 }  // namespace common.

@@ -22,6 +22,10 @@ struct ScriptEntry : x3::variant<statements::ImportStatement,
 struct Script : common::Declaration<Script>,
                 Annotation<Script>
 {
+    Script() :
+        Declaration(this)
+    { }
+
     std::vector<ScriptEntry> statements;
 };
 

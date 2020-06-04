@@ -11,6 +11,8 @@ target_sources(pdl_common
         Utils.cpp
         Endian.cpp
         BinaryData.cpp
+        Field.cpp
+        Header.cpp
     PUBLIC
         Error.hpp
         Utils.hpp
@@ -18,6 +20,8 @@ target_sources(pdl_common
         Endian.hpp
         Memory.hpp
         BinaryData.hpp
+        Field.hpp
+        Header.hpp
         Declaration.hpp
 )
 
