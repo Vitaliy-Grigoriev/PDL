@@ -96,7 +96,7 @@ SpaceBeforeCpp11BracedList: true
 SpaceBeforeCtorInitializerColon: true
 SpaceBeforeSquareBrackets: false
 SpaceBeforeInheritanceColon: true
-SpaceBeforeParens: ControlStatements
+SpaceBeforeParens: NonEmptyParentheses
 SpaceBeforeRangeBasedForLoopColon: true
 SpaceInEmptyBlock: true
 SpaceInEmptyParentheses: false
