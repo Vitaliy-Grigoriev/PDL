@@ -87,10 +87,10 @@ before_install:
 
 install:
   - |
-    CMAKE_URL="https://cmake.org/files/v3.17/cmake-3.17.2-Linux-x86_64.tar.gz"
+    CMAKE_URL="https://cmake.org/files/v3.18/cmake-3.18.1-Linux-x86_64.tar.gz"
     mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
   - |
-    BOOST_URL="https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.tar.gz"
+    BOOST_URL="https://dl.bintray.com/boostorg/release/1.74.0/source/boost_1_74_0.tar.gz"
     mkdir boost && travis_retry wget --no-check-certificate --quiet -O - ${BOOST_URL} | tar --strip-components=1 -xz -C boost
   - cd boost
   - ./bootstrap.sh --prefix=${DEPS_DIR}/boost --with-icu
