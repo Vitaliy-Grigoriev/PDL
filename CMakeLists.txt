@@ -15,7 +15,6 @@ message("[info] Compiler is '${CMAKE_CXX_COMPILER_ID}'.")
 # Find Boost library.
 find_package(Boost   1.74   REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
-message("[info] Boost include dir: '${Boost_INCLUDE_DIRS}'.")
 
 # Find GTest library.
 if (DEFINED   PDL_WITH_TESTS)

@@ -120,6 +120,7 @@ script:
   - ${CXX} --version
   - cmake -DPDL_WITH_TESTS=1 -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_CXX_COMPILER=${CXX} -j4 .
   - make -j4
+  - ctest --verbose
 
 
 notifications:
