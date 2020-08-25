@@ -1,16 +1,15 @@
 #pragma once
 
-#include "../Annotation.hpp"
-
 #include <boost/fusion/include/adapt_struct.hpp>
+#include <parser/spirit/Annotation.hpp>
 
 
-namespace pdl::spirit::syntax
+namespace pdl::spirit::syntax {
+
+struct Identifier : Annotation<Identifier>
 {
-    struct Identifier : Annotation<Identifier>
-    {
-        std::string value;
-    };
+    std::string value;
+};
 
 }  // namespace syntax.
 

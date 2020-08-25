@@ -4,85 +4,85 @@
 #include "Methods.hpp"
 
 
-namespace pdl::spirit::syntax::properties
+namespace pdl::spirit::syntax::properties {
+
+struct RootProperty : Annotation<RootProperty>
 {
-    struct RootProperty : Annotation<RootProperty>
-    {
-        [[maybe_unused]]
-        bool discovered = false;
-    };
+    [[maybe_unused]]
+    bool discovered = false;
+};
 
-    struct NextProtocolProperty : Annotation<NextProtocolProperty>
-    {
-        std::vector<Identifier> protocols;
-    };
+struct NextProtocolProperty : Annotation<NextProtocolProperty>
+{
+    std::vector<Identifier> protocols;
+};
 
-    struct DefaultProperty : Annotation<DefaultProperty>
-    {
-        std::optional<literals::DefaultValueLiteral> value;
-    };
+struct DefaultProperty : Annotation<DefaultProperty>
+{
+    std::optional<literals::DefaultValueLiteral> value;
+};
 
-    struct DefinitionProperty : Annotation<DefinitionProperty>
-    {
-        literals::DefinitionLiteral value;
-    };
+struct DefinitionProperty : Annotation<DefinitionProperty>
+{
+    literals::DefinitionLiteral value;
+};
 
-    struct PriorityProperty : Annotation<PriorityProperty>
-    {
-        uint16_t value = 0;
-    };
+struct PriorityProperty : Annotation<PriorityProperty>
+{
+    uint16_t value = 0;
+};
 
-    struct IeeeProperty : Annotation<IeeeProperty>
-    {
-        literals::DefinitionLiteral ieee;
-    };
+struct IeeeProperty : Annotation<IeeeProperty>
+{
+    literals::DefinitionLiteral ieee;
+};
 
-    struct RfcProperty : Annotation<RfcProperty>
-    {
-        uint16_t rfc = 0;
-        literals::DefinitionLiteral section;
-    };
+struct RfcProperty : Annotation<RfcProperty>
+{
+    uint16_t rfc = 0;
+    literals::DefinitionLiteral section;
+};
 
-    struct RequiredProperty : Annotation<RequiredProperty>
-    {
-        [[maybe_unused]]
-        bool discovered = false;
-    };
+struct RequiredProperty : Annotation<RequiredProperty>
+{
+    [[maybe_unused]]
+    bool discovered = false;
+};
 
-    struct VariableProperty : Annotation<VariableProperty>
-    {
-        [[maybe_unused]]
-        bool discovered = false;
-    };
+struct VariableProperty : Annotation<VariableProperty>
+{
+    [[maybe_unused]]
+    bool discovered = false;
+};
 
-    struct FinalProperty : Annotation<FinalProperty>
-    {
-        [[maybe_unused]]
-        bool discovered = false;
-    };
+struct FinalProperty : Annotation<FinalProperty>
+{
+    [[maybe_unused]]
+    bool discovered = false;
+};
 
-    struct ConstProperty : Annotation<ConstProperty>
-    {
-        [[maybe_unused]]
-        bool discovered = false;
-    };
+struct ConstProperty : Annotation<ConstProperty>
+{
+    [[maybe_unused]]
+    bool discovered = false;
+};
 
-    struct CalculatedProperty : Annotation<CalculatedProperty>
-    {
-        [[maybe_unused]]
-        bool discovered = false;
-    };
+struct CalculatedProperty : Annotation<CalculatedProperty>
+{
+    [[maybe_unused]]
+    bool discovered = false;
+};
 
-    struct EndianProperty : Annotation<EndianProperty>
-    {
-        types::EndianType type = types::EndianType::LITTLE;
-    };
+struct EndianProperty : Annotation<EndianProperty>
+{
+    types::EndianType type = types::EndianType::LITTLE;
+};
 
-    struct IdProperty : Annotation<IdProperty>
-    {
-        literals::IdLiteral id;
-        methods::PrefixMethod prefix;
-    };
+struct IdProperty : Annotation<IdProperty>
+{
+    literals::IdLiteral id;
+    methods::PrefixMethod prefix;
+};
 
 }  // namespace properties.
 

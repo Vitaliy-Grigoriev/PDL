@@ -3,12 +3,12 @@
 #include "Literals.hpp"
 
 
-namespace pdl::spirit::syntax::methods
+namespace pdl::spirit::syntax::methods {
+
+struct PrefixMethod : Annotation<PrefixMethod>
 {
-    struct PrefixMethod : Annotation<PrefixMethod>
-    {
-        literals::PrefixLiteral value;
-    };
+    literals::PrefixLiteral value;
+};
 
 }  // namespace methods.
 

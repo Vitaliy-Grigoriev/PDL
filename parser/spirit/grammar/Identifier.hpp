@@ -2,15 +2,16 @@
 
 #include "Utils.hpp"
 #include "Handlers.hpp"
-#include "../syntax/Identifier.hpp"
+
+#include <parser/spirit/syntax/Identifier.hpp>
 
 
-namespace pdl::spirit::grammar
-{
-    const x3::rule<RuleId, syntax::Identifier>   identifier   {"Identifier"};
+namespace pdl::spirit::grammar {
 
-    const auto identifier_def = x3::raw[x3::lexeme[(x3::alnum) >> *(x3::alnum | symbols::underline)] - keywords::reservedWords];
+constexpr x3::rule<RuleId, syntax::Identifier>   identifier   { "Identifier" };
 
-    BOOST_SPIRIT_DEFINE(identifier);
+const auto identifier_def = x3::raw[x3::lexeme[(x3::alnum) >> *(x3::alnum | symbols::underline)] - keywords::reservedWords];
+
+BOOST_SPIRIT_DEFINE(identifier);
 
 }  // namespace grammar.

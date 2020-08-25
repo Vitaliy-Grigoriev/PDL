@@ -1,18 +1,18 @@
 #pragma once
 
 #include "Literals.hpp"
-#include "../syntax/Methods.hpp"
+
+#include <parser/spirit/syntax/Methods.hpp>
 
 
-namespace pdl::spirit::grammar::methods
-{
+namespace pdl::spirit::grammar::methods {
 
 struct MethodRuleId : RuleId {
 };
 
-const x3::rule<MethodRuleId, syntax::methods::PrefixMethod>   prefixMethod   {"Prefix Method"};
+constexpr x3::rule<MethodRuleId, syntax::methods::PrefixMethod>   prefixMethod   { "Prefix Method" };
 
-const auto prefixMethod_def = symbols::dot > keywords::_prefix > utils::makeParamBrace(literals::prefixLiteral);
+const auto prefixMethod_def = symbols::dot > keywords::_prefix > utils::makeParamBraceExpect(literals::prefixLiteral);
 
 BOOST_SPIRIT_DEFINE(prefixMethod);
 

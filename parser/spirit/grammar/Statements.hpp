@@ -1,64 +1,59 @@
 #pragma once
 
 #include "Groups.hpp"
-#include "../syntax/Statements.hpp"
+
+#include <parser/spirit/syntax/Statements.hpp>
 
 
-namespace pdl::spirit::grammar::statements
-{
+namespace pdl::spirit::grammar::statements {
 
 struct StatementRuleId : RuleId {
 };
 
-const x3::rule<StatementRuleId, syntax::statements::HeaderProperty>             headerProperty             {"Header Property"};
-const x3::rule<StatementRuleId, syntax::statements::ProtocolProperty>           protocolProperty           {"Protocol Property"};
-const x3::rule<StatementRuleId, syntax::statements::MappingEntryProperty>       mappingEntryProperty       {"Mapping Entry Property"};
-const x3::rule<StatementRuleId, syntax::statements::MappingStatementProperty>   mappingStatementProperty   {"Mapping Statement Property"};
+constexpr x3::rule<StatementRuleId, syntax::statements::HeaderProperty>             headerProperty             { "Header Property" };
+constexpr x3::rule<StatementRuleId, syntax::statements::ProtocolProperty>           protocolProperty           { "Protocol Property" };
+constexpr x3::rule<StatementRuleId, syntax::statements::MappingEntryProperty>       mappingEntryProperty       { "Mapping Entry Property" };
+constexpr x3::rule<StatementRuleId, syntax::statements::MappingStatementProperty>   mappingStatementProperty   { "Mapping Statement Property" };
 
-const x3::rule<StatementRuleId, syntax::statements::HeaderEntry>        headerEntry        {"Header Entry"};
-const x3::rule<StatementRuleId, syntax::statements::StructureEntry>     structureEntry     {"Structure Entry"};
-const x3::rule<StatementRuleId, syntax::statements::ProtocolEntry>      protocolEntry      {"Protocol Entry"};
-const x3::rule<StatementRuleId, syntax::statements::DeclarationEntry>   declarationEntry   {"Declaration Entry"};
-const x3::rule<StatementRuleId, syntax::statements::MappingEntry>       mappingEntry       {"Mapping Entry"};
+constexpr x3::rule<StatementRuleId, syntax::statements::HeaderEntry>        headerEntry        { "Header Entry" };
+constexpr x3::rule<StatementRuleId, syntax::statements::StructureEntry>     structureEntry     { "Structure Entry" };
+constexpr x3::rule<StatementRuleId, syntax::statements::ProtocolEntry>      protocolEntry      { "Protocol Entry" };
+constexpr x3::rule<StatementRuleId, syntax::statements::DeclarationEntry>   declarationEntry   { "Declaration Entry" };
+constexpr x3::rule<StatementRuleId, syntax::statements::MappingEntry>       mappingEntry       { "Mapping Entry" };
 
-const x3::rule<StatementRuleId, syntax::statements::RoundStatement>         roundStatement         {"Round Statement"};
-const x3::rule<StatementRuleId, syntax::statements::RequestStatement>       requestStatement       {"Request Statement"};
-const x3::rule<StatementRuleId, syntax::statements::ResponseStatement>      responseStatement      {"Response Statement"};
-const x3::rule<StatementRuleId, syntax::statements::UsingStatement>         usingStatement         {"Using Statement"};
-const x3::rule<StatementRuleId, syntax::statements::StructStatement>        structStatement        {"Struct Statement"};
-const x3::rule<StatementRuleId, syntax::statements::HeaderStatement>        headerStatement        {"Header Statement"};
-const x3::rule<StatementRuleId, syntax::statements::MappingStatement>       mappingStatement       {"Mapping Statement"};
-const x3::rule<StatementRuleId, syntax::statements::DeclarationStatement>   declarationStatement   {"Declaration Statement"};
-const x3::rule<StatementRuleId, syntax::statements::StructureStatement>     structureStatement     {"Structure Statement"};
-const x3::rule<StatementRuleId, syntax::statements::ImportStatement>        importStatement        {"Import Statement"};
-const x3::rule<StatementRuleId, syntax::statements::ProtocolStatement>      protocolStatement      {"Protocol Statement"};
+constexpr x3::rule<StatementRuleId, syntax::statements::RoundStatement>         roundStatement         { "Round Statement" };
+constexpr x3::rule<StatementRuleId, syntax::statements::RequestStatement>       requestStatement       { "Request Statement" };
+constexpr x3::rule<StatementRuleId, syntax::statements::ResponseStatement>      responseStatement      { "Response Statement" };
+constexpr x3::rule<StatementRuleId, syntax::statements::UsingStatement>         usingStatement         { "Using Statement" };
+constexpr x3::rule<StatementRuleId, syntax::statements::StructStatement>        structStatement        { "Struct Statement" };
+constexpr x3::rule<StatementRuleId, syntax::statements::HeaderStatement>        headerStatement        { "Header Statement" };
+constexpr x3::rule<StatementRuleId, syntax::statements::MappingStatement>       mappingStatement       { "Mapping Statement" };
+constexpr x3::rule<StatementRuleId, syntax::statements::DeclarationStatement>   declarationStatement   { "Declaration Statement" };
+constexpr x3::rule<StatementRuleId, syntax::statements::StructureStatement>     structureStatement     { "Structure Statement" };
+constexpr x3::rule<StatementRuleId, syntax::statements::ImportStatement>        importStatement        { "Import Statement" };
+constexpr x3::rule<StatementRuleId, syntax::statements::ProtocolStatement>      protocolStatement      { "Protocol Statement" };
 
 
 const auto headerProperty_def           = properties::endianProperty |
                                           properties::ieeeProperty |
                                           properties::rfcProperty |
                                           properties::definitionProperty;
-
 const auto protocolProperty_def         = properties::rootProperty |
                                           properties::nextProtocolProperty;
-
 const auto mappingEntryProperty_def     = properties::defaultProperty |
                                           properties::idProperty |
                                           properties::definitionProperty;
-
 const auto mappingStatementProperty_def = properties::defaultProperty |
                                           properties::finalProperty |
                                           properties::idProperty |
                                           properties::definitionProperty |
                                           properties::endianProperty;
 
-
 const auto headerEntry_def      = groups::staticGroup | groups::conditionalGroup | groups::optionalGroup;
 const auto structureEntry_def   = usingStatement | structStatement | headerStatement | mappingStatement;
 const auto protocolEntry_def    = structureStatement | declarationStatement;
 const auto declarationEntry_def = requestStatement | responseStatement;
 const auto mappingEntry_def     = literals::literal >> -utils::makeProperty(+mappingEntryProperty);
-
 
 const auto usingStatement_def       = keywords::_using       > identifier > symbols::equality > variables::variableName;
 const auto structStatement_def      = keywords::_struct      > identifier > -utils::makeCast(keywords::reservedTypes) > -utils::makeProperty(+headerProperty) > utils::makeBlockBrace(+variables::variable);

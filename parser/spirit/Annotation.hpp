@@ -1,8 +1,5 @@
 #pragma once
 
-//#define BOOST_SPIRIT_X3_DEBUG
-#define BOOST_SPIRIT_X3_UNICODE
-
 #include <string>
 #include <cstddef>
 #include <boost/type_index.hpp>
@@ -11,6 +8,7 @@
 
 namespace pdl::spirit {
 
+// Global using.
 namespace x3 = boost::spirit::x3;
 
 template <typename Type>

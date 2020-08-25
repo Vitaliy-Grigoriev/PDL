@@ -14,8 +14,8 @@ std::string toString (const Module module)
         return "Framework";
     case Module::memory:
         return "Memory";
-    case Module::binary_data:
-        return "BinaryData";
+    case Module::raw_data:
+        return "RawData";
     case Module::field:
         return "Field";
     case Module::subfield:

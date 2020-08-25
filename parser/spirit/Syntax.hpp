@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Statements.hpp"
+#include "parser/spirit/syntax/Statements.hpp"
 
 #include <common/Declaration.hpp>
 
@@ -23,7 +23,7 @@ struct Script : common::Declaration<Script>,
                 Annotation<Script>
 {
     Script() :
-        Declaration(this)
+        Declaration{ this }
     { }
 
     std::vector<ScriptEntry> statements;

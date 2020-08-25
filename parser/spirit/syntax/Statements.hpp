@@ -3,160 +3,160 @@
 #include "Groups.hpp"
 
 
-namespace pdl::spirit::syntax::statements
+namespace pdl::spirit::syntax::statements {
+
+struct UsingStatement : Annotation<UsingStatement>
 {
-    struct UsingStatement : Annotation<UsingStatement>
-    {
-        Identifier name;
-        variables::VariableName value;
-    };
+    Identifier name;
+    variables::VariableName value;
+};
 
-    struct HeaderProperty : x3::variant<properties::EndianProperty,
-                                        properties::IeeeProperty,
-                                        properties::RfcProperty,
-                                        properties::DefinitionProperty>,
-                            Annotation<HeaderProperty>
-    {
-        using base_type::base_type;
-        using base_type::operator=;
-    };
+struct HeaderProperty : x3::variant<properties::EndianProperty,
+                                    properties::IeeeProperty,
+                                    properties::RfcProperty,
+                                    properties::DefinitionProperty>,
+                        Annotation<HeaderProperty>
+{
+    using base_type::base_type;
+    using base_type::operator=;
+};
 
-    struct StructStatement : Annotation<StructStatement>
-    {
-        Identifier name;
-        std::optional<types::InternalVariableType> type;
-        std::vector<HeaderProperty> properties;
-        std::vector<variables::Variable> fields;
-    };
+struct StructStatement : Annotation<StructStatement>
+{
+    Identifier name;
+    std::optional<types::InternalVariableType> type;
+    std::vector<HeaderProperty> properties;
+    std::vector<variables::Variable> fields;
+};
 
-    struct HeaderEntry : x3::variant<groups::StaticGroup,
-                                     groups::ConditionalGroup,
-                                     groups::OptionalGroup>,
-                         Annotation<HeaderEntry>
-    {
-        using base_type::base_type;
-        using base_type::operator=;
-    };
+struct HeaderEntry : x3::variant<groups::StaticGroup,
+                                 groups::ConditionalGroup,
+                                 groups::OptionalGroup>,
+                     Annotation<HeaderEntry>
+{
+    using base_type::base_type;
+    using base_type::operator=;
+};
 
-    struct HeaderStatement : Annotation<HeaderStatement>
-    {
-        Identifier name;
-        std::vector<HeaderProperty> properties;
-        std::vector<HeaderEntry> groups;
-    };
+struct HeaderStatement : Annotation<HeaderStatement>
+{
+    Identifier name;
+    std::vector<HeaderProperty> properties;
+    std::vector<HeaderEntry> groups;
+};
 
-    struct MappingEntryProperty : x3::variant<properties::DefaultProperty,
+struct MappingEntryProperty : x3::variant<properties::DefaultProperty,
+                                          properties::IdProperty,
+                                          properties::DefinitionProperty>,
+                              Annotation<MappingEntryProperty>
+{
+    using base_type::base_type;
+    using base_type::operator=;
+};
+
+struct MappingEntry : Annotation<MappingEntry>
+{
+    literals::Literal value;
+    std::vector<MappingEntryProperty> properties;
+};
+
+struct MappingStatementProperty : x3::variant<properties::DefaultProperty,
+                                              properties::FinalProperty,
                                               properties::IdProperty,
-                                              properties::DefinitionProperty>,
-                                  Annotation<MappingEntryProperty>
-    {
-        using base_type::base_type;
-        using base_type::operator=;
-    };
+                                              properties::DefinitionProperty,
+                                              properties::EndianProperty>,
+                         Annotation<MappingStatementProperty>
+{
+    using base_type::base_type;
+    using base_type::operator=;
+};
 
-    struct MappingEntry : Annotation<MappingEntry>
-    {
-        literals::Literal value;
-        std::vector<MappingEntryProperty> properties;
-    };
+struct MappingStatement : Annotation<MappingStatement>
+{
+    variables::VariableName field;
+    std::vector<MappingStatementProperty> properties;
+    std::vector<MappingEntry> values;
+};
 
-    struct MappingStatementProperty : x3::variant<properties::DefaultProperty,
-                                                  properties::FinalProperty,
-                                                  properties::IdProperty,
-                                                  properties::DefinitionProperty,
-                                                  properties::EndianProperty>,
-                             Annotation<MappingStatementProperty>
-    {
-        using base_type::base_type;
-        using base_type::operator=;
-    };
+struct StructureEntry : x3::variant<UsingStatement,
+                                    StructStatement,
+                                    HeaderStatement,
+                                    MappingStatement>,
+                        Annotation<StructureEntry>
+{
+    using base_type::base_type;
+    using base_type::operator=;
+};
 
-    struct MappingStatement : Annotation<MappingStatement>
-    {
-        variables::VariableName field;
-        std::vector<MappingStatementProperty> properties;
-        std::vector<MappingEntry> values;
-    };
+struct StructureStatement : Annotation<StructureStatement>
+{
+    std::vector<StructureEntry> statements;
+};
 
-    struct StructureEntry : x3::variant<UsingStatement,
-                                        StructStatement,
-                                        HeaderStatement,
-                                        MappingStatement>,
-                            Annotation<StructureEntry>
-    {
-        using base_type::base_type;
-        using base_type::operator=;
-    };
+struct RoundStatement : Annotation<RoundStatement>
+{
+    Identifier name;
+    std::vector<variables::Variable> statements;
+};
 
-    struct StructureStatement : Annotation<StructureStatement>
-    {
-        std::vector<StructureEntry> statements;
-    };
+struct RequestStatement : Annotation<RequestStatement>
+{
+    std::vector<RoundStatement> rounds;
+};
 
-    struct RoundStatement : Annotation<RoundStatement>
-    {
-        Identifier name;
-        std::vector<variables::Variable> statements;
-    };
+struct ResponseStatement : Annotation<ResponseStatement>
+{
+    std::vector<RoundStatement> rounds;
+};
 
-    struct RequestStatement : Annotation<RequestStatement>
-    {
-        std::vector<RoundStatement> rounds;
-    };
+struct DeclarationEntry : x3::variant<RequestStatement,
+                                      ResponseStatement>,
+                          Annotation<DeclarationEntry>
+{
+    DeclarationEntry & operator= (const DeclarationEntry &) = default;
+    DeclarationEntry (const DeclarationEntry &) = default;
+    DeclarationEntry() = default;
 
-    struct ResponseStatement : Annotation<ResponseStatement>
-    {
-        std::vector<RoundStatement> rounds;
-    };
+    using base_type::base_type;
+    using base_type::operator=;
+};
 
-    struct DeclarationEntry : x3::variant<RequestStatement,
-                                          ResponseStatement>,
-                              Annotation<DeclarationEntry>
-    {
-        DeclarationEntry & operator= (const DeclarationEntry &) = default;
-        DeclarationEntry (const DeclarationEntry &) = default;
-        DeclarationEntry() = default;
+struct DeclarationStatement : Annotation<DeclarationStatement>
+{
+    std::vector<DeclarationEntry> statements;
+};
 
-        using base_type::base_type;
-        using base_type::operator=;
-    };
+struct ProtocolProperty : x3::variant<properties::RootProperty,
+                                      properties::NextProtocolProperty>,
+                              Annotation<ProtocolProperty>
+{
+    using base_type::base_type;
+    using base_type::operator=;
+};
 
-    struct DeclarationStatement : Annotation<DeclarationStatement>
-    {
-        std::vector<DeclarationEntry> statements;
-    };
+struct ProtocolEntry : x3::variant<StructureStatement,
+                                   DeclarationStatement>,
+                       Annotation<ProtocolEntry>
+{
+    ProtocolEntry & operator= (const ProtocolEntry &) = default;
+    ProtocolEntry (const ProtocolEntry &) = default;
+    ProtocolEntry() = default;
 
-    struct ProtocolProperty : x3::variant<properties::RootProperty,
-                                          properties::NextProtocolProperty>,
-                                  Annotation<ProtocolProperty>
-    {
-        using base_type::base_type;
-        using base_type::operator=;
-    };
+    using base_type::base_type;
+    using base_type::operator=;
+};
 
-    struct ProtocolEntry : x3::variant<StructureStatement,
-                                       DeclarationStatement>,
-                           Annotation<ProtocolEntry>
-    {
-        ProtocolEntry & operator= (const ProtocolEntry &) = default;
-        ProtocolEntry (const ProtocolEntry &) = default;
-        ProtocolEntry() = default;
+struct ProtocolStatement : Annotation<ProtocolStatement>
+{
+    Identifier name;
+    std::vector<ProtocolProperty> protocols;
+    std::vector<ProtocolEntry> statements;
+};
 
-        using base_type::base_type;
-        using base_type::operator=;
-    };
-
-    struct ProtocolStatement : Annotation<ProtocolStatement>
-    {
-        Identifier name;
-        std::vector<ProtocolProperty> protocols;
-        std::vector<ProtocolEntry> statements;
-    };
-
-    struct ImportStatement : Annotation<ImportStatement>
-    {
-        Identifier path;
-    };
+struct ImportStatement : Annotation<ImportStatement>
+{
+    Identifier path;
+};
 
 }  // namespace statements.
 

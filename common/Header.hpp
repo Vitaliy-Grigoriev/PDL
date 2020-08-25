@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include "BinaryData.hpp"
 #include "Field.hpp"
+#include "RawData.hpp"
 
 
 namespace pdl::common::data {
@@ -15,10 +15,12 @@ class Constructor;
 
 /**
  * @class Header   Header.hpp   "common/Header.hpp"
- * @brief This class implements .
+ * @brief Class implements .
  */
 class Header : public Declaration<Header>
 {
+    friend class Constructor;
+
 public:
     /**
      * @brief Default constructor.
@@ -26,16 +28,7 @@ public:
     Header() noexcept;
 
 private:
-    friend class Constructor;
-
-    struct FieldInfo
-    {
-        std::string name;
-        endian::Endian endian;
-        uint16_t length;
-    };
-
-    BinaryData memory;
+    RawData data;
 };
 
 
