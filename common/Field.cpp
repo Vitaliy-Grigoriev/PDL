@@ -11,18 +11,27 @@
 
 
 namespace pdl::common::data {
+namespace {
 
-Subfield::Subfield (std::string _name, const uint16_t _offset, const uint16_t _bits, Field& _field) noexcept :
-    Declaration(this),
-    fieldName{std::move(_name)},
-    fieldOffset{_offset},
-    bits{_bits},
-    field{_field}
+template <typename Type>
+Type value()
+{
+    return Type{};
+}
+
+}
+
+Subfield::Subfield (std::string _name, const uint16_t _offset, const uint16_t _count, Field& _field) noexcept :
+    Declaration{ this },
+    fieldName{ std::move(_name) },
+    fieldOffset{ _offset },
+    count{ _count },
+    field{ _field }
 { }
 
 uint16_t Subfield::size() const noexcept
 {
-    return bits;
+    return count;
 }
 
 uint16_t Subfield::offset() const noexcept
@@ -37,33 +46,32 @@ std::string_view Subfield::name() const noexcept
 
 
 Field::Field (std::string _name, const endian::Endian _endian, const uint16_t _bytes) noexcept :
-    Declaration(this),
-    fieldName{std::move(_name)},
-    fieldEndian{_endian},
-    bytes{_bytes}
+    Declaration{ this },
+    fieldName{ std::move(_name) },
+    fieldEndian{ _endian },
+    bytes{ _bytes }
 { }
 
-Field& Field::appendSubfield (std::string _name, uint16_t _bits)
+Field& Field::append (std::string _name, const uint16_t _bits)
 {
     fields.emplace_back(std::move(_name), calculateFullBitOffsetOfSubfield(), _bits, *this);
     return *this;
 }
 
-Subfield& Field::getSubfield (const std::string& _name)
+Subfield& Field::subfield (const std::string& _name)
 {
-    if (auto field = findSubfield(_name)) {
+    if (auto field = find (_name)) {
         return *field;
     }
-
-    panic(Module::subfield, Code::object_not_found, "Subfield '" + _name + "' not found");
+    panic(Module::Subfield, Code::ObjectNotFound, "Subfield '" + _name + "' not found");
 }
 
-const Subfield& Field::getSubfield (const std::string& _name) const
+const Subfield& Field::subfield (const std::string& _name) const
 {
-    if (const auto field = findSubfield(_name)) {
+    if (const auto field = find (_name)) {
         return *field;
     }
-    panic(Module::subfield, Code::object_not_found, "Subfield '" + _name + "' not found");
+    panic(Module::Subfield, Code::ObjectNotFound, "Subfield '" + _name + "' not found");
 }
 
 Field& Field::setOffset (void* const _offset) noexcept
@@ -77,7 +85,7 @@ void* Field::getOffset() const noexcept
     return offset;
 }
 
-Subfield* Field::findSubfield (const std::string& _name) noexcept
+Subfield* Field::find (const std::string& _name) noexcept
 {
     auto it = std::find_if(fields.begin(), fields.end(),
                            [&_name] (const Subfield& _subfield) -> bool {
@@ -86,7 +94,7 @@ Subfield* Field::findSubfield (const std::string& _name) noexcept
     return it != fields.end() ? it->ptr() : nullptr;
 }
 
-const Subfield* Field::findSubfield (const std::string& _name) const noexcept
+const Subfield* Field::find (const std::string& _name) const noexcept
 {
     auto it = std::find_if(fields.cbegin(), fields.cend(),
                            [&_name] (const Subfield& _subfield) -> bool {
@@ -98,7 +106,7 @@ const Subfield* Field::findSubfield (const std::string& _name) const noexcept
 uint16_t Field::calculateFullBitOffsetOfSubfield() const noexcept
 {
     return std::accumulate(fields.cbegin(), fields.cend(), 0,
-                           [] (uint16_t _value, const Subfield& _subfield) -> uint16_t {
+                           [] (const uint16_t _value, const Subfield& _subfield) -> uint16_t {
                                return _value + _subfield.size();
                            });
 }

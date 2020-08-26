@@ -22,7 +22,7 @@ class Field;
 class Subfield : public Declaration<Subfield>
 {
 public:
-    Subfield (std::string _name, uint16_t _offset, uint16_t _bits, Field & _field) noexcept;
+    Subfield (std::string _name, uint16_t _offset, uint16_t _count, Field & _field) noexcept;
 
     uint16_t size() const noexcept;
     uint16_t offset() const noexcept;
@@ -31,7 +31,7 @@ public:
 private:
     std::string fieldName;
     uint16_t fieldOffset;
-    uint16_t bits;
+    uint16_t count;
     Field & field;
 };
 
@@ -43,9 +43,10 @@ class Field : public Declaration<Field>
 public:
     Field (std::string _name, endian::Endian _endian, uint16_t _bytes) noexcept;
 
-    Field & appendSubfield (std::string _name, uint16_t _bits);
-    Subfield & getSubfield (const std::string & _name);
-    const Subfield & getSubfield (const std::string & _name) const;
+    Field & append (std::string _name, uint16_t _bits);
+
+    Subfield & subfield (const std::string & _name);
+    const Subfield & subfield (const std::string & _name) const;
 
     Field & setOffset (void * _offset) noexcept;
     void * getOffset() const noexcept;
@@ -56,9 +57,9 @@ public:
 
 protected:
     [[nodiscard]]
-    Subfield * findSubfield (const std::string & _name) noexcept;
+    Subfield * find (const std::string & _name) noexcept;
     [[nodiscard]]
-    const Subfield * findSubfield (const std::string & _name) const noexcept;
+    const Subfield * find (const std::string & _name) const noexcept;
 
     uint16_t calculateFullBitOffsetOfSubfield() const noexcept;
 
