@@ -27,7 +27,7 @@ int32_t main (const int32_t _size, char** _data)
     const auto& defines = boost::get<syntax::statements::StructureStatement>(protocol.statements[0]);
     const auto& mapping = boost::get<syntax::statements::MappingStatement>(defines.statements[4]);*/
     /*for (auto&& value : mapping.values) {
-        const auto& mac = boost::get<syntax::literals::MacAddressLiteral>(value.value);
+        const auto& mac = boost::get<syntax::literal::MacAddress>(value.value);
         const auto& def = boost::get<syntax::properties::DefinitionProperty>(value.properties[1]);
         std::cout << mac.value << " - " << def.value.value << std::endl;
     }*/

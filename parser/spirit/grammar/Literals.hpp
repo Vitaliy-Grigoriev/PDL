@@ -11,22 +11,22 @@ namespace pdl::spirit::grammar::literals {
 struct LiteralRuleId : RuleId {
 };
 
-constexpr x3::rule<LiteralRuleId, syntax::literals::AutoLiteral>          autoLiteral          { "Auto Literal" };
-constexpr x3::rule<LiteralRuleId, syntax::literals::DefaultLiteral>       defaultLiteral       { "Default Literal" };
-constexpr x3::rule<LiteralRuleId, syntax::literals::PlaceholderLiteral>   placeholderLiteral   { "Placeholder Literal" };
-constexpr x3::rule<LiteralRuleId, syntax::literals::DesignatorLiteral>    designatorLiteral    { "Designator Literal" };
-constexpr x3::rule<LiteralRuleId, syntax::literals::NumericLiteral>       numericLiteral       { "Numeric Literal" };
-constexpr x3::rule<LiteralRuleId, syntax::literals::FloatLiteral>         floatLiteral         { "Float Literal" };
-constexpr x3::rule<LiteralRuleId, syntax::literals::BooleanLiteral>       booleanLiteral       { "Boolean Literal" };
-constexpr x3::rule<LiteralRuleId, syntax::literals::StringLiteral>        stringLiteral        { "String Literal" };
-constexpr x3::rule<LiteralRuleId, syntax::literals::MacAddressLiteral>    macAddressLiteral    { "Mac Address Literal" };
-constexpr x3::rule<LiteralRuleId, syntax::literals::IPv4AddressLiteral>   ipv4AddressLiteral   { "IPv4 Address Literal" };
-constexpr x3::rule<LiteralRuleId, syntax::literals::DefinitionLiteral>    definitionLiteral    { "Definition Literal" };
-constexpr x3::rule<LiteralRuleId, syntax::literals::PrefixLiteral>        prefixLiteral        { "Prefix Literal" };
+constexpr x3::rule<LiteralRuleId, syntax::literal::Auto>          autoLiteral          { "Auto Literal" };
+constexpr x3::rule<LiteralRuleId, syntax::literal::Default>       defaultLiteral       { "Default Literal" };
+constexpr x3::rule<LiteralRuleId, syntax::literal::Placeholder>   placeholderLiteral   { "Placeholder Literal" };
+constexpr x3::rule<LiteralRuleId, syntax::literal::Designator>    designatorLiteral    { "Designator Literal" };
+constexpr x3::rule<LiteralRuleId, syntax::literal::Numeric>       numericLiteral       { "Numeric Literal" };
+constexpr x3::rule<LiteralRuleId, syntax::literal::Float>         floatLiteral         { "Float Literal" };
+constexpr x3::rule<LiteralRuleId, syntax::literal::Boolean>       booleanLiteral       { "Boolean Literal" };
+constexpr x3::rule<LiteralRuleId, syntax::literal::String>        stringLiteral        { "String Literal" };
+constexpr x3::rule<LiteralRuleId, syntax::literal::MacAddress>    macAddressLiteral    { "Mac Address Literal" };
+constexpr x3::rule<LiteralRuleId, syntax::literal::IPv4Address>   ipv4AddressLiteral   { "IPv4 Address Literal" };
+constexpr x3::rule<LiteralRuleId, syntax::literal::Definition>    definitionLiteral    { "Definition Literal" };
+constexpr x3::rule<LiteralRuleId, syntax::literal::Prefix>        prefixLiteral        { "Prefix Literal" };
 
-constexpr x3::rule<LiteralRuleId, syntax::literals::DefaultValueLiteral>   defaultValueLiteral   { "Default Value Literal" };
-constexpr x3::rule<LiteralRuleId, syntax::literals::IdLiteral>             idLiteral             { "Id Literal" };
-constexpr x3::rule<LiteralRuleId, syntax::literals::Literal>               literal               { "Literal" };
+constexpr x3::rule<LiteralRuleId, syntax::literal::DefaultValue>   defaultValueLiteral   { "Default Value Literal" };
+constexpr x3::rule<LiteralRuleId, syntax::literal::Id>             idLiteral             { "Id Literal" };
+constexpr x3::rule<LiteralRuleId, syntax::literal::Literal>        literal               { "Literal" };
 
 
 const auto autoLiteral_def        = keywords::_auto;
@@ -70,4 +70,4 @@ BOOST_SPIRIT_DEFINE(defaultValueLiteral);
 BOOST_SPIRIT_DEFINE(idLiteral);
 BOOST_SPIRIT_DEFINE(literal);
 
-}   // namespace literals.
+}  // namespace literals.

@@ -72,11 +72,11 @@ struct VariableDeclaration : Annotation<VariableDeclaration>
 
 struct VariableListInit : Annotation<VariableListInit>
 {
-    std::vector<literals::Literal> values;
+    std::vector<literal::Literal> values;
 };
 
 struct AggregateInitialization;
-struct DesignatedInitializationValue : x3::variant<literals::Literal,
+struct DesignatedInitializationValue : x3::variant<literal::Literal,
                                                    x3::forward_ast<AggregateInitialization>>,
                                        Annotation<DesignatedInitializationValue>
 {
@@ -86,7 +86,7 @@ struct DesignatedInitializationValue : x3::variant<literals::Literal,
 
 struct DesignatedInitialization : Annotation<DesignatedInitialization>
 {
-    literals::DesignatorLiteral member;
+    literal::Designator member;
     DesignatedInitializationValue value;
 };
 
@@ -103,7 +103,7 @@ struct AggregateInitialization : x3::variant<VariableListInit,
     using base_type::operator=;
 };
 
-struct VariableInitialization : x3::variant<literals::Literal,
+struct VariableInitialization : x3::variant<literal::Literal,
                                             AggregateInitialization>,
                                 Annotation<VariableInitialization>
 {

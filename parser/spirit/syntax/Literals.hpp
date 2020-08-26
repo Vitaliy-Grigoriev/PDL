@@ -6,135 +6,135 @@
 #include <boost/spirit/home/x3/support/ast/variant.hpp>
 
 
-namespace pdl::spirit::syntax::literals {
+namespace pdl::spirit::syntax::literal {
 
-struct AutoLiteral : Annotation<AutoLiteral>
+struct Auto : Annotation<Auto>
 {
     [[maybe_unused]]
     bool discovered = false;
 };
 
-struct DefaultLiteral : Annotation<DefaultLiteral>
+struct Default : Annotation<Default>
 {
     [[maybe_unused]]
     bool discovered = false;
 };
 
-struct PlaceholderLiteral : Annotation<PlaceholderLiteral>
+struct Placeholder : Annotation<Placeholder>
 {
     uint16_t value = 0;
 };
 
-struct DesignatorLiteral : Annotation<DesignatorLiteral>
+struct Designator : Annotation<Designator>
 {
     Identifier member;
 };
 
-struct NumericLiteral : Annotation<NumericLiteral>
+struct Numeric : Annotation<Numeric>
 {
     std::int64_t value = 0;
 };
 
-struct FloatLiteral : Annotation<FloatLiteral>
+struct Float : Annotation<Float>
 {
     float value = 0.0;
 };
 
-struct BooleanLiteral : Annotation<BooleanLiteral>
+struct Boolean : Annotation<Boolean>
 {
     bool value = false;
 };
 
-struct StringLiteral : Annotation<StringLiteral>
+struct String : Annotation<String>
 {
     std::string value;
 };
 
-struct MacAddressLiteral : Annotation<MacAddressLiteral>
+struct MacAddress : Annotation<MacAddress>
 {
     std::string value;
 };
 
-struct IPv4AddressLiteral : Annotation<IPv4AddressLiteral>
+struct IPv4Address : Annotation<IPv4Address>
 {
     std::string value;
 };
 
-struct DefinitionLiteral : Annotation<DefinitionLiteral>
+struct Definition : Annotation<Definition>
 {
     std::string value;
 };
 
-struct PrefixLiteral : Annotation<PrefixLiteral>
+struct Prefix : Annotation<Prefix>
 {
     std::string value;
 };
 
-struct MappingMemberAccessLiteral : x3::variant<PlaceholderLiteral,
-                                                NumericLiteral,
-                                                DefinitionLiteral>,
-                                    Annotation<MappingMemberAccessLiteral>
+
+struct MappingMemberAccess : x3::variant<Placeholder,
+                                         Numeric,
+                                         Definition>,
+                             Annotation<MappingMemberAccess>
 { };
 
-struct MappingMemberLiteral : Annotation<MappingMemberLiteral>
+struct MappingMember : Annotation<MappingMember>
 {
     std::string statement;
     std::string member;
-    MappingMemberAccessLiteral value;
+    MappingMemberAccess value;
 };
 
-
-struct DefaultValueLiteral : x3::variant<PlaceholderLiteral,
-                                         NumericLiteral,
-                                         DefinitionLiteral>,
-                             Annotation<DefaultValueLiteral>
+struct DefaultValue : x3::variant<Placeholder,
+                                  Numeric,
+                                  Definition>,
+                      Annotation<DefaultValue>
 {
     using base_type::base_type;
     using base_type::operator=;
 };
 
-struct Literal : x3::variant<DefaultLiteral,
-                             NumericLiteral,
-                             FloatLiteral,
-                             BooleanLiteral,
-                             StringLiteral,
-                             MacAddressLiteral,
-                             IPv4AddressLiteral>,
+struct Literal : x3::variant<Default,
+                             Numeric,
+                             Float,
+                             Boolean,
+                             String,
+                             MacAddress,
+                             IPv4Address>,
                  Annotation<Literal>
 {
     using base_type::base_type;
     using base_type::operator=;
 };
 
-struct IdLiteral : x3::variant<AutoLiteral,
-                               NumericLiteral,
-                               DefinitionLiteral>,
-                   Annotation<IdLiteral>
+struct Id : x3::variant<Auto,
+                        Numeric,
+                        Definition>,
+            Annotation<Id>
 {
     using base_type::base_type;
     using base_type::operator=;
 };
 
-struct VariableLiteral : x3::variant<Literal,
-                                     types::InternalDefines,
-                                     DefinitionLiteral>,
-                         Annotation<VariableLiteral>
+struct Variable : x3::variant<Literal,
+                              types::InternalDefines,
+                              Definition>,
+                  Annotation<Variable>
 {
     using base_type::base_type;
     using base_type::operator=;
 };
 
-}   // namespace literals.
+}  // namespace literal.
 
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::AutoLiteral,          discovered)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::DefaultLiteral,       discovered)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::PlaceholderLiteral,   value)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::DesignatorLiteral,    member)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::NumericLiteral,       value)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::FloatLiteral,         value)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::BooleanLiteral,       value)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::StringLiteral,        value)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::MacAddressLiteral,    value)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::IPv4AddressLiteral,   value)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::DefinitionLiteral,    value)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literals::PrefixLiteral,        value)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Auto,          discovered)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Default,       discovered)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Placeholder,   value)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Designator,    member)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Numeric,       value)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Float,         value)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Boolean,       value)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::String,        value)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::MacAddress,    value)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::IPv4Address,   value)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Definition,    value)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Prefix,        value)

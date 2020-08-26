@@ -19,12 +19,12 @@ struct NextProtocolProperty : Annotation<NextProtocolProperty>
 
 struct DefaultProperty : Annotation<DefaultProperty>
 {
-    std::optional<literals::DefaultValueLiteral> value;
+    std::optional<literal::DefaultValue> value;
 };
 
 struct DefinitionProperty : Annotation<DefinitionProperty>
 {
-    literals::DefinitionLiteral value;
+    literal::Definition value;
 };
 
 struct PriorityProperty : Annotation<PriorityProperty>
@@ -34,13 +34,13 @@ struct PriorityProperty : Annotation<PriorityProperty>
 
 struct IeeeProperty : Annotation<IeeeProperty>
 {
-    literals::DefinitionLiteral ieee;
+    literal::Definition ieee;
 };
 
 struct RfcProperty : Annotation<RfcProperty>
 {
     uint16_t rfc = 0;
-    literals::DefinitionLiteral section;
+    literal::Definition section;
 };
 
 struct RequiredProperty : Annotation<RequiredProperty>
@@ -80,7 +80,7 @@ struct EndianProperty : Annotation<EndianProperty>
 
 struct IdProperty : Annotation<IdProperty>
 {
-    literals::IdLiteral id;
+    literal::Id id;
     methods::PrefixMethod prefix;
 };
 

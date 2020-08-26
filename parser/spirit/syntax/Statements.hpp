@@ -56,7 +56,7 @@ struct MappingEntryProperty : x3::variant<properties::DefaultProperty,
 
 struct MappingEntry : Annotation<MappingEntry>
 {
-    literals::Literal value;
+    literal::Literal value;
     std::vector<MappingEntryProperty> properties;
 };
 

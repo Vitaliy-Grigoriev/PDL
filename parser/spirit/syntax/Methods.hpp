@@ -7,7 +7,7 @@ namespace pdl::spirit::syntax::methods {
 
 struct PrefixMethod : Annotation<PrefixMethod>
 {
-    literals::PrefixLiteral value;
+    literal::Prefix value;
 };
 
 }  // namespace methods.
