@@ -7,43 +7,43 @@
 namespace pdl::spirit::syntax::types {
 
 enum class VariableScope : uint16_t {
-    LOCAL = 0,
-    GLOBAL
+    Local = 0,
+    Global
 };
 
 enum class InternalVariableType : uint16_t {
-    BIT = 0,
-    BOOLEAN,
-    BYTE,
-    INT8,
-    INT16,
-    INT32,
-    INT64,
-    UINT8,
-    UINT16,
-    UINT32,
-    UINT64,
-    FLOAT,
-    MAC,
+    Bit = 0,
+    Boolean,
+    Byte,
+    Int8,
+    Int16,
+    Int32,
+    Int64,
+    UInt8,
+    UInt16,
+    UInt32,
+    UInt64,
+    Float,
+    Mac,
     IPv4,
     IPv6
 };
 
 enum class EndianType : uint16_t {
-    BIG = 0,
-    LITTLE
+    Big = 0,
+    Little
 };
 
 enum class InternalDefines : uint16_t {
-    LOCAL_MAC_ADDRESS = 0,
-    TARGET_MAC_ADDRESS,
-    LOCAL_IP_ADDRESS,
-    TARGET_IP_ADDRESS
+    LocalMacAddress = 0,
+    TargetMacAddress,
+    LocalIpAddress,
+    TargetIpAddress
 };
 
 enum class OptionalGroupType : uint16_t {
-    SINGLE = 0,
-    MULTI
+    Single = 0,
+    Multi
 };
 
 }  // namespace types.

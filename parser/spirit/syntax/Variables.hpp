@@ -64,7 +64,7 @@ struct VariableProperty : x3::variant<properties::DefinitionProperty,
 
 struct VariableDeclaration : Annotation<VariableDeclaration>
 {
-    types::VariableScope scope = types::VariableScope::LOCAL;
+    types::VariableScope scope = types::VariableScope::Local;
     VariableType type;
     Identifier name;
 };

@@ -25,19 +25,19 @@ static struct ReservedTypes : x3::symbols<syntax::types::InternalVariableType>
     ReservedTypes()
     {
         name("ReservedKeywords");
-        add("bit",    syntax::types::InternalVariableType::BIT)
-           ("bool",   syntax::types::InternalVariableType::BOOLEAN)
-           ("byte",   syntax::types::InternalVariableType::BYTE)
-           ("i8",     syntax::types::InternalVariableType::INT8)
-           ("i16",    syntax::types::InternalVariableType::INT16)
-           ("i32",    syntax::types::InternalVariableType::INT32)
-           ("i64",    syntax::types::InternalVariableType::INT64)
-           ("u8",     syntax::types::InternalVariableType::UINT8)
-           ("u16",    syntax::types::InternalVariableType::UINT16)
-           ("u32",    syntax::types::InternalVariableType::UINT32)
-           ("u64",    syntax::types::InternalVariableType::UINT64)
-           ("float",  syntax::types::InternalVariableType::FLOAT)
-           ("mac",    syntax::types::InternalVariableType::MAC)
+        add("bit",    syntax::types::InternalVariableType::Bit)
+           ("bool",   syntax::types::InternalVariableType::Boolean)
+           ("byte",   syntax::types::InternalVariableType::Byte)
+           ("i8",     syntax::types::InternalVariableType::Int8)
+           ("i16",    syntax::types::InternalVariableType::Int16)
+           ("i32",    syntax::types::InternalVariableType::Int32)
+           ("i64",    syntax::types::InternalVariableType::Int64)
+           ("u8",     syntax::types::InternalVariableType::UInt8)
+           ("u16",    syntax::types::InternalVariableType::UInt16)
+           ("u32",    syntax::types::InternalVariableType::UInt32)
+           ("u64",    syntax::types::InternalVariableType::UInt64)
+           ("float",  syntax::types::InternalVariableType::Float)
+           ("mac",    syntax::types::InternalVariableType::Mac)
            ("ipv4",   syntax::types::InternalVariableType::IPv4)
            ("ipv6",   syntax::types::InternalVariableType::IPv6);
     }
@@ -48,10 +48,10 @@ static struct ReservedDefines : x3::symbols<syntax::types::InternalDefines>
     ReservedDefines()
     {
         name("ReservedDefines");
-        add("LOCAL_MAC_ADDRESS",  syntax::types::InternalDefines::LOCAL_MAC_ADDRESS)
-           ("TARGET_MAC_ADDRESS", syntax::types::InternalDefines::TARGET_MAC_ADDRESS)
-           ("LOCAL_IP_ADDRESS",   syntax::types::InternalDefines::LOCAL_IP_ADDRESS)
-           ("TARGET_IP_ADDRESS",  syntax::types::InternalDefines::TARGET_IP_ADDRESS);
+        add("LOCAL_MAC_ADDRESS",  syntax::types::InternalDefines::LocalMacAddress)
+           ("TARGET_MAC_ADDRESS", syntax::types::InternalDefines::TargetMacAddress)
+           ("LOCAL_IP_ADDRESS",   syntax::types::InternalDefines::LocalIpAddress)
+           ("TARGET_IP_ADDRESS",  syntax::types::InternalDefines::TargetIpAddress);
     }
 } reservedDefines;
 
@@ -60,8 +60,8 @@ static struct OptionalGroupType : x3::symbols<syntax::types::OptionalGroupType>
     OptionalGroupType()
     {
         name("OptionalGroupType");
-        add("single",  syntax::types::OptionalGroupType::SINGLE)
-           ("multi",   syntax::types::OptionalGroupType::MULTI);
+        add("single",  syntax::types::OptionalGroupType::Single)
+           ("multi",   syntax::types::OptionalGroupType::Multi);
     }
 } optionalGroupType;
 
@@ -69,8 +69,8 @@ static struct Endian : x3::symbols<syntax::types::EndianType>
 {
     Endian()
     {
-        add("big_endian",    syntax::types::EndianType::BIG)
-           ("little_endian", syntax::types::EndianType::LITTLE);
+        add("big_endian",    syntax::types::EndianType::Big)
+           ("little_endian", syntax::types::EndianType::Little);
     }
 } _endian;
 
@@ -78,8 +78,8 @@ static struct VariableScope : x3::symbols<syntax::types::VariableScope>
 {
     VariableScope()
     {
-        add("local",  syntax::types::VariableScope::LOCAL)
-           ("global", syntax::types::VariableScope::GLOBAL);
+        add("local",  syntax::types::VariableScope::Local)
+           ("global", syntax::types::VariableScope::Global);
     }
 } variableScope;
 

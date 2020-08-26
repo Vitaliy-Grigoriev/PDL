@@ -75,7 +75,7 @@ struct CalculatedProperty : Annotation<CalculatedProperty>
 
 struct EndianProperty : Annotation<EndianProperty>
 {
-    types::EndianType type = types::EndianType::LITTLE;
+    types::EndianType type = types::EndianType::Little;
 };
 
 struct IdProperty : Annotation<IdProperty>

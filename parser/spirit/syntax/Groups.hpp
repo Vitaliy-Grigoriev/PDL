@@ -31,7 +31,7 @@ struct OptionalGroupEntry : x3::variant<variables::Variable,
 
 struct OptionalGroup : Annotation<OptionalGroup>
 {
-    types::OptionalGroupType type = types::OptionalGroupType::SINGLE;
+    types::OptionalGroupType type = types::OptionalGroupType::Single;
     std::vector<OptionalGroupEntry> fields;
 };
 
