@@ -6,8 +6,8 @@
 
 namespace pdl::common::utils {
 
-std::string toString (Module module);
-std::string toString (Code code);
-std::string toString (data::endian::Endian endian);
+std::string toString (Module _module);
+std::string toString (Code _code);
+std::string toString (data::endian::Endian _endian);
 
 }  // namespace utils.

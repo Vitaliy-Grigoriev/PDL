@@ -8,7 +8,6 @@
 #include <iosfwd>
 #include <ostream>
 #include <stdexcept>
-
 #include <experimental/source_location>
 
 
@@ -18,7 +17,7 @@ enum class Module {
     system = 0,
     framework,
     memory,
-    binary_data,
+    raw_data,
     field,
     subfield,
     header
@@ -49,12 +48,12 @@ public:
     /**
      * @brief Constructor that specifies PDL Framework based exception.
      *
-     * @param [in] module  - Module in which exception occurred.
-     * @param [in] code    - Code that indicates the type of exception.
-     * @param [in] message - Message that describes exception.
-     * @param [in] where   - Place in code where exception occurred.
+     * @param [in] _module  - Module in which exception occurred.
+     * @param [in] _code    - Code that indicates the type of exception.
+     * @param [in] _message - Message that describes exception.
+     * @param [in] _where   - Place in code where exception occurred.
      */
-    Exception (Module module, Code code, const Message & message, const Where & where = Where::current());
+    Exception (Module _module, Code _code, const Message & _message, const Where & _where = Where::current());
 
     /**
      * @brief Operator that outputs exception information to stream.
@@ -72,14 +71,14 @@ public:
 /**
  * @brief Function that throws the specified error::Exception.
  *
- * @param [in] module  - Module in which exception occurred.
- * @param [in] code    - Code that indicates the type of exception.
- * @param [in] message - Message that describes exception.
- * @param [in] where   - Location in source code where exception occurred.
+ * @param [in] _module  - Module in which exception occurred.
+ * @param [in] _code    - Code that indicates the type of exception.
+ * @param [in] _message - Message that describes exception.
+ * @param [in] _where   - Location in source code where exception occurred.
  *
  * @throw error::Exception - PDL Framework based exception.
  */
 [[noreturn]]
-void panic (Module module, Code code, const Message & message, Where where = Where::current());
+void panic (Module _module, Code _code, const Message & _message, Where _where = Where::current());
 
 }  // namespace common.
