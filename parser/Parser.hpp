@@ -1,6 +1,6 @@
 #pragma once
 
-#include "spirit/syntax/Syntax.hpp"
+#include "spirit/Syntax.hpp"
 
 #include <filesystem>
 
@@ -10,11 +10,8 @@ namespace pdl::parser {
 class Parser final
 {
 public:
-    Parser() = default;
-    ~Parser() = default;
-
-    bool parse (const std::string & script);
-    bool parse (const std::filesystem::path & file);
+    bool parse (const std::string & _script);
+    bool parse (const std::filesystem::path & _file);
 
     spirit::syntax::Script::CRef getScript() const noexcept;
 
@@ -23,4 +20,4 @@ private:
     std::string currentPath;
 };
 
-}  // namespace pdl.
+}  // namespace parser.
