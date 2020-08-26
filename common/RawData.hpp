@@ -15,56 +15,56 @@
 namespace pdl::common::data {
 
 /**
- * @class BinaryData   BinaryData.hpp   "common/BinaryData.hpp"
- * @brief This class implements the binary data container and gives an interface to work with it.
+ * @class RawData   RawData.hpp   "common/RawData.hpp"
+ * @brief Class implements raw binary data container and gives an interface to work with it.
  */
-class BinaryData : public Declaration<BinaryData>
+class RawData : public Declaration<RawData>
 {
 public:
-    using ValueType      = std::byte;
-    using Pointer        = ValueType *;
-    using ConstPointer   = const ValueType *;
-    using Reference      = ValueType &;
-    using ConstReference = const ValueType &;
+    using Byte           = std::byte;
+    using Pointer        = Byte *;
+    using ConstPointer   = const Byte *;
+    using Reference      = Byte &;
+    using ConstReference = const Byte &;
 
     /**
      * @brief Default constructor.
      */
-    BinaryData() noexcept;
+    RawData() noexcept;
 
     /**
      * @brief Constructor that allocates specified count of bytes.
      *
-     * @param [in] count - Number of bytes for allocate.
+     * @param [in] _count - Number of bytes for allocate.
      */
-    explicit BinaryData (std::size_t _count);
+    explicit RawData (std::size_t _count);
 
     /**
      * @brief Constructor that accepts a pointer to allocated (or static) data.
      *
-     * @param [in] data - Pointer to allocated (or static) data.
+     * @param [in] _data - Pointer to allocated (or static) data.
      * @param [in] _size - Number of bytes in data.
      */
-    BinaryData (void * _data, std::size_t _size) noexcept;
+    RawData (void * _data, std::size_t _size) noexcept;
 
     /**
      * @brief Copy assignment constructor.
      *
-     * @param [in] other - Reference of copied BinaryData class.
+     * @param [in] _other - Reference of copied RawData class.
      */
-    explicit BinaryData (const BinaryData & _other);
+    explicit RawData (const RawData & _other);
 
     /**
      * @brief Move assignment constructor.
      *
-     * @param [in] other - Reference of moved BinaryData class.
+     * @param [in] _other - Reference of moved RawData class.
      */
-    explicit BinaryData (BinaryData && _other) noexcept;
+    explicit RawData (RawData && _other) noexcept;
 
     /**
-     * @brief Method that appends specified bytes at the end.
+     * @brief Method that appends specified count of bytes at the end.
      *
-     * @param [in] size - Number of addition bytes for allocation to stored data.
+     * @param [in] _size - Number of addition bytes for allocation to stored data.
      *
      * @return Pointer to the beginning of the appended block.
      */
@@ -80,16 +80,16 @@ public:
     /**
      * @brief Operator that returns a byte of stored data under specified index.
      *
-     * @param [in] index - Index of byte in stored data.
+     * @param [in] _index - Index of byte in stored data.
      *
      * @return Return a byte of data under selected index.
      */
-    ValueType operator[] (std::size_t _index) const;
+    Byte operator[] (std::size_t _index) const;
 
     /**
      * @brief Method that returns a pointer to byte of stored data under specified index.
      *
-     * @param [in] index - Index of byte in stored data. Default: 0.
+     * @param [in] _index - Index of byte in stored data. Default: 0.
      *
      * @return Pointer to byte of stored data under specified index or nullptr if index out of range.
      */
@@ -99,7 +99,7 @@ public:
     /**
      * @brief Method that returns a pointer to const byte of stored data under specified index.
      *
-     * @param [in] index - Index of byte in stored data. Default: 0.
+     * @param [in] _index - Index of byte in stored data. Default: 0.
      *
      * @return Pointer to const byte of stored data under specified index or nullptr if index out of range.
      */
@@ -107,9 +107,9 @@ public:
     ConstPointer get (std::size_t _index = 0) const noexcept;
 
     /**
-     * @brief Operator that returns internal state of BinaryData class.
+     * @brief Operator that returns internal state of RawData class.
      *
-     * @return TRUE - if BinaryData class initialized, otherwise - FALSE.
+     * @return TRUE - if RawData class initialized, otherwise - FALSE.
      */
     operator bool() const noexcept;
 
@@ -121,13 +121,13 @@ public:
     /**
      * @brief Destructor.
      */
-    ~BinaryData();
+    ~RawData();
 
 private:
     /**
-     * @brief Storage that contains binary data.
+     * @brief Storage that contains raw data.
      */
-    std::unique_ptr<ValueType[]> memory = nullptr;
+    std::unique_ptr<Byte[]> memory = nullptr;
     /**
      * @brief Length of stored data in bytes.
      */

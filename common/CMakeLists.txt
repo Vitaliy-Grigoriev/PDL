@@ -10,7 +10,7 @@ target_sources(pdl_common
         Error.cpp
         Utils.cpp
         Endian.cpp
-        BinaryData.cpp
+        RawData.cpp
         Field.cpp
         Header.cpp
     PUBLIC
@@ -19,7 +19,7 @@ target_sources(pdl_common
         Types.hpp
         Endian.hpp
         Memory.hpp
-        BinaryData.hpp
+        RawData.hpp
         Field.hpp
         Header.hpp
         Declaration.hpp

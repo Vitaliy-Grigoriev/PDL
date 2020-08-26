@@ -5,55 +5,55 @@
 
 namespace pdl::common::utils {
 
-std::string toString (const Module module)
+std::string toString (const Module _module)
 {
-    switch (module) {
-    case Module::system:
+    switch (_module) {
+    case Module::System:
         return "System";
-    case Module::framework:
+    case Module::Framework:
         return "Framework";
-    case Module::memory:
+    case Module::Memory:
         return "Memory";
-    case Module::raw_data:
+    case Module::RawData:
         return "RawData";
-    case Module::field:
+    case Module::Field:
         return "Field";
-    case Module::subfield:
+    case Module::Subfield:
         return "Subfield";
-    case Module::header:
+    case Module::Header:
         return "Header";
     default:
         std::ostringstream str;
-        str << "Module '" << std::to_string(static_cast<uint32_t>(module)) << "' not found";
-        panic(Module::framework, Code::internal_error, str.str());
+        str << "Module '" << std::to_string(static_cast<uint32_t>(_module)) << "' not found";
+        panic(Module::Framework, Code::InternalError, str.str());
     }
 }
 
-std::string toString (const Code code)
+std::string toString (const Code _code)
 {
-    switch (code) {
-    case Code::system_error:
+    switch (_code) {
+    case Code::SystemError:
         return "SystemError";
-    case Code::internal_error:
+    case Code::InternalError:
         return "InternalError";
-    case Code::not_implemented:
+    case Code::NotImplemented:
         return "NotImplemented";
-    case Code::zero_memory_allocation:
+    case Code::ZeroMemoryAllocation:
         return "ZeroMemoryAllocation";
-    case Code::index_out_of_range:
+    case Code::IndexOutOfRange:
         return "IndexOutOfRange";
-    case Code::object_not_found:
+    case Code::ObjectNotFound:
         return "ObjectNotFound";
     default:
         std::ostringstream str;
-        str << "Code '" << std::to_string(static_cast<uint32_t>(code)) << "' not found";
-        panic(Module::framework, Code::internal_error, str.str());
+        str << "Code '" << std::to_string(static_cast<uint32_t>(_code)) << "' not found";
+        panic(Module::Framework, Code::InternalError, str.str());
     }
 }
 
-std::string toString (const data::endian::Endian endian)
+std::string toString (const data::endian::Endian _endian)
 {
-    switch (endian) {
+    switch (_endian) {
     case data::endian::Endian::big:
         return "BigEndian";
     case data::endian::Endian::middle_big:
@@ -74,8 +74,8 @@ std::string toString (const data::endian::Endian endian)
         return toString(data::endian::getSystemEndian());
     default:
         std::ostringstream str;
-        str << "Endian '" << std::to_string(static_cast<uint32_t>(endian)) << "' not found";
-        panic(Module::framework, Code::internal_error, str.str());
+        str << "Endian '" << std::to_string(static_cast<uint32_t>(_endian)) << "' not found";
+        panic(Module::Framework, Code::InternalError, str.str());
     }
 }
 

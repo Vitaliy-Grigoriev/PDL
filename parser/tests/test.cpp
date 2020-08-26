@@ -10,7 +10,7 @@
 
 namespace syntax = pdl::spirit::syntax;
 
-int32_t main (int32_t size, char** data)
+int32_t main (const int32_t _size, char** _data)
 {
     std::filesystem::path path{"../parser/tests/ethernet.pdl"};
 

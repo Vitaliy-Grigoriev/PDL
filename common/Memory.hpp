@@ -40,7 +40,7 @@ template <typename Type>
 std::unique_ptr<Type[]> allocArray (const std::size_t _count)
 {
     if (!_count) {
-        panic(Module::memory, Code::zero_memory_allocation, "Specified 0 bytes for allocation");
+        panic(Module::Memory, Code::ZeroMemoryAllocation, "Specified 0 bytes for allocation");
     }
     return std::make_unique<Type[]>(_count);
 }
@@ -61,7 +61,7 @@ template <typename Type>
 std::unique_ptr<Type[]> allocArray (const std::size_t _count, const void * const _data, const std::size_t _size)
 {
     if (!_count) {
-        panic(Module::memory, Code::zero_memory_allocation, "Specified 0 bytes for allocation");
+        panic(Module::Memory, Code::ZeroMemoryAllocation, "Specified 0 bytes for allocation");
     }
 
     auto memory = std::make_unique<Type[]>(_count);

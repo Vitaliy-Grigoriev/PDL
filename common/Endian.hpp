@@ -35,7 +35,7 @@
 // //////////////////////////////////////////////
 
 #include <cstddef>  // std::byte.
-#include <cstdint>  // std::uint32_t.
+#include <cstdint>  // std::uint*_t.
 
 
 namespace pdl::common::data::endian {
@@ -65,7 +65,7 @@ enum class Endian : uint16_t {
 constexpr inline Endian getSystemEndian() noexcept
 {
     constexpr uint32_t value = 0x01020304;
-    return static_cast<Endian>(static_cast<const uint8_t&>(value));
+    return static_cast<Endian>(static_cast<const uint8_t &>(value));
 }
 
 /**
@@ -77,6 +77,6 @@ constexpr inline Endian getSystemEndian() noexcept
  *
  * Example: 10100011  ->  11000101.
  */
-std::byte reverseBits (std::byte byte) noexcept;
+std::byte reverseBits (std::byte _byte) noexcept;
 
 }  // namespace endian.

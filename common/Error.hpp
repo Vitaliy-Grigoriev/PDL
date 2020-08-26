@@ -14,22 +14,22 @@
 namespace pdl::common {
 
 enum class Module {
-    system = 0,
-    framework,
-    memory,
-    raw_data,
-    field,
-    subfield,
-    header
+    System = 0,
+    Framework,
+    Memory,
+    RawData,
+    Field,
+    Subfield,
+    Header
 };
 
 enum class Code {
-    system_error = 0,
-    internal_error,
-    not_implemented,
-    zero_memory_allocation,
-    index_out_of_range,
-    object_not_found
+    SystemError = 0,
+    InternalError,
+    NotImplemented,
+    ZeroMemoryAllocation,
+    IndexOutOfRange,
+    ObjectNotFound
 };
 
 using Message = std::string;

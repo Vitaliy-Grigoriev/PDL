@@ -1,11 +1,11 @@
-#include <common/BinaryData.hpp>
+#include <common/RawData.hpp>
 #include <gtest/gtest.h>
 
-TEST(BinaryData, checkCorrectAppendWithoutAllocatedData)
+TEST(RawData, checkCorrectAppendWithoutAllocatedData)
 {
     using namespace pdl::common::data;
 
-    BinaryData data;
+    RawData data;
     ASSERT_FALSE(data);
 
     const auto memory = data.append(4);
@@ -15,11 +15,11 @@ TEST(BinaryData, checkCorrectAppendWithoutAllocatedData)
     ASSERT_EQ(data.size(), 4);
 }
 
-TEST(BinaryData, checkCorrectAppendWithAllocatedData)
+TEST(RawData, checkCorrectAppendWithAllocatedData)
 {
     using namespace pdl::common::data;
 
-    BinaryData data{4};
+    RawData data{4};
     ASSERT_TRUE(data);
     ASSERT_EQ(data.size(), 4);
 
@@ -30,11 +30,11 @@ TEST(BinaryData, checkCorrectAppendWithAllocatedData)
     ASSERT_EQ(data.size(), 6);
 }
 
-TEST(BinaryData, checkCorrectDestroy)
+TEST(RawData, checkCorrectDestroy)
 {
     using namespace pdl::common::data;
 
-    BinaryData data{4};
+    RawData data{4};
     ASSERT_TRUE(data);
     ASSERT_EQ(data.size(), 4);
 
