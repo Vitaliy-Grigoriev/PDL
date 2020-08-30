@@ -9,12 +9,12 @@
 namespace pdl::common::data {
 
 Header::Header() noexcept :
-    Declaration(this)
+    Declaration{ this }
 { }
 
 Constructor::Constructor (Header& _header) noexcept :
-    Declaration(this),
-    header{_header}
+    Declaration{ this },
+    header{ _header }
 { }
 
 }  // namespace data.

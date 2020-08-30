@@ -23,7 +23,8 @@ enum class InternalVariableType : uint16_t {
     UInt16,
     UInt32,
     UInt64,
-    Float,
+    Float32,
+    Float64,
     Mac,
     IPv4,
     IPv6

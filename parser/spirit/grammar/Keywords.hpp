@@ -24,22 +24,23 @@ static struct ReservedTypes : x3::symbols<syntax::types::InternalVariableType>
 {
     ReservedTypes()
     {
-        name("ReservedKeywords");
-        add("bit",    syntax::types::InternalVariableType::Bit)
-           ("bool",   syntax::types::InternalVariableType::Boolean)
-           ("byte",   syntax::types::InternalVariableType::Byte)
-           ("i8",     syntax::types::InternalVariableType::Int8)
-           ("i16",    syntax::types::InternalVariableType::Int16)
-           ("i32",    syntax::types::InternalVariableType::Int32)
-           ("i64",    syntax::types::InternalVariableType::Int64)
-           ("u8",     syntax::types::InternalVariableType::UInt8)
-           ("u16",    syntax::types::InternalVariableType::UInt16)
-           ("u32",    syntax::types::InternalVariableType::UInt32)
-           ("u64",    syntax::types::InternalVariableType::UInt64)
-           ("float",  syntax::types::InternalVariableType::Float)
-           ("mac",    syntax::types::InternalVariableType::Mac)
-           ("ipv4",   syntax::types::InternalVariableType::IPv4)
-           ("ipv6",   syntax::types::InternalVariableType::IPv6);
+        name("ReservedTypes");
+        add("bit",     syntax::types::InternalVariableType::Bit)
+           ("bool",    syntax::types::InternalVariableType::Boolean)
+           ("byte",    syntax::types::InternalVariableType::Byte)
+           ("i8",      syntax::types::InternalVariableType::Int8)
+           ("i16",     syntax::types::InternalVariableType::Int16)
+           ("i32",     syntax::types::InternalVariableType::Int32)
+           ("i64",     syntax::types::InternalVariableType::Int64)
+           ("u8",      syntax::types::InternalVariableType::UInt8)
+           ("u16",     syntax::types::InternalVariableType::UInt16)
+           ("u32",     syntax::types::InternalVariableType::UInt32)
+           ("u64",     syntax::types::InternalVariableType::UInt64)
+           ("float32", syntax::types::InternalVariableType::Float32)
+           ("float64", syntax::types::InternalVariableType::Float64)
+           ("mac",     syntax::types::InternalVariableType::Mac)
+           ("ipv4",    syntax::types::InternalVariableType::IPv4)
+           ("ipv6",    syntax::types::InternalVariableType::IPv6);
     }
 } reservedTypes;
 

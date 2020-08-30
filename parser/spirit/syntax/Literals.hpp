@@ -35,9 +35,14 @@ struct Numeric : Annotation<Numeric>
     std::int64_t value = 0;
 };
 
-struct Float : Annotation<Float>
+struct Float32 : Annotation<Float32>
 {
     float value = 0.0;
+};
+
+struct Float64 : Annotation<Float32>
+{
+    double value = 0.0;
 };
 
 struct Boolean : Annotation<Boolean>
@@ -95,7 +100,8 @@ struct DefaultValue : x3::variant<Placeholder,
 
 struct Literal : x3::variant<Default,
                              Numeric,
-                             Float,
+                             Float32,
+                             Float64,
                              Boolean,
                              String,
                              MacAddress,
@@ -131,7 +137,8 @@ BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Default,       discovere
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Placeholder,   value)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Designator,    member)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Numeric,       value)
-BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Float,         value)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Float32,       value)
+BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Float64,       value)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::Boolean,       value)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::String,        value)
 BOOST_FUSION_ADAPT_STRUCT(pdl::spirit::syntax::literal::MacAddress,    value)
