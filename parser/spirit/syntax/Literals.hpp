@@ -40,7 +40,7 @@ struct Float32 : Annotation<Float32>
     float value = 0.0;
 };
 
-struct Float64 : Annotation<Float32>
+struct Float64 : Annotation<Float64>
 {
     double value = 0.0;
 };

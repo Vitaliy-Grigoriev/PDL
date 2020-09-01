@@ -34,9 +34,9 @@ const auto autoLiteral_def        = keywords::_auto;
 const auto defaultLiteral_def     = keywords::_default;
 const auto placeholderLiteral_def = symbols::underline > x3::uint16;
 const auto designatorLiteral_def  = symbols::dot > identifier;
-const auto numericLiteral_def     = types::bin | types::hex | x3::int_;
-const auto float32Literal_def     = x3::float_;
-const auto float64Literal_def     = x3::double_;
+const auto numericLiteral_def     = types::bin | types::hex | x3::int64;
+const auto float32Literal_def     = x3::real_parser<float, x3::strict_real_policies<float>> { };
+const auto float64Literal_def     = x3::real_parser<double, x3::strict_real_policies<double>> { };
 const auto booleanLiteral_def     = keywords::_boolean;
 const auto stringLiteral_def      = x3::lexeme[symbols::quote > *(x3::char_ - symbols::quote) > symbols::quote];
 const auto macAddressLiteral_def  = x3::raw[x3::repeat(5)[types::byte >> symbols::colon] >> types::byte];
@@ -49,9 +49,9 @@ const auto idLiteral_def           = autoLiteral | numericLiteral | definitionLi
 const auto literal_def             = defaultLiteral |
                                      ipv4AddressLiteral |
                                      macAddressLiteral |
-                                     numericLiteral |
                                      float32Literal |
                                      float64Literal |
+                                     numericLiteral |
                                      booleanLiteral |
                                      stringLiteral;
 

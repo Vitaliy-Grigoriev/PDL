@@ -50,26 +50,25 @@ bool readFileToEnd (const std::filesystem::path& _path, std::string& _data) noex
 
 bool Parser::parse (const std::string& _script)
 {
-    auto first = grammar::PositionIterator{ _script.cbegin() };
-    auto last = grammar::PositionIterator{ _script.cend() };
+    auto first = spirit::PositionIterator{ _script.cbegin() };
+    auto last = spirit::PositionIterator{ _script.cend() };
 
-    grammar::ErrorHandler error{ first, last, std::cerr };
-    grammar::PositionCache position{ first, last };
-    const auto parser = x3::with<grammar::PositionTag>(std::ref(position))[
-                            x3::with<grammar::ErrorTag>(std::ref(error))[
+    spirit::ErrorHandler error{ first, last, std::cerr };
+    spirit::PositionCache position{ first, last };
+    const auto parser = x3::with<spirit::PositionTag>(std::ref(position))[
+                            x3::with<spirit::ErrorTag>(std::ref(error))[
                                 grammar::script
                             ]
                         ];
 
     if (!x3::phrase_parse(first, last, parser, grammar::skipper, script)) {
-        std::cerr << "[-] Mistake in Spirit grammar." << std::endl;
+        std::cerr << "[error] Mistake in Spirit grammar." << std::endl;
         return false;
     }
 
     if (first != last) {
-        auto f = grammar::PositionIterator{ _script.cbegin() };
-        std::cerr << "[-] Parsing stopped at '" << std::distance(f, first) << "' position." << std::endl;
-        std::cerr << "[-] Tail: " << std::endl << std::string{ first.base(), last.base() } << std::endl;
+        std::cerr << "[error] Parsing stopped at '" << std::distance(_script.cbegin(), first.base()) << "' position." << std::endl;
+        std::cerr << "[error] Tail: " << std::endl << std::string{ first.base(), last.base() } << std::endl;
     }
     return first == last;
 }

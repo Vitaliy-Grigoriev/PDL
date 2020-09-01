@@ -50,7 +50,7 @@ const auto variableListInit_def              = literals::literal % symbols::comm
 const auto designatedInitializationValue_def = literals::literal | aggregateInitialization;
 const auto designatedInitialization_def      = literals::designatorLiteral > symbols::equality > designatedInitializationValue;
 const auto variableDesignatedInit_def        = designatedInitialization % symbols::comma;
-const auto aggregateInitialization_def       = symbols::openBlockBrace > (variableDesignatedInit | variableListInit) > symbols::closeBlockBrace;
+const auto aggregateInitialization_def       = utils::makeBlockBrace(variableDesignatedInit | variableListInit);
 const auto variableInitialization_def        = literals::literal | aggregateInitialization;
 
 const auto variable_def = variableDeclaration > -(symbols::equality > variableInitialization) > -(symbols::property > +variableProperty);

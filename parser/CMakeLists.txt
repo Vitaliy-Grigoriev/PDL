@@ -22,6 +22,7 @@ set(PDL_PARSER_SYNTAX
 
 # Select source files of PDL grammar.
 set(PDL_PARSER_GRAMMAR
+    spirit/grammar/RuleId.hpp
     spirit/grammar/Types.hpp
     spirit/grammar/Keywords.hpp
     spirit/grammar/Identifier.hpp
@@ -34,13 +35,13 @@ set(PDL_PARSER_GRAMMAR
     spirit/grammar/Statements.hpp
     spirit/grammar/SkippedBlocks.hpp
     spirit/grammar/Actions.hpp
-    spirit/grammar/Handlers.hpp
     spirit/grammar/Utils.hpp
 )
 
 # Select source files of PDL common.
 set(PDL_PARSER_COMMON
     spirit/Annotation.hpp
+    spirit/Handlers.hpp
     spirit/Syntax.hpp
     spirit/Grammar.hpp
 )
