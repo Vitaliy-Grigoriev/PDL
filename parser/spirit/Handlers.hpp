@@ -14,10 +14,31 @@ namespace pdl::spirit {
 
 using ErrorTag = x3::error_handler_tag;
 struct PositionTag { };
+struct PositionTraceTag { };
 
 using PositionIterator = boost::spirit::line_pos_iterator<std::string::const_iterator>;
 using PositionCache = x3::position_cache<std::vector<PositionIterator>>;
 using ErrorHandler = x3::error_handler<PositionIterator>;
+
+struct PositionTrace
+{
+    void trace (std::string _tag, const BaseStatement &_statement)
+    {
+        index.emplace(std::move(_tag), &_statement);
+    }
+
+    void print (std::ostream& _out) const
+    {
+        auto it = index.cbegin();
+        _out << it->second->position() << ": " << it->first << std::endl;
+        for (++it; it != index.cend(); ++it) {
+            _out << " -> " << it->second->position() << ": " << it->first << std::endl;
+        }
+    }
+
+private:
+    std::multimap<std::string, const BaseStatement *> index;
+};
 
 
 struct Handler
@@ -42,7 +63,8 @@ struct Handler
         _ast.lineEnd = boost::spirit::get_line(_last);
         _ast.columnEnd = boost::spirit::get_column(position.first().base(), _last.base());
 
-        std::cout << _ast.position() + " [trace] Parsing '" << _ast.tag << "' finish successfully." << std::endl;
+        auto& trace = x3::get<PositionTraceTag>(_context).get();
+        trace.trace(_ast.tag, _ast);
     }
 
     virtual ~Handler() = default;

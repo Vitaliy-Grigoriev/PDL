@@ -3,12 +3,12 @@
 // This file is part of ProtocolDeclarationLanguageFramework open source project under MIT License.
 // ============================================================================
 
-#include "Protocol.hpp"
+#pragma once
 
 
-namespace pdl::model::ast
+namespace pdl::model::network
 {
 
 
 
-}  // namespace ast.
+}  // namespace network.

@@ -64,5 +64,5 @@ include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 add_subdirectory(common)
 add_subdirectory(parser)
-#add_subdirectory(model)
+add_subdirectory(model)
 #add_subdirectory(tools)

@@ -55,9 +55,12 @@ bool Parser::parse (const std::string& _script)
 
     spirit::ErrorHandler error{ first, last, std::cerr };
     spirit::PositionCache position{ first, last };
+    spirit::PositionTrace trace;
     const auto parser = x3::with<spirit::PositionTag>(std::ref(position))[
                             x3::with<spirit::ErrorTag>(std::ref(error))[
-                                grammar::script
+                                x3::with<spirit::PositionTraceTag>(std::ref(trace))[
+                                    grammar::script
+                                ]
                             ]
                         ];
 
@@ -68,8 +71,10 @@ bool Parser::parse (const std::string& _script)
 
     if (first != last) {
         std::cerr << "[error] Parsing stopped at '" << std::distance(_script.cbegin(), first.base()) << "' position." << std::endl;
-        std::cerr << "[error] Tail: " << std::endl << std::string{ first.base(), last.base() } << std::endl;
+        std::cerr << "[error] Trace: " << std::endl;
+        trace.print(std::cerr);
     }
+    trace.print(std::cerr);
     return first == last;
 }
 

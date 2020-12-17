@@ -1,9 +1,9 @@
 #pragma once
 
-#include <string>
 #include <cstddef>
-#include <boost/type_index.hpp>
+#include <string>
 #include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
+#include <boost/type_index.hpp>
 
 
 namespace pdl::spirit {
@@ -11,12 +11,19 @@ namespace pdl::spirit {
 // Global using.
 namespace x3 = boost::spirit::x3;
 
-template <typename Type>
-struct Annotation : x3::position_tagged
+struct BaseStatement
 {
-    Annotation() noexcept;
+    virtual std::string position() const = 0;
+    virtual ~BaseStatement() = default;
+};
 
-    std::string position() const noexcept;
+
+template <typename Statement>
+struct Annotation : BaseStatement, x3::position_tagged
+{
+    Annotation();
+
+    std::string position() const final;
 
     std::string tag;
     std::string input;
@@ -26,14 +33,14 @@ struct Annotation : x3::position_tagged
     std::size_t columnEnd = 0;
 };
 
-template <typename Type>
-Annotation<Type>::Annotation() noexcept
+template <typename Statement>
+Annotation<Statement>::Annotation()
 {
-    tag = boost::typeindex::type_id<Type>().pretty_name();
+    tag = boost::typeindex::type_id<Statement>().pretty_name();
 }
 
-template <typename Type>
-std::string Annotation<Type>::position() const noexcept
+template <typename Statement>
+std::string Annotation<Statement>::position() const
 {
     return std::to_string(lineBegin) + '.' +
            std::to_string(columnBegin) + '-' +

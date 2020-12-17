@@ -6,3 +6,27 @@
 #pragma once
 
 
+namespace pdl::model::ast
+{
+
+/**
+ * @class Protocol   Protocol.hpp   "model/ast/Protocol.hpp"
+ * @brief This class implements .
+ */
+class Protocol
+{
+private:
+
+
+public:
+    Protocol (Protocol &&) = delete;
+    Protocol (const Protocol &) = delete;
+    Protocol & operator= (Protocol &&) = delete;
+    Protocol & operator= (const Protocol &) = delete;
+
+    Protocol() = default;
+
+    ~Protocol() = default;
+};
+
+}  // namespace ast.
