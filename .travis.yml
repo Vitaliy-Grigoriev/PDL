@@ -75,6 +75,29 @@ matrix:
             - libstdc++-10-dev
       env: CXX=clang++-10 BUILD_TYPE=Debug
 
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main'
+              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
+          packages:
+            - clang-11
+            - libstdc++-11-dev
+      env: CXX=clang++-11 BUILD_TYPE=Release
+
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main'
+              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
+          packages:
+            - clang-11
+            - libstdc++-11-dev
+      env: CXX=clang++-11 BUILD_TYPE=Debug
 
 before_install:
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
