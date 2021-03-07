@@ -114,7 +114,7 @@ install:
     CMAKE_URL="https://cmake.org/files/v3.18/cmake-3.18.1-Linux-x86_64.tar.gz"
     mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
   - |
-  - install_boost.sh ${DEPS_DIR}
+    ../install_boost.sh ${DEPS_DIR}
   - |
     GOOGLETEST_URL="https://github.com/google/googletest/archive/release-1.10.0.tar.gz"
     mkdir googletest && travis_retry wget --no-check-certificate --quiet -O - ${GOOGLETEST_URL} | tar --strip-components=1 -xz -C googletest
