@@ -3,22 +3,24 @@ project(PdlFramework   CXX)
 
 # Select CPP standard.
 set(CMAKE_CXX_STANDARD   17)
-set(CMAKE_CXX_STANDARD_REQUIRED    ON)
-set(CMAKE_EXPORT_COMPILE_COMMANDS  ON)
+set(CMAKE_CXX_STANDARD_REQUIRED       ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE   ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS     ON)
 
 # Select output binary paths.
 set(EXECUTABLE_OUTPUT_PATH   ${PROJECT_SOURCE_DIR}/bin)
 
 # Info about a compiler.
-message("[info] Compiler is '${CMAKE_CXX_COMPILER_ID}'.")
+message(STATUS "[info] Compiler is '${CMAKE_CXX_COMPILER_ID}'.")
 
 # Find Boost library.
-find_package(Boost   1.74   REQUIRED)
+set(Boost_ROOT   ${PROJECT_SOURCE_DIR}/boost)
+find_package(Boost   1.75   REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 # Find GTest library.
 if (DEFINED   PDL_WITH_TESTS)
-    message("[info] PDL Tests Included.")
+    message(STATUS "[info] PDL Tests Included.")
     find_package(GTest   1.10   REQUIRED)
     add_subdirectory(tests)
     pdl_test_init()
@@ -31,8 +33,13 @@ set(DISABLE_WARNINGS_INTEL   "-diag-disable=161,1478")
 set(DISABLE_WARNINGS_DEBUG   "-Wno-unused-result -Wno-unused-variable")
 set(DISABLE_WARNINGS_DEBUG_CLANG   "-Wno-unused-macros -Wno-padded -Wno-weak-vtables -Wno-cast-align")
 set(DISABLE_WARNINGS_BOOST_CLANG   "-Wno-disabled-macro-expansion -Wno-global-constructors")
-set(SANITIZE_FLAGS           "-fsanitize=address  -fsanitize=leak  -fsanitize=undefined")
 
+if (DEFINED   PDL_WITH_SANITIZER)
+    if (${PDL_WITH_SANITIZER}   STREQUAL   "true")
+        set(SANITIZE_FLAGS   "-fsanitize=address  -fsanitize=leak  -fsanitize=undefined")
+        add_compile_definitions(BOOST_USE_ASAN)
+    endif()
+endif()
 
 # Choose compiler flags.
 set(CMAKE_CXX_FLAGS_DEBUG     "-std=c++17 -O0 -g -DDEBUG")
