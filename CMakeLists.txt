@@ -14,7 +14,10 @@ set(EXECUTABLE_OUTPUT_PATH   ${PROJECT_SOURCE_DIR}/bin)
 message(STATUS "[info] Compiler is '${CMAKE_CXX_COMPILER_ID}'.")
 
 # Find Boost library.
-set(Boost_ROOT   ${PROJECT_SOURCE_DIR}/boost)
+if (NOT DEFINED   Boost_ROOT)
+    set(Boost_ROOT   ${PROJECT_SOURCE_DIR}/boost)
+    message("[info] BOOST root directory set to: '${Boost_ROOT}'.")
+endif()
 find_package(Boost   1.75   REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
@@ -71,5 +74,5 @@ include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 add_subdirectory(common)
 add_subdirectory(parser)
-add_subdirectory(model)
+#add_subdirectory(model)
 #add_subdirectory(tools)

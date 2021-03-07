@@ -29,3 +29,5 @@ cd "${BOOST_SOURCE_DIR}" || exit 4
 
 cd "${WORK_DIRECTORY}" || exit 5
 rm -rf "${BOOST_SOURCE_DIR}"
+
+export Boost_ROOT=${BOOST_INSTALL_DIR}
