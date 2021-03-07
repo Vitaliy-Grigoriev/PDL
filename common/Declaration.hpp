@@ -18,7 +18,7 @@ public:
     using CPtr = const Type *;
 
     explicit Declaration (Type * _pointer) noexcept :
-        pointer{_pointer}
+        pointer{ _pointer }
     { }
 
     Ref ref() noexcept

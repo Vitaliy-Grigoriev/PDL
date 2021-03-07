@@ -65,7 +65,7 @@ struct MappingStatementProperty : x3::variant<properties::DefaultProperty,
                                               properties::IdProperty,
                                               properties::DefinitionProperty,
                                               properties::EndianProperty>,
-                         Annotation<MappingStatementProperty>
+                                  Annotation<MappingStatementProperty>
 {
     using base_type::base_type;
     using base_type::operator=;
@@ -113,10 +113,6 @@ struct DeclarationEntry : x3::variant<RequestStatement,
                                       ResponseStatement>,
                           Annotation<DeclarationEntry>
 {
-    DeclarationEntry & operator= (const DeclarationEntry &) = default;
-    DeclarationEntry (const DeclarationEntry &) = default;
-    DeclarationEntry() = default;
-
     using base_type::base_type;
     using base_type::operator=;
 };
@@ -128,7 +124,7 @@ struct DeclarationStatement : Annotation<DeclarationStatement>
 
 struct ProtocolProperty : x3::variant<properties::RootProperty,
                                       properties::NextProtocolProperty>,
-                              Annotation<ProtocolProperty>
+                          Annotation<ProtocolProperty>
 {
     using base_type::base_type;
     using base_type::operator=;
@@ -138,10 +134,6 @@ struct ProtocolEntry : x3::variant<StructureStatement,
                                    DeclarationStatement>,
                        Annotation<ProtocolEntry>
 {
-    ProtocolEntry & operator= (const ProtocolEntry &) = default;
-    ProtocolEntry (const ProtocolEntry &) = default;
-    ProtocolEntry() = default;
-
     using base_type::base_type;
     using base_type::operator=;
 };

@@ -11,10 +11,6 @@ struct ScriptEntry : x3::variant<statements::ImportStatement,
                                  statements::ProtocolStatement>,
                      Annotation<ScriptEntry>
 {
-    ScriptEntry & operator= (const ScriptEntry &) = default;
-    ScriptEntry (const ScriptEntry &) = default;
-    ScriptEntry() = default;
-
     using base_type::base_type;
     using base_type::operator=;
 };

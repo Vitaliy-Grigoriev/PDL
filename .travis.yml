@@ -97,7 +97,7 @@ matrix:
               key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
           packages:
             - clang-11
-            - libstdc++-11-dev
+            - libstdc++-10-dev
       env: CXX=clang++-11 BUILD_TYPE=Debug SANITIZER=true
 
 before_install:

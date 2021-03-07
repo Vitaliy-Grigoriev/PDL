@@ -4,6 +4,7 @@
 // ============================================================================
 
 #include "Parser.hpp"
+#include "AstTrace.hpp"
 #include "spirit/Grammar.hpp"
 
 #include <fstream>
@@ -18,7 +19,7 @@ namespace grammar = pdl::spirit::grammar;
 namespace pdl::parser {
 namespace {
 
-std::size_t getOffsetToEnd (std::ifstream& _file)
+std::size_t getOffsetToEnd(std::ifstream& _file)
 {
     const auto position = _file.tellg();
     const auto size = _file.seekg(position, std::ios_base::end).tellg();
@@ -26,7 +27,7 @@ std::size_t getOffsetToEnd (std::ifstream& _file)
     return size;
 }
 
-bool readFileToEnd (const std::filesystem::path& _path, std::string& _data) noexcept
+bool readFileToEnd(const std::filesystem::path& _path, std::string& _data) noexcept
 {
     std::ifstream file;
     file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
@@ -48,17 +49,18 @@ bool readFileToEnd (const std::filesystem::path& _path, std::string& _data) noex
 }
 
 
-bool Parser::parse (const std::string& _script)
+bool Parser::parse(const std::string& _script)
 {
     auto first = spirit::PositionIterator{ _script.cbegin() };
     auto last = spirit::PositionIterator{ _script.cend() };
 
     spirit::ErrorHandler error{ first, last, std::cerr };
     spirit::PositionCache position{ first, last };
-    spirit::PositionTrace trace;
+    AstTrace trace;
+
     const auto parser = x3::with<spirit::PositionTag>(std::ref(position))[
                             x3::with<spirit::ErrorTag>(std::ref(error))[
-                                x3::with<spirit::PositionTraceTag>(std::ref(trace))[
+                                x3::with<spirit::SuccessCallbackTag>(std::ref(trace))[
                                     grammar::script
                                 ]
                             ]
@@ -70,7 +72,10 @@ bool Parser::parse (const std::string& _script)
     }
 
     if (first != last) {
-        std::cerr << "[error] Parsing stopped at '" << std::distance(_script.cbegin(), first.base()) << "' position." << std::endl;
+        const std::size_t line = boost::spirit::get_line(first);
+        const std::size_t column = boost::spirit::get_column(position.first().base(), first.base());
+
+        std::cerr << "[error] Parsing stopped at line '" << line << "', column '" << column << "'." << std::endl;
         std::cerr << "[error] Trace: " << std::endl;
         trace.print(std::cerr);
     }
@@ -78,7 +83,7 @@ bool Parser::parse (const std::string& _script)
     return first == last;
 }
 
-bool Parser::parse (const std::filesystem::path& _file)
+bool Parser::parse(const std::filesystem::path& _file)
 {
     currentPath = _file.string();
     std::string scr;

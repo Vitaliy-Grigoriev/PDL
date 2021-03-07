@@ -24,7 +24,7 @@ protocol Ethernet   ->   root   next_protocol[IPv4, IPv6, ARP]
             group VlanGroup
             {
                 TagControlInformation tag   ->   variable   priority(2)   big_endian   def(Tag Control Information)
-                u16 ethType                 ->   variable   priority(5)   big_endian   def(Lower Protocol Type)
+                u16 ethernetType            ->   variable   priority(5)   big_endian   def(Lower Protocol Type)
             }
         }
 

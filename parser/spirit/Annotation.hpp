@@ -1,5 +1,7 @@
 #pragma once
 
+#include "TypeRegistry.hpp"
+
 #include <cstddef>
 #include <string>
 #include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
@@ -14,6 +16,8 @@ namespace x3 = boost::spirit::x3;
 struct BaseStatement
 {
     virtual std::string position() const = 0;
+    virtual std::string info() const = 0;
+
     virtual ~BaseStatement() = default;
 };
 
@@ -24,6 +28,7 @@ struct Annotation : BaseStatement, x3::position_tagged
     Annotation();
 
     std::string position() const final;
+    std::string info() const override;
 
     std::string tag;
     std::string input;
@@ -45,7 +50,13 @@ std::string Annotation<Statement>::position() const
     return std::to_string(lineBegin) + '.' +
            std::to_string(columnBegin) + '-' +
            std::to_string(lineEnd) + '.' +
-           std::to_string(columnEnd) + ':';
+           std::to_string(columnEnd);
+}
+
+template <typename Statement>
+std::string Annotation<Statement>::info() const
+{
+    return input;
 }
 
 }  // namespace spirit.

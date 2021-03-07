@@ -40,6 +40,7 @@ set(PDL_PARSER_GRAMMAR
 
 # Select source files of PDL common.
 set(PDL_PARSER_COMMON
+    spirit/TypeRegistry.hpp
     spirit/Annotation.hpp
     spirit/Handlers.hpp
     spirit/Syntax.hpp
@@ -51,8 +52,10 @@ target_sources(pdl_parser
         ${PDL_PARSER_SYNTAX}
         ${PDL_PARSER_GRAMMAR}
         ${PDL_PARSER_COMMON}
+        AstTrace.cpp
         Parser.cpp
     PUBLIC
+        AstTrace.hpp
         Parser.hpp
 )
 
