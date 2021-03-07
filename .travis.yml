@@ -4,6 +4,7 @@ language: cpp
 branches:
   only:
     - master
+    - develop
 
 matrix:
   include:
