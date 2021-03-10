@@ -1,28 +1,54 @@
 #!/usr/bin/env bash
 
-WORK_DIRECTORY=$([ -z "$1" ] && echo `pwd` || echo "$1")
+WORK_DIRECTORY=$([ -z "$1" ] && 'pwd' || echo "$1")
 
 LLVM_MAJOR_VERSION=11
+LLVM_MINOR_VERSION=1
+LLVM_PATCH_VERSION=0
+
+LLVM_VERSION=${LLVM_MAJOR_VERSION}.${LLVM_MINOR_VERSION}.${LLVM_PATCH_VERSION}
 
 LLVM_SOURCE_DIR=${WORK_DIRECTORY}/temp
 LLVM_INSTALL_DIR=${WORK_DIRECTORY}/llvm
 
-BOOST_URL="https://dl.bintray.com/boostorg/release/${BOOST_VERSION_1}/source/boost_${BOOST_VERSION_2}.tar.gz"
+LLVM_URL="https://github.com/llvm/llvm-project/releases/download/llvmorg-${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
 
-mkdir -p "${BOOST_SOURCE_DIR}" || exit 1
-mkdir -p "${BOOST_INSTALL_DIR}" || exit 2
+mkdir -p "${LLVM_SOURCE_DIR}" || exit 1
+mkdir -p "${LLVM_INSTALL_DIR}" || exit 2
 
-wget --no-check-certificate --quiet -O - ${BOOST_URL} | tar --strip-components=1 -xz -C "${BOOST_SOURCE_DIR}"
+wget --no-check-certificate --quiet -O - ${LLVM_URL} | tar --strip-components=1 -xJ -C "${LLVM_SOURCE_DIR}"
 if [ $? -ne 0 ]
   then exit 3
 fi
 
-cd "${BOOST_SOURCE_DIR}" || exit 4
+cd "${LLVM_SOURCE_DIR}" || exit 4
 
-./bootstrap.sh --prefix="${BOOST_INSTALL_DIR}" --with-icu
-./b2 install --prefix="${BOOST_INSTALL_DIR}" cxxflags="-std=c++17 -g -fPIC" variant=release link=static runtime-link=shared threading=multi --layout=tagged --build-type=complete --with-atomic --with-chrono --with-context --with-date_time --with-filesystem --with-iostreams --with-locale --with-program_options --with-random --with-regex --with-serialization --with-system --with-thread
+cmake -DCMAKE_CXX_STANDARD=17              \
+      -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+      -DBUILD_SHARED_LIBS=OFF              \
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo    \
+      -DCMAKE_CXX_FLAGS="-O2"              \
+      -DLLVM_TARGETS_TO_BUILD="X86"        \
+      -DLLVM_BUILD_DOCS=OFF                \
+      -DLLVM_BUILD_TOOLS=OFF               \
+      -DLLVM_INCLUDE_TOOLS=OFF             \
+      -DLLVM_BUILD_BENCHMARKS=OFF          \
+      -DLLVM_INCLUDE_BENCHMARKS=OFF        \
+      -DLLVM_BUILD_EXAMPLES=OFF            \
+      -DLLVM_INCLUDE_EXAMPLES=OFF          \
+      -DLLVM_BUILD_TESTS=OFF               \
+      -DLLVM_INCLUDE_TESTS=OFF             \
+      -DLLVM_INSTALL_UTILS=OFF             \
+      -DLLVM_ENABLE_BINDINGS=OFF           \
+      -DLLVM_ENABLE_PIC=ON                 \
+      -S"${LLVM_SOURCE_DIR}"               \
+      -B"${LLVM_SOURCE_DIR}\build"         \
+      -DCMAKE_INSTALL_PREFIX="${LLVM_INSTALL_DIR}"
 
-cd "${WORK_DIRECTORY}" || exit 5
-rm -rf "${BOOST_SOURCE_DIR}"
+cmake --build build -j "$(nproc)"
+cmake --install build
 
-export LLVM_ROOT=${BOOST_INSTALL_DIR}
+cd "${WORK_DIRECTORY}" || exit 6
+rm -rf "${LLVM_SOURCE_DIR}"
+
+export LLVM_ROOT=${LLVM_INSTALL_DIR}

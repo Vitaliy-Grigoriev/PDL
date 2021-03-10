@@ -11,19 +11,28 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS     ON)
 set(EXECUTABLE_OUTPUT_PATH   ${PROJECT_SOURCE_DIR}/bin)
 
 # Info about a compiler.
-message(STATUS "[info] Compiler is '${CMAKE_CXX_COMPILER_ID}'.")
+message(STATUS   "[info] Compiler is '${CMAKE_CXX_COMPILER_ID}'.")
 
 # Find Boost library.
 if (NOT DEFINED   Boost_ROOT)
     set(Boost_ROOT   ${PROJECT_SOURCE_DIR}/boost)
-    message("[info] BOOST root directory set to: '${Boost_ROOT}'.")
+    message(STATUS   "[info] BOOST root directory set to: '${Boost_ROOT}'.")
 endif()
 find_package(Boost   1.75   REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
+# Find LLVM library.
+if (NOT DEFINED   LLVM_ROOT)
+    set(LLVM_ROOT   ${PROJECT_SOURCE_DIR}/llvm)
+    message("[info] LLVM root directory set to: '${LLVM_ROOT}'.")
+endif()
+find_package(LLVM   CONFIG   11.1.0   REQUIRED)
+message(STATUS   "Found LLVM: ${LLVM_DIR}.")
+include_directories(${LLVM_INCLUDE_DIRS})
+
 # Find GTest library.
 if (DEFINED   PDL_WITH_TESTS)
-    message(STATUS "[info] PDL Tests Included.")
+    message(STATUS   "[info] PDL Tests Included.")
     find_package(GTest   1.10   REQUIRED)
     add_subdirectory(tests)
     pdl_test_init()
@@ -65,12 +74,15 @@ endif()
 
 # Output compile flags.
 if (${CMAKE_BUILD_TYPE}   MATCHES   "Release")
-    message("[info] Compiler flags:   ${CMAKE_CXX_FLAGS_RELEASE}.")
+    message(STATUS   "[info] Compiler flags:   ${CMAKE_CXX_FLAGS_RELEASE}.")
 else()
-    message("[info] Compiler flags:   ${CMAKE_CXX_FLAGS_DEBUG}.")
+    message(STATUS   "[info] Compiler flags:   ${CMAKE_CXX_FLAGS_DEBUG}.")
 endif()
 
 include_directories(${CMAKE_CURRENT_LIST_DIR})
+
+# Find the libraries that correspond to the LLVM components that we wish to use.
+llvm_map_components_to_libnames(LLVM_LIBS   SUPPORT CORE X86 MCJIT)
 
 add_subdirectory(common)
 add_subdirectory(parser)

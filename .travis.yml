@@ -103,7 +103,7 @@ matrix:
 before_install:
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo apt-get -qq update
-  - sudo apt install libicu-dev libicu60 libxml2-dev
+  - sudo apt install libicu-dev libicu60 libxml2-dev zlib1g-dev
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/DEPS"
   - mkdir -p ${DEPS_DIR}
   - cd ${DEPS_DIR}
@@ -116,18 +116,21 @@ install:
   - |
     ../install_boost.sh ${DEPS_DIR}
   - |
+    ../install_llvm.sh ${DEPS_DIR}
+  - |
     GOOGLETEST_URL="https://github.com/google/googletest/archive/release-1.10.0.tar.gz"
     mkdir googletest && travis_retry wget --no-check-certificate --quiet -O - ${GOOGLETEST_URL} | tar --strip-components=1 -xz -C googletest
   - cd googletest
-  - cmake -DBUILD_SHARED_LIBS=ON -j4 .
-  - make -j4
+  - cmake -DBUILD_SHARED_LIBS=ON .
+  - cmake --build . -j "$(nproc)"
   - sudo cp -a googletest/include/gtest /usr/include
   - sudo cp -a lib/libgtest_main.so lib/libgtest.so /usr/lib/
-  - sudo make install
+  - sudo cmake --install .
 
 
 before_script:
   - export PATH=${DEPS_DIR}/boost:${PATH}
+  - export PATH=${DEPS_DIR}/llvm:${PATH}
   - export PATH=${DEPS_DIR}/cmake/bin:${PATH}
   - cd ${TRAVIS_BUILD_DIR}
 
@@ -137,8 +140,8 @@ script:
   - uname -a
   - cmake --version
   - ${CXX} --version
-  - cmake -DPDL_WITH_TESTS=1 -DPDL_WITH_SANITIZER=${SANITIZER} -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_CXX_COMPILER=${CXX} -j4 .
-  - make -j4
+  - cmake -DPDL_WITH_TESTS=1 -DPDL_WITH_SANITIZER=${SANITIZER} -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_CXX_COMPILER=${CXX} .
+  - cmake --build . -j "$(nproc)"
   - ctest --verbose
 
 

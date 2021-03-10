@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-WORK_DIRECTORY=$([ -z "$1" ] && echo `pwd` || echo "$1")
+WORK_DIRECTORY=$([ -z "$1" ] && 'pwd' || echo "$1")
 
 BOOST_MAJOR_VERSION=1
 BOOST_MINOR_VERSION=75
