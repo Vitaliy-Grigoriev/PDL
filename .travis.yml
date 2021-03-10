@@ -125,7 +125,7 @@ install:
   - cmake --build . -j "$(nproc)"
   - sudo cp -a googletest/include/gtest /usr/include
   - sudo cp -a lib/libgtest_main.so lib/libgtest.so /usr/lib/
-  - sudo cmake --install .
+  - cmake --install .
 
 
 before_script:
