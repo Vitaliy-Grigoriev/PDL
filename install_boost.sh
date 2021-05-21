@@ -12,7 +12,7 @@ BOOST_VERSION_2=${BOOST_MAJOR_VERSION}_${BOOST_MINOR_VERSION}_${BOOST_PATCH_VERS
 BOOST_SOURCE_DIR=${WORK_DIRECTORY}/temp
 BOOST_INSTALL_DIR=${WORK_DIRECTORY}/boost
 
-BOOST_URL="https://dl.bintray.com/boostorg/release/${BOOST_VERSION_1}/source/boost_${BOOST_VERSION_2}.tar.gz"
+BOOST_URL="https://boostorg.jfrog.io/artifactory/main/release/${BOOST_VERSION_1}/source/boost_${BOOST_VERSION_2}.tar.gz"
 
 mkdir -p "${BOOST_SOURCE_DIR}" || exit 1
 mkdir -p "${BOOST_INSTALL_DIR}" || exit 2
