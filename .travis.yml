@@ -27,7 +27,27 @@ matrix:
             - g++-10
             - libstdc++-10-dev
       env: CXX=g++-10 BUILD_TYPE=Debug SANITIZER=false
-      
+
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-11
+            - libstdc++-10-dev
+      env: CXX=g++-11 BUILD_TYPE=Release SANITIZER=false
+
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-11
+            - libstdc++-10-dev
+      env: CXX=g++-11 BUILD_TYPE=Debug SANITIZER=false
+
     - os: linux
       addons:
         apt:
@@ -98,7 +118,31 @@ matrix:
           packages:
             - clang-11
             - libstdc++-10-dev
-      env: CXX=clang++-11 BUILD_TYPE=Debug SANITIZER=true
+      env: CXX=clang++-11 BUILD_TYPE=Debug SANITIZER=false
+
+    - os: linux
+      addons:
+        apt:
+          sources:
+              - ubuntu-toolchain-r-test
+                - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-12 main'
+                key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
+          packages:
+            - clang-12
+            - libstdc++-10-dev
+      env: CXX=clang++-12 BUILD_TYPE=Release SANITIZER=false
+
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-12 main'
+              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
+          packages:
+            - clang-12
+            - libstdc++-10-dev
+      env: CXX=clang++-12 BUILD_TYPE=Debug SANITIZER=true
 
 before_install:
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
@@ -111,7 +155,7 @@ before_install:
 
 install:
   - |
-    CMAKE_URL="https://cmake.org/files/v3.18/cmake-3.18.1-Linux-x86_64.tar.gz"
+    CMAKE_URL="https://cmake.org/files/v3.20/cmake-3.20.2-linux-x86_64.tar.gz"
     mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
   - |
     ../install_boost.sh ${DEPS_DIR}

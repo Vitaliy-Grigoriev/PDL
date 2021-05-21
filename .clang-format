@@ -3,10 +3,10 @@ Language: Cpp
 Standard: c++20
 AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
-AlignConsecutiveBitFields: true
-AlignConsecutiveMacros: true
-AlignConsecutiveAssignments: true
-AlignConsecutiveDeclarations: false
+AlignConsecutiveBitFields: AcrossEmptyLinesAndComments
+AlignConsecutiveMacros: AcrossComments
+AlignConsecutiveAssignments: AcrossComments
+AlignConsecutiveDeclarations: None
 AlignEscapedNewlines: Left
 AlignOperands: Align
 AlignTrailingComments: true
@@ -45,6 +45,7 @@ BraceWrapping:
     SplitEmptyNamespace: false
 BreakBeforeBinaryOperators: None
 BreakBeforeBraces: Custom
+BreakBeforeConceptDeclarations: true
 BreakBeforeInheritanceComma: false
 BreakBeforeTernaryOperators: false
 BreakConstructorInitializers: AfterColon
@@ -87,6 +88,7 @@ IndentCaseLabels: false
 IndentExternBlock: Indent
 IndentGotoLabels: false
 IndentPPDirectives: BeforeHash
+IndentRequires: false
 IndentWidth: 4
 IndentWrappedFunctionNames: false
 InsertTrailingCommas: Wrapped
@@ -97,12 +99,13 @@ MaxEmptyLinesToKeep: 2
 NamespaceIndentation: None
 PointerAlignment: Left
 ReflowComments: true
-SortIncludes: true
+SortIncludes: CaseSensitive
 SortUsingDeclarations: true
 SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
 SpaceAfterTemplateKeyword: true
 SpaceBeforeAssignmentOperators: true
+SpaceBeforeCaseColon: false
 SpaceBeforeCpp11BracedList: true
 SpaceBeforeCtorInitializerColon: true
 SpaceBeforeSquareBrackets: false
@@ -118,6 +121,7 @@ SpacesInConditionalStatement: false
 SpacesInContainerLiterals: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
+StatementAttributeLikeMacros: []
 TabWidth: 4
 UseCRLF: false
 UseTab: Never
