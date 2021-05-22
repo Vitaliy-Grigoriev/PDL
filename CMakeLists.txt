@@ -19,6 +19,7 @@ if (NOT DEFINED   Boost_ROOT)
     message(STATUS   "[info] BOOST root directory set to: '${Boost_ROOT}'.")
 endif()
 find_package(Boost   1.76   REQUIRED)
+message(STATUS   "Found BOOST: ${Boost_DIR}.")
 include_directories(${Boost_INCLUDE_DIRS})
 
 # Find LLVM library.
@@ -33,7 +34,15 @@ include_directories(${LLVM_INCLUDE_DIRS})
 # Find GTest library.
 if (DEFINED   PDL_WITH_TESTS)
     message(STATUS   "[info] PDL Tests Included.")
-    find_package(GTest   1.10   REQUIRED)
+
+    # Find GTEST library.
+    if (NOT DEFINED   GTest_ROOT)
+        set(GTest_ROOT   ${PROJECT_SOURCE_DIR}/gtest)
+        message("[info] GTEST root directory set to: '${GTest_ROOT}'.")
+    endif()
+
+    find_package(GTest   CONFIG   1.10   REQUIRED)
+    message(STATUS   "Found GTEST: ${GTest_DIR}.")
     add_subdirectory(tests)
     pdl_test_init()
 endif()

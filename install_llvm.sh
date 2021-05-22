@@ -46,7 +46,7 @@ cmake . \
       -DLLVM_ENABLE_BINDINGS=OFF           \
       -DLLVM_ENABLE_PIC=ON                 \
       -S"${LLVM_SOURCE_DIR}"               \
-      -B"${LLVM_SOURCE_DIR}\build"         \
+      -B"${LLVM_SOURCE_DIR}/build"         \
       -DCMAKE_INSTALL_PREFIX="${LLVM_INSTALL_DIR}"
 
 cmake --build build -j "$(nproc)"

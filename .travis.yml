@@ -1,5 +1,5 @@
 os: linux
-dist: bionic
+dist: focal
 language: cpp
 
 branches:
@@ -12,7 +12,7 @@ addon_shortcuts:
     apt:
       sources:
         - ubuntu-toolchain-r-test
-        - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
+        - sourceline: 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-9 main'
           key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
       packages:
         - clang-9
@@ -22,7 +22,7 @@ addon_shortcuts:
     apt:
       sources:
         - ubuntu-toolchain-r-test
-        - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
+        - sourceline: 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main'
           key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
       packages:
         - clang-10
@@ -32,7 +32,7 @@ addon_shortcuts:
     apt:
       sources:
         - ubuntu-toolchain-r-test
-        - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main'
+        - sourceline: 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-11 main'
           key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
       packages:
         - clang-11
@@ -42,7 +42,7 @@ addon_shortcuts:
     apt:
       sources:
         - ubuntu-toolchain-r-test
-        - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-12 main'
+        - sourceline: 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-12 main'
           key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
       packages:
         - clang-12
@@ -97,25 +97,19 @@ install:
   - |
     CMAKE_URL="https://cmake.org/files/v3.20/cmake-3.20.2-linux-x86_64.tar.gz"
     mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+    export PATH=${DEPS_DIR}/cmake/bin:${PATH}
   - |
     ../install_boost.sh ${DEPS_DIR}
   - |
     ../install_llvm.sh ${DEPS_DIR}
   - |
-    GOOGLETEST_URL="https://github.com/google/googletest/archive/release-1.10.0.tar.gz"
-    mkdir googletest && travis_retry wget --no-check-certificate --quiet -O - ${GOOGLETEST_URL} | tar --strip-components=1 -xz -C googletest
-  - cd googletest
-  - cmake -DBUILD_SHARED_LIBS=ON .
-  - cmake --build . -j "$(nproc)"
-  - sudo cp -a googletest/include/gtest /usr/include
-  - sudo cp -a lib/libgtest_main.so lib/libgtest.so /usr/lib/
-  - cmake --install .
+    ../install_gtest.sh ${DEPS_DIR}
 
 
 before_script:
   - export PATH=${DEPS_DIR}/boost:${PATH}
   - export PATH=${DEPS_DIR}/llvm:${PATH}
-  - export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+  - export PATH=${DEPS_DIR}/gtest:${PATH}
   - cd ${TRAVIS_BUILD_DIR}
 
 

@@ -12,8 +12,8 @@ macro(pdl_test_create   _name)
     add_executable(${_name}_test)
     target_link_libraries(${_name}_test
         PRIVATE
-            gtest
-            gtest_main
+            GTest::gtest
+            GTest::gtest_main
     )
 
 endmacro()
