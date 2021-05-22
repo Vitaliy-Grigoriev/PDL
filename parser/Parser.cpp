@@ -23,26 +23,31 @@ std::size_t getOffsetToEnd(std::ifstream& _file)
 {
     const auto position = _file.tellg();
     const auto size = _file.seekg(position, std::ios_base::end).tellg();
+
     _file.seekg(position);
-    return size;
+
+    return static_cast<std::size_t>(size);
 }
 
 bool readFileToEnd(const std::filesystem::path& _path, std::string& _data) noexcept
 {
     std::ifstream file;
     file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+
     try {
         file.open(_path, std::ios_base::in);
         const std::size_t size = getOffsetToEnd(file);
         if (size == 0) {
             return false;
         }
+
         _data.reserve(size);
         _data.assign(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
     }
     catch (const std::ifstream::failure& /*err*/) {
         return false;
     }
+
     return true;
 }
 

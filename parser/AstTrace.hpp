@@ -21,14 +21,14 @@ public:
 
     void print(std::ostream & _out) const;
 
-    void operator()(spirit::syntax::Script _statement) { };
-    void operator()(spirit::syntax::ScriptEntry _statement) { };
+    void operator()(spirit::syntax::Script _statement) { }
+    void operator()(spirit::syntax::ScriptEntry _statement) { }
 
-    void operator()(spirit::syntax::statements::ImportStatement _statement) { };
-    void operator()(spirit::syntax::statements::ProtocolStatement _statement) { };
+    void operator()(spirit::syntax::statements::ImportStatement _statement) { }
+    void operator()(spirit::syntax::statements::ProtocolStatement _statement) { }
 
     template <typename Statement>
-    void operator()(Statement _statement) { };
+    void operator()(Statement _statement) { }
 
 private:
     std::multimap<spirit::TypeRegistry, std::unique_ptr<spirit::BaseStatement>> index;
