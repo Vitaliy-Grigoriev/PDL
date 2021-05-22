@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 WORK_DIRECTORY=$([ -z "$1" ] && 'pwd' || echo "$1")
 
 BOOST_MAJOR_VERSION=1

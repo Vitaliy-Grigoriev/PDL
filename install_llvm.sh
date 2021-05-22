@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 WORK_DIRECTORY=$([ -z "$1" ] && 'pwd' || echo "$1")
 
 LLVM_MAJOR_VERSION=12
@@ -27,6 +29,7 @@ cmake -DCMAKE_CXX_STANDARD=17              \
       -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
       -DBUILD_SHARED_LIBS=OFF              \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo    \
+      -DCMAKE_CXX_COMPILER="$CXX"          \
       -DCMAKE_CXX_FLAGS="-O2"              \
       -DLLVM_TARGETS_TO_BUILD="X86"        \
       -DLLVM_BUILD_DOCS=OFF                \

@@ -18,7 +18,7 @@ if (NOT DEFINED   Boost_ROOT)
     set(Boost_ROOT   ${PROJECT_SOURCE_DIR}/boost)
     message(STATUS   "[info] BOOST root directory set to: '${Boost_ROOT}'.")
 endif()
-find_package(Boost   1.75   REQUIRED)
+find_package(Boost   1.76   REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 # Find LLVM library.
@@ -26,7 +26,7 @@ if (NOT DEFINED   LLVM_ROOT)
     set(LLVM_ROOT   ${PROJECT_SOURCE_DIR}/llvm)
     message("[info] LLVM root directory set to: '${LLVM_ROOT}'.")
 endif()
-find_package(LLVM   CONFIG   11.1.0   REQUIRED)
+find_package(LLVM   CONFIG   12.0.0   REQUIRED)
 message(STATUS   "Found LLVM: ${LLVM_DIR}.")
 include_directories(${LLVM_INCLUDE_DIRS})
 
@@ -82,7 +82,7 @@ endif()
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 # Find the libraries that correspond to the LLVM components that we wish to use.
-llvm_map_components_to_libnames(LLVM_LIBS   SUPPORT CORE X86 MCJIT)
+llvm_map_components_to_libnames(LLVM_LIBS   SUPPORT CORE X86 ORCJIT)
 
 add_subdirectory(common)
 add_subdirectory(parser)
