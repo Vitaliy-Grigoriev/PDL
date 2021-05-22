@@ -36,7 +36,7 @@ addon_shortcuts:
           key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
       packages:
         - clang-11
-        - libstdc++-10-dev
+        - libstdc++-11-dev
 
   clang-12: &clang-12
     apt:
@@ -46,7 +46,7 @@ addon_shortcuts:
           key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
       packages:
         - clang-12
-        - libstdc++-10-dev
+        - libstdc++-11-dev
 
   gcc-10: &gcc-10
     apt:

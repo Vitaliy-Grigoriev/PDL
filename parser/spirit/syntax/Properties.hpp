@@ -3,6 +3,7 @@
 #include "Types.hpp"
 #include "Methods.hpp"
 
+#include <optional>
 
 namespace pdl::spirit::syntax::properties {
 

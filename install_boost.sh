@@ -27,7 +27,7 @@ fi
 cd "${BOOST_SOURCE_DIR}" || exit 4
 
 ./bootstrap.sh --prefix="${BOOST_INSTALL_DIR}" --with-icu
-./b2 install --prefix="${BOOST_INSTALL_DIR}" cxxflags="-std=c++17 -g -fPIC" variant=release link=static runtime-link=shared threading=multi --layout=tagged --build-type=complete --with-atomic --with-chrono --with-context --with-date_time --with-filesystem --with-iostreams --with-locale --with-program_options --with-random --with-regex --with-serialization --with-system --with-thread
+./b2 install --prefix="${BOOST_INSTALL_DIR}" cxxflags="-std=c++17 -g -fPIC" variant=release link=static runtime-link=shared threading=multi debug-symbols=on --layout=tagged --build-type=complete --with-atomic --with-chrono --with-context --with-date_time --with-filesystem --with-iostreams --with-locale --with-program_options --with-random --with-regex --with-serialization --with-system --with-thread
 
 cd "${WORK_DIRECTORY}" || exit 5
 rm -rf "${BOOST_SOURCE_DIR}"
