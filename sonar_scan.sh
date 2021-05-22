@@ -26,7 +26,7 @@ sonar-scanner \
   -Dsonar.language=cpp \
   -Dsonar.cpp.std=c++17 \
   -Dsonar.issuesReport.html.enable=true \
-  -Dsonar.projectBaseDir=${PROJECT_DIR} \
+  -Dsonar.projectBaseDir="${PROJECT_DIR}" \
   -Dsonar.sources=common,model,parser,tests \
   -Dsonar.cfamily.build-wrapper-output=output \
   -Dsonar.cfamily.cache.enabled=false

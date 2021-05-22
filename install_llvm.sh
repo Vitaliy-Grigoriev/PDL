@@ -15,8 +15,8 @@ LLVM_INSTALL_DIR=${WORK_DIRECTORY}/llvm
 
 LLVM_URL="https://github.com/llvm/llvm-project/releases/download/llvmorg-${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
 
-mkdir -p "${LLVM_SOURCE_DIR}" || exit 1
-mkdir -p "${LLVM_INSTALL_DIR}" || exit 2
+mkdir -v -p "${LLVM_SOURCE_DIR}" || exit 1
+mkdir -v -p "${LLVM_INSTALL_DIR}" || exit 2
 
 wget --no-check-certificate --quiet -O - ${LLVM_URL} | tar --strip-components=1 -xJ -C "${LLVM_SOURCE_DIR}"
 if [ $? -ne 0 ]
@@ -25,7 +25,8 @@ fi
 
 cd "${LLVM_SOURCE_DIR}" || exit 4
 
-cmake -DCMAKE_CXX_STANDARD=17              \
+cmake . \
+      -DCMAKE_CXX_STANDARD=17              \
       -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
       -DBUILD_SHARED_LIBS=OFF              \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo    \

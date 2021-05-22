@@ -16,8 +16,8 @@ BOOST_INSTALL_DIR=${WORK_DIRECTORY}/boost
 
 BOOST_URL="https://boostorg.jfrog.io/artifactory/main/release/${BOOST_VERSION_1}/source/boost_${BOOST_VERSION_2}.tar.gz"
 
-mkdir -p "${BOOST_SOURCE_DIR}" || exit 1
-mkdir -p "${BOOST_INSTALL_DIR}" || exit 2
+mkdir -v -p "${BOOST_SOURCE_DIR}" || exit 1
+mkdir -v -p "${BOOST_INSTALL_DIR}" || exit 2
 
 wget --no-check-certificate --quiet -O - ${BOOST_URL} | tar --strip-components=1 -xz -C "${BOOST_SOURCE_DIR}"
 if [ $? -ne 0 ]
