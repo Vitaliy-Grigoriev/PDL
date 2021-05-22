@@ -1,3 +1,4 @@
+os: linux
 dist: bionic
 language: cpp
 
@@ -6,143 +7,79 @@ branches:
     - master
     - develop
 
-matrix:
+addon_shortcuts:
+  clang-9: &clang-9
+    apt:
+      sources:
+        - ubuntu-toolchain-r-test
+        - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
+          key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
+      packages:
+        - clang-9
+        - libstdc++-9-dev
+
+  clang-10: &clang-10
+    apt:
+      sources:
+        - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
+          key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+      packages:
+        - clang-10
+        - libstdc++-10-dev
+
+  clang-11: &clang-11
+    apt:
+      sources:
+        - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main'
+          key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+      packages:
+        - clang-11
+        - libstdc++-10-dev
+
+  clang-12: &clang-12
+    apt:
+      sources:
+        - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-12 main'
+          key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+      packages:
+        - clang-12
+        - libstdc++-10-dev
+
+  gcc-10: &gcc-10
+    apt:
+      sources:
+        - sourceline: 'ppa:ubuntu-toolchain-r/test'
+      packages:
+        - g++-10
+
+  gcc-11: &gcc-11
+    apt:
+      sources:
+        - sourceline: 'ppa:ubuntu-toolchain-r/test'
+      packages:
+        - g++-11
+
+jobs:
   include:
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-10
-            - libstdc++-10-dev
-      env: CXX=g++-10 BUILD_TYPE=Release SANITIZER=false
+    ## Clang Release
+    - { env: 'CXX=clang++-9 BUILD_TYPE=Release SANITIZER=false',    compiler: clang-9,    addons: *clang-9 }
+    - { env: 'CXX=clang++-10 BUILD_TYPE=Release SANITIZER=false',   compiler: clang-10,   addons: *clang-10 }
+    - { env: 'CXX=clang++-11 BUILD_TYPE=Release SANITIZER=false',   compiler: clang-11,   addons: *clang-11 }
+    - { env: 'CXX=clang++-12 BUILD_TYPE=Release SANITIZER=true',    compiler: clang-12,   addons: *clang-12 }
 
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-10
-            - libstdc++-10-dev
-      env: CXX=g++-10 BUILD_TYPE=Debug SANITIZER=false
+    ## Clang Debug
+    - { env: 'CXX=clang++-9 BUILD_TYPE=Debug SANITIZER=false',    compiler: clang-9,    addons: *clang-9 }
+    - { env: 'CXX=clang++-10 BUILD_TYPE=Debug SANITIZER=false',   compiler: clang-10,   addons: *clang-10 }
+    - { env: 'CXX=clang++-11 BUILD_TYPE=Debug SANITIZER=false',   compiler: clang-11,   addons: *clang-11 }
+    - { env: 'CXX=clang++-12 BUILD_TYPE=Debug SANITIZER=true',    compiler: clang-12,   addons: *clang-12 }
 
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-11
-            - libstdc++-10-dev
-      env: CXX=g++-11 BUILD_TYPE=Release SANITIZER=false
+    ## GCC Release
+    - { env: 'CXX=g++-10 BUILD_TYPE=Release SANITIZER=false',   compiler: gcc-10,   addons: *gcc-10 }
+    - { env: 'CXX=g++-11 BUILD_TYPE=Release SANITIZER=false',   compiler: gcc-11,   addons: *gcc-11 }
 
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-11
-            - libstdc++-10-dev
-      env: CXX=g++-11 BUILD_TYPE=Debug SANITIZER=false
-
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
-              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
-          packages:
-            - clang-9
-            - libstdc++-9-dev
-      env: CXX=clang++-9 BUILD_TYPE=Release SANITIZER=false
-
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
-              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
-          packages:
-            - clang-9
-            - libstdc++-9-dev
-      env: CXX=clang++-9 BUILD_TYPE=Debug SANITIZER=false
-
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
-              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
-          packages:
-            - clang-10
-            - libstdc++-10-dev
-      env: CXX=clang++-10 BUILD_TYPE=Release SANITIZER=false
-
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
-              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
-          packages:
-            - clang-10
-            - libstdc++-10-dev
-      env: CXX=clang++-10 BUILD_TYPE=Debug SANITIZER=false
-
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main'
-              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
-          packages:
-            - clang-11
-            - libstdc++-10-dev
-      env: CXX=clang++-11 BUILD_TYPE=Release SANITIZER=false
-
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main'
-              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
-          packages:
-            - clang-11
-            - libstdc++-10-dev
-      env: CXX=clang++-11 BUILD_TYPE=Debug SANITIZER=false
-
-    - os: linux
-      addons:
-        apt:
-          sources:
-              - ubuntu-toolchain-r-test
-                - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-12 main'
-                key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
-          packages:
-            - clang-12
-            - libstdc++-10-dev
-      env: CXX=clang++-12 BUILD_TYPE=Release SANITIZER=false
-
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-12 main'
-              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
-          packages:
-            - clang-12
-            - libstdc++-10-dev
-      env: CXX=clang++-12 BUILD_TYPE=Debug SANITIZER=true
+    ## GCC Debug
+    - { env: 'CXX=g++-10 BUILD_TYPE=Debug SANITIZER=false',   compiler: gcc-10,   addons: *gcc-10 }
+    - { env: 'CXX=g++-11 BUILD_TYPE=Debug SANITIZER=false',   compiler: gcc-11,   addons: *gcc-11 }
 
 before_install:
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
