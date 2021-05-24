@@ -44,6 +44,7 @@ jobs:
 
     - name: Install GCC 11
       run: |
+        sudo apt install build-essential
         sudo apt install gcc-11 g++-11 libstdc++-11-dev
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 100
         sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 100
