@@ -51,8 +51,9 @@ jobs:
         sudo apt-get -qq update
         sudo apt install clang-9 libstdc++-9-dev
         clang-9 --version
-        CC=clang-9
-        CXX=clang++-9
+      env:
+        CC:  clang-9
+        CXX: clang++-9
 
     - name: Build CMake
       run: |
