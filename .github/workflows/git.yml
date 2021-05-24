@@ -47,8 +47,6 @@ jobs:
         sudo apt install gcc-11 g++-11 libstdc++-11-dev
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 100
         sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 100
-        sudo export CC=/usr/bin/gcc-11
-        sudo export CXX=/usr/bin/g++-11
         
     - name: Build CMake
       run: |
