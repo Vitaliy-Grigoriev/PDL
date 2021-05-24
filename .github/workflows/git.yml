@@ -41,7 +41,7 @@ jobs:
         sudo wget -qO - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
         sudo apt-get -qq update
         sudo apt install libicu-dev libicu66 libxml2-dev zlib1g-dev
-        DEPS_DIR="./DEPS"
+        DEPS_DIR="${{ github.workspace }}/DEPS"
         mkdir -p ${DEPS_DIR}
         cd ${DEPS_DIR}
 
@@ -63,20 +63,20 @@ jobs:
 
     - name: Build Boost
       run: |
-        chmod +x ../install_boost.sh
-        sh ../install_boost.sh ${DEPS_DIR}
+        sudo chmod +x ../install_boost.sh
+        sudo sh ../install_boost.sh ${DEPS_DIR}
         export PATH=${DEPS_DIR}/boost:${PATH}
 
     - name: Build LLVM
       run: |
-        chmod +x ../install_llvm.sh
-        sh ../install_llvm.sh ${DEPS_DIR}
+        sudo chmod +x ../install_llvm.sh
+        sudo sh ../install_llvm.sh ${DEPS_DIR}
         export PATH=${DEPS_DIR}/llvm:${PATH}
 
     - name: Build GTest
       run: |
-        chmod +x ../install_gtest.sh
-        sh ../install_gtest.sh ${DEPS_DIR}
+        sudo chmod +x ../install_gtest.sh
+        sudo sh ../install_gtest.sh ${DEPS_DIR}
         export PATH=${DEPS_DIR}/gtest:${PATH}
 
     - name: Configure CMake
