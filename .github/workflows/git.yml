@@ -53,14 +53,9 @@ jobs:
         sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-9 100
         sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100
         sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 100
-        whereis clang-9
-        whereis clang++-9
-        clang --version
-        clang++ --version
-        clang-9 --version
-        clang++-9 --version
-        /usr/bin/clang++ --version
-
+        export CC=/usr/bin/clang-9
+        export CXX=/usr/bin/clang++-9
+        
     - name: Build CMake
       run: |
         cd ${DEPS_DIR}
