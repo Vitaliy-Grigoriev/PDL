@@ -43,6 +43,7 @@ jobs:
         sudo apt install libicu-dev libicu66 libxml2-dev zlib1g-dev
         DEPS_DIR="./DEPS"
         mkdir -p ${DEPS_DIR}
+        cd ${DEPS_DIR}
 
     - name: Install Clang 9
       if: startsWith(matrix.config.cc, 'clang-9')
@@ -62,17 +63,20 @@ jobs:
 
     - name: Build Boost
       run: |
-        install_boost.sh ${DEPS_DIR}
+        chmod +x ../install_boost.sh
+        sh ../install_boost.sh ${DEPS_DIR}
         export PATH=${DEPS_DIR}/boost:${PATH}
 
     - name: Build LLVM
       run: |
-        install_llvm.sh ${DEPS_DIR}
+        chmod +x ../install_llvm.sh
+        sh ../install_llvm.sh ${DEPS_DIR}
         export PATH=${DEPS_DIR}/llvm:${PATH}
 
     - name: Build GTest
       run: |
-        install_gtest.sh ${DEPS_DIR}
+        chmod +x ../install_gtest.sh
+        sh ../install_gtest.sh ${DEPS_DIR}
         export PATH=${DEPS_DIR}/gtest:${PATH}
 
     - name: Configure CMake
@@ -85,7 +89,6 @@ jobs:
         cmake -DPDL_WITH_TESTS=1 -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -DCMAKE_CXX_COMPILER=${CXX} .
 
     - name: Build
-      # Build your program with the given configuration
       run: cmake --build ${{ github.workspace }}/build -j "$(nproc)"
 
     - name: Test
