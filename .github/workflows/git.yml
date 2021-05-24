@@ -48,15 +48,14 @@ jobs:
         sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-9 main"
         sudo apt-get -qq update
         sudo apt install clang-9 libstdc++-9-dev
+        sudo apt-cache search clang++
         sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-9 100
         sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-9 100
         sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100
         sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 100
         clang --version
         whereis clang++
-        /usr/bin/clang --version
-        /usr/lib/clang --version
-        /usr/include/clang --version
+        /usr/bin/clang++ --version
         /usr/share/clang --version
 
     - name: Build CMake
