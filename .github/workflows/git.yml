@@ -43,7 +43,6 @@ jobs:
         sudo apt install libicu-dev libicu66 libxml2-dev zlib1g-dev
         DEPS_DIR="${{ github.workspace }}/DEPS"
         mkdir -p ${DEPS_DIR}
-        cd ${DEPS_DIR}
 
     - name: Install Clang 9
       if: startsWith(matrix.config.cc, 'clang-9')
@@ -57,26 +56,30 @@ jobs:
 
     - name: Build CMake
       run: |
+        cd ${DEPS_DIR}
         CMAKE_URL="https://cmake.org/files/v3.20/cmake-3.20.2-linux-x86_64.tar.gz"
         mkdir cmake && wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
         export PATH=${DEPS_DIR}/cmake/bin:${PATH}
 
     - name: Build Boost
       run: |
-        sudo chmod +x ../install_boost.sh
-        sudo sh ../install_boost.sh ${DEPS_DIR}
+        cd ${{ github.workspace }}
+        sudo chmod +x install_boost.sh
+        sudo sh ./install_boost.sh ${DEPS_DIR}
         export PATH=${DEPS_DIR}/boost:${PATH}
 
     - name: Build LLVM
       run: |
-        sudo chmod +x ../install_llvm.sh
-        sudo sh ../install_llvm.sh ${DEPS_DIR}
+        cd ${{ github.workspace }}
+        sudo chmod +x install_llvm.sh
+        sudo sh ./install_llvm.sh ${DEPS_DIR}
         export PATH=${DEPS_DIR}/llvm:${PATH}
 
     - name: Build GTest
       run: |
-        sudo chmod +x ../install_gtest.sh
-        sudo sh ../install_gtest.sh ${DEPS_DIR}
+        cd ${{ github.workspace }}
+        sudo chmod +x install_gtest.sh
+        sudo sh ./install_gtest.sh ${DEPS_DIR}
         export PATH=${DEPS_DIR}/gtest:${PATH}
 
     - name: Configure CMake
