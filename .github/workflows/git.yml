@@ -51,9 +51,6 @@ jobs:
         sudo apt-get -qq update
         sudo apt install clang-9 libstdc++-9-dev
         clang-9 --version
-      env:
-        CC:  clang-9
-        CXX: clang++-9
 
     - name: Build CMake
       run: |
@@ -63,6 +60,9 @@ jobs:
         export PATH=${DEPS_DIR}/cmake/bin:${PATH}
 
     - name: Build Boost
+      env:
+        CC:  clang-9
+        CXX: clang++-9
       run: |
         cd ${{ github.workspace }}
         sudo chmod +x install_boost.sh
@@ -70,6 +70,9 @@ jobs:
         export PATH=${DEPS_DIR}/boost:${PATH}
 
     - name: Build LLVM
+      env:
+        CC:  clang-9
+        CXX: clang++-9
       run: |
         cd ${{ github.workspace }}
         sudo chmod +x install_llvm.sh
@@ -77,6 +80,9 @@ jobs:
         export PATH=${DEPS_DIR}/llvm:${PATH}
 
     - name: Build GTest
+      env:
+        CC:  clang-9
+        CXX: clang++-9
       run: |
         cd ${{ github.workspace }}
         sudo chmod +x install_gtest.sh
@@ -84,6 +90,9 @@ jobs:
         export PATH=${DEPS_DIR}/gtest:${PATH}
 
     - name: Configure CMake
+      env:
+          CC:  clang-9
+          CXX: clang++-9
       run: |
         cd ${{ github.workspace }}
         pwd
