@@ -19,13 +19,13 @@ jobs:
         - {
             name: "Clang 9 Release",
             build_type: "Release",
-            compiler: "clang",
+            compiler: "clang-9",
             generators: "Unix Makefiles"
           }
         - {
             name: "Clang 9 Debug",
             build_type: "Debug",
-            compiler: "clang",
+            compiler: "clang-9",
             generators: "Unix Makefiles"
           }
 
@@ -43,7 +43,7 @@ jobs:
         mkdir -p ${DEPS_DIR}
 
     - name: Install Clang 9
-      if: startsWith(matrix.config.cc, 'clang-9')
+      if: startsWith(matrix.config.compiler, 'clang-9')
       run: |
         sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-9 main"
         sudo apt-get -qq update
