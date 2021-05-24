@@ -53,10 +53,13 @@ jobs:
         sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-9 100
         sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100
         sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 100
+        whereis clang-9
+        whereis clang++-9
         clang --version
-        whereis clang++
+        clang++ --version
+        clang-9 --version
+        clang++-9 --version
         /usr/bin/clang++ --version
-        /usr/share/clang --version
 
     - name: Build CMake
       run: |
