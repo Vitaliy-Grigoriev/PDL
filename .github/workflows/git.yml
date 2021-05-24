@@ -40,14 +40,14 @@ jobs:
         sudo apt install wget
         sudo wget -qO - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
         sudo apt-get -qq update
-        sudo apt install libicu-dev libicu60 libxml2-dev zlib1g-dev
+        sudo apt install libicu-dev libicu66 libxml2-dev zlib1g-dev
         DEPS_DIR="./DEPS"
         mkdir -p ${DEPS_DIR}
 
     - name: Install Clang 9
       if: startsWith(matrix.config.cc, 'clang-9')
       run: |
-        sudo add-apt-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main"
+        sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-9 main"
         sudo apt-get -qq update
         sudo apt install clang-9 libstdc++-9-dev
         clang-9 --version
