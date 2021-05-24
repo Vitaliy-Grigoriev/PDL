@@ -19,15 +19,13 @@ jobs:
         - {
             name: "Clang 9 Release",
             build_type: "Release",
-            cc: "clang-9",
-            cxx: "clang++-9",
+            compiler: "clang",
             generators: "Unix Makefiles"
           }
         - {
             name: "Clang 9 Debug",
             build_type: "Debug",
-            cc: "clang-9",
-            cxx: "clang++-9",
+            compiler: "clang",
             generators: "Unix Makefiles"
           }
 
@@ -50,7 +48,11 @@ jobs:
         sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-9 main"
         sudo apt-get -qq update
         sudo apt install clang-9 libstdc++-9-dev
-        clang-9 --version
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-9 100
+        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-9 100
+        sudo update-alternatives --install /usr/bin/cc clang /usr/bin/clang-9 100
+        sudo update-alternatives --install /usr/bin/c++ clang++ /usr/bin/clang++-9 100
+        clang --version
 
     - name: Build CMake
       run: |
@@ -60,9 +62,6 @@ jobs:
         export PATH=${DEPS_DIR}/cmake/bin:${PATH}
 
     - name: Build Boost
-      env:
-        CC:  clang-9
-        CXX: clang++-9
       run: |
         cd ${{ github.workspace }}
         sudo chmod +x install_boost.sh
@@ -70,9 +69,6 @@ jobs:
         export PATH=${DEPS_DIR}/boost:${PATH}
 
     - name: Build LLVM
-      env:
-        CC:  clang-9
-        CXX: clang++-9
       run: |
         cd ${{ github.workspace }}
         sudo chmod +x install_llvm.sh
@@ -80,9 +76,6 @@ jobs:
         export PATH=${DEPS_DIR}/llvm:${PATH}
 
     - name: Build GTest
-      env:
-        CC:  clang-9
-        CXX: clang++-9
       run: |
         cd ${{ github.workspace }}
         sudo chmod +x install_gtest.sh
@@ -90,9 +83,6 @@ jobs:
         export PATH=${DEPS_DIR}/gtest:${PATH}
 
     - name: Configure CMake
-      env:
-          CC:  clang-9
-          CXX: clang++-9
       run: |
         cd ${{ github.workspace }}
         pwd
