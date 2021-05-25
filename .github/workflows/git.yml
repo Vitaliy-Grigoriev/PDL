@@ -54,6 +54,7 @@ jobs:
         CC: /usr/bin/gcc
         CXX: /usr/bin/g++
       run: |
+        ${CXX} --version
         cd ${{ github.workspace }}
         sudo chmod +x install_llvm.sh
         sudo sh ./install_llvm.sh ${DEPS_DIR}
