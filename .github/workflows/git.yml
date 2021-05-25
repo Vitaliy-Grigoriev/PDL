@@ -57,6 +57,9 @@ jobs:
         export PATH=${DEPS_DIR}/cmake/bin:${PATH}
 
     - name: Build Boost
+      env:
+        CC: /usr/bin/gcc
+        CXX: /usr/bin/g++
       run: |
         cd ${{ github.workspace }}
         sudo chmod +x install_boost.sh
@@ -64,6 +67,9 @@ jobs:
         export PATH=${DEPS_DIR}/boost:${PATH}
 
     - name: Build LLVM
+      env:
+        CC: /usr/bin/gcc
+        CXX: /usr/bin/g++
       run: |
         cd ${{ github.workspace }}
         sudo chmod +x install_llvm.sh
