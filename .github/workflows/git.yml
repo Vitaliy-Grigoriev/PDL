@@ -20,70 +20,70 @@ jobs:
 
       matrix:
         config:
-          - {
+        - {
             name: "Clang 9 Release",
             build_type: "Release",
             cc: "/usr/bin/clang-9",
             cxx: "/usr/bin/clang++-9",
             sanitizer: false
           }
-          - {
+        - {
             name: "Clang 9 Debug",
             build_type: "Debug",
             cc: "/usr/bin/clang-9",
             cxx: "/usr/bin/clang++-9",
             sanitizer: false
           }
-          - {
+        - {
             name: "Clang 10 Release",
             build_type: "Release",
             cc: "/usr/bin/clang-10",
             cxx: "/usr/bin/clang++-10",
             sanitizer: false
           }
-          - {
+        - {
             name: "Clang 10 Debug",
             build_type: "Debug",
             cc: "/usr/bin/clang-10",
             cxx: "/usr/bin/clang++-10",
             sanitizer: false
           }
-          - {
+        - {
             name: "Clang 11 Release",
             build_type: "Release",
             cc: "/usr/bin/clang-11",
             cxx: "/usr/bin/clang++-11",
             sanitizer: false
           }
-          - {
+        - {
             name: "Clang 11 Debug",
             build_type: "Debug",
             cc: "/usr/bin/clang-11",
             cxx: "/usr/bin/clang++-11",
             sanitizer: false
           }
-          - {
+        - {
             name: "Clang 12 Release",
             build_type: "Release",
             cc: "/usr/bin/clang-12",
             cxx: "/usr/bin/clang++-12",
             sanitizer: false
           }
-          - {
+        - {
             name: "Clang 12 Debug",
             build_type: "Debug",
             cc: "/usr/bin/clang-12",
             cxx: "/usr/bin/clang++-12",
             sanitizer: true
           }
-          - {
+        - {
             name: "GCC 10 Release",
             build_type: "Release",
             cc: "/usr/bin/gcc-10",
             cxx: "/usr/bin/g++-10",
             sanitizer: false
           }
-          - {
+        - {
             name: "GCC 10 Debug",
             build_type: "Debug",
             cc: "/usr/bin/gcc-10",
