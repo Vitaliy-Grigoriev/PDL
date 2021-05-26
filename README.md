@@ -2,7 +2,8 @@
 <h2><b>Matching-Oriented Declaration Language for Network Protocols.</b></h2>
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Vitaliy-Grigoriev/PDL/blob/master/LICENSE)
-![Build Status](https://github.com/Vitaliy-Grigoriev/PDL/actions/workflows/git.yml/badge.svg?branch=master)
+![GCC Build Status](https://github.com/Vitaliy-Grigoriev/PDL/actions/workflows/git.yml/badge.svg?branch=master)
+![Clang Build Status](https://github.com/Vitaliy-Grigoriev/PDL/actions/workflows/clang.yml/badge.svg?branch=master)
 
 <h3><b>PDL Language and its C++ Parser under the deep development.</b> Version 0.0.1.</h3>
 
