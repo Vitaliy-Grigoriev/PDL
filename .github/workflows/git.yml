@@ -209,8 +209,8 @@ jobs:
         cmake -DPDL_WITH_TESTS=1 -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} .
 
     - name: Build Project
-      run: cmake --build ${{ github.workspace }}/build -j "$(nproc)"
+      run: cmake --build . -j "$(nproc)"
 
     - name: Test
-      working-directory: ${{ github.workspace }}/build
+      working-directory: ${{ github.workspace }}
       run: ctest --verbose
