@@ -29,7 +29,6 @@ cmake . \
       -DCMAKE_CXX_STANDARD=17              \
       -DBUILD_SHARED_LIBS=ON               \
       -DCMAKE_BUILD_TYPE=RelWithDebInfo    \
-      -DCMAKE_CXX_COMPILER="$CXX"          \
       -DCMAKE_CXX_FLAGS="-O2"              \
       -DGTEST_HAS_PTHREAD=1                \
       -S"${GTEST_SOURCE_DIR}"              \
