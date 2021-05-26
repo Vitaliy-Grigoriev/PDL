@@ -1,4 +1,4 @@
-name: GitHub CI
+name: GCC Builds
 
 on:
   push:
@@ -20,62 +20,6 @@ jobs:
 
       matrix:
         config:
-        - {
-            name: "Clang 9 Release",
-            build_type: "Release",
-            cc: "/usr/bin/clang-9",
-            cxx: "/usr/bin/clang++-9",
-            sanitizer: false
-          }
-        - {
-            name: "Clang 9 Debug",
-            build_type: "Debug",
-            cc: "/usr/bin/clang-9",
-            cxx: "/usr/bin/clang++-9",
-            sanitizer: false
-          }
-        - {
-            name: "Clang 10 Release",
-            build_type: "Release",
-            cc: "/usr/bin/clang-10",
-            cxx: "/usr/bin/clang++-10",
-            sanitizer: false
-          }
-        - {
-            name: "Clang 10 Debug",
-            build_type: "Debug",
-            cc: "/usr/bin/clang-10",
-            cxx: "/usr/bin/clang++-10",
-            sanitizer: false
-          }
-        - {
-            name: "Clang 11 Release",
-            build_type: "Release",
-            cc: "/usr/bin/clang-11",
-            cxx: "/usr/bin/clang++-11",
-            sanitizer: false
-          }
-        - {
-            name: "Clang 11 Debug",
-            build_type: "Debug",
-            cc: "/usr/bin/clang-11",
-            cxx: "/usr/bin/clang++-11",
-            sanitizer: false
-          }
-        - {
-            name: "Clang 12 Release",
-            build_type: "Release",
-            cc: "/usr/bin/clang-12",
-            cxx: "/usr/bin/clang++-12",
-            sanitizer: false
-          }
-        - {
-            name: "Clang 12 Debug",
-            build_type: "Debug",
-            cc: "/usr/bin/clang-12",
-            cxx: "/usr/bin/clang++-12",
-            sanitizer: true
-          }
         - {
             name: "GCC 10 Release",
             build_type: "Release",
@@ -104,6 +48,13 @@ jobs:
             cxx: "/usr/bin/g++-11",
             sanitizer: false
           }
+        - {
+            name: "GCC 11 Debug With Sanitizer",
+            build_type: "Debug",
+            cc: "/usr/bin/gcc-11",
+            cxx: "/usr/bin/g++-11",
+            sanitizer: true
+          }
 
     steps:
     - uses: actions/checkout@v2
@@ -111,8 +62,6 @@ jobs:
     - name: Set common repository and keys
       run: |
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-        sudo apt install wget
-        sudo wget -qO - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
         sudo apt-get -qq update
         sudo apt install libicu-dev libicu66 libxml2-dev zlib1g-dev
         DEPS_DIR="${{ github.workspace }}/DEPS"
@@ -124,42 +73,6 @@ jobs:
         CMAKE_URL="https://cmake.org/files/v3.20/cmake-3.20.2-linux-x86_64.tar.gz"
         mkdir cmake && wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
         export PATH=${DEPS_DIR}/cmake/bin:${PATH}
-
-    - name: Install Clang 9
-      if: contains(matrix.config.cc, 'clang-9')
-      run: |
-        sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-9 main"
-        sudo apt-get -qq update
-        sudo apt install clang-9 libstdc++-9-dev
-        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-9 100
-        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-9 100
-
-    - name: Install Clang 10
-      if: contains(matrix.config.cc, 'clang-10')
-      run: |
-        sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main"
-        sudo apt-get -qq update
-        sudo apt install clang-10 libstdc++-10-dev
-        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 100
-        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-10 100
-
-    - name: Install Clang 11
-      if: contains(matrix.config.cc, 'clang-11')
-      run: |
-        sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-11 main"
-        sudo apt-get -qq update
-        sudo apt install clang-11 libstdc++-11-dev
-        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 100
-        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 100
-
-    - name: Install Clang 12
-      if: contains(matrix.config.cc, 'clang-12')
-      run: |
-        sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-12 main"
-        sudo apt-get -qq update
-        sudo apt install clang-12 libstdc++-11-dev
-        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-12 100
-        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-12 100
 
     - name: Install GCC 10
       if: contains(matrix.config.cc, 'gcc-10')
@@ -202,7 +115,6 @@ jobs:
     - name: Configure CMake
       run: |
         cd ${{ github.workspace }}
-        pwd
         uname -a
         cmake --version
         ${CXX} --version
