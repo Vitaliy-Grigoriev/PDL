@@ -1,0 +1,180 @@
+name: Clang Builds
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: ${{ matrix.config.name }}
+
+    env:
+      CC: ${{ matrix.config.cc }}
+      CXX: ${{ matrix.config.cxx }}
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        config:
+        - {
+            name: "Clang 9 Release",
+            build_type: "Release",
+            cc: "/usr/bin/clang-9",
+            cxx: "/usr/bin/clang++-9",
+            sanitizer: false
+          }
+        - {
+            name: "Clang 9 Debug",
+            build_type: "Debug",
+            cc: "/usr/bin/clang-9",
+            cxx: "/usr/bin/clang++-9",
+            sanitizer: false
+          }
+        - {
+            name: "Clang 10 Release",
+            build_type: "Release",
+            cc: "/usr/bin/clang-10",
+            cxx: "/usr/bin/clang++-10",
+            sanitizer: false
+          }
+        - {
+            name: "Clang 10 Debug",
+            build_type: "Debug",
+            cc: "/usr/bin/clang-10",
+            cxx: "/usr/bin/clang++-10",
+            sanitizer: false
+          }
+        - {
+            name: "Clang 11 Release",
+            build_type: "Release",
+            cc: "/usr/bin/clang-11",
+            cxx: "/usr/bin/clang++-11",
+            sanitizer: false
+          }
+        - {
+            name: "Clang 11 Debug",
+            build_type: "Debug",
+            cc: "/usr/bin/clang-11",
+            cxx: "/usr/bin/clang++-11",
+            sanitizer: false
+          }
+        - {
+            name: "Clang 12 Release",
+            build_type: "Release",
+            cc: "/usr/bin/clang-12",
+            cxx: "/usr/bin/clang++-12",
+            sanitizer: false
+          }
+        - {
+            name: "Clang 12 Debug",
+            build_type: "Debug",
+            cc: "/usr/bin/clang-12",
+            cxx: "/usr/bin/clang++-12",
+            sanitizer: false
+          }
+        - {
+            name: "Clang 12 Debug With Sanitizer",
+            build_type: "Debug",
+            cc: "/usr/bin/clang-12",
+            cxx: "/usr/bin/clang++-12",
+            sanitizer: true
+          }
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set common repository and keys
+      run: |
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+        sudo apt install wget
+        sudo wget -qO - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+        sudo apt-get -qq update
+        sudo apt install libicu-dev libicu66 libxml2-dev zlib1g-dev
+        DEPS_DIR="${{ github.workspace }}/DEPS"
+        mkdir -p ${DEPS_DIR}
+
+    - name: Download CMake
+      run: |
+        cd ${DEPS_DIR}
+        CMAKE_URL="https://cmake.org/files/v3.20/cmake-3.20.2-linux-x86_64.tar.gz"
+        mkdir cmake && wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+        export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+
+    - name: Install Clang 9
+      if: contains(matrix.config.cc, 'clang-9')
+      run: |
+        sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-9 main"
+        sudo apt-get -qq update
+        sudo apt install clang-9 libstdc++-9-dev
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-9 100
+        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-9 100
+
+    - name: Install Clang 10
+      if: contains(matrix.config.cc, 'clang-10')
+      run: |
+        sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main"
+        sudo apt-get -qq update
+        sudo apt install clang-10 libstdc++-10-dev
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 100
+        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-10 100
+
+    - name: Install Clang 11
+      if: contains(matrix.config.cc, 'clang-11')
+      run: |
+        sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-11 main"
+        sudo apt-get -qq update
+        sudo apt install clang-11 libstdc++-11-dev
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11 100
+        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11 100
+
+    - name: Install Clang 12
+      if: contains(matrix.config.cc, 'clang-12')
+      run: |
+        sudo add-apt-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-12 main"
+        sudo apt-get -qq update
+        sudo apt install clang-12 libstdc++-11-dev
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-12 100
+        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-12 100
+
+    - name: Build LLVM
+      run: |
+        ${CXX} --version
+        cd ${{ github.workspace }}
+        sudo chmod +x install_llvm.sh
+        sudo sh ./install_llvm.sh ${DEPS_DIR}
+        export PATH=${DEPS_DIR}/llvm:${PATH}
+
+    - name: Build Boost
+      run: |
+        ${CXX} --version
+        cd ${{ github.workspace }}
+        sudo chmod +x install_boost.sh
+        sudo sh ./install_boost.sh ${DEPS_DIR}
+        export PATH=${DEPS_DIR}/boost:${PATH}
+
+    - name: Build GTest
+      run: |
+        ${CXX} --version
+        cd ${{ github.workspace }}
+        sudo chmod +x install_gtest.sh
+        sudo sh ./install_gtest.sh ${DEPS_DIR}
+        export PATH=${DEPS_DIR}/gtest:${PATH}
+
+    - name: Configure CMake
+      run: |
+        cd ${{ github.workspace }}
+        uname -a
+        cmake --version
+        ${CXX} --version
+        cmake -DPDL_WITH_TESTS=1 -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} .
+
+    - name: Build Project
+      run: cmake --build . -j "$(nproc)"
+
+    - name: Test
+      working-directory: ${{ github.workspace }}
+      run: ctest --verbose
