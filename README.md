@@ -5,7 +5,7 @@
 ![GCC Build Status](https://github.com/Vitaliy-Grigoriev/PDL/actions/workflows/gcc.yml/badge.svg?branch=master)
 ![Clang Debug Build Status](https://github.com/Vitaliy-Grigoriev/PDL/actions/workflows/clang_debug.yml/badge.svg?branch=master)
 ![Clang Release Build Status](https://github.com/Vitaliy-Grigoriev/PDL/actions/workflows/clang_release.yml/badge.svg?branch=master)
-![Sanitizer Build Status](https://github.com/Vitaliy-Grigoriev/PDL/actions/workflows/sanitazer.yml/badge.svg?branch=master)
+![Sanitizer Build Status](https://github.com/Vitaliy-Grigoriev/PDL/actions/workflows/sanitizer.yml/badge.svg?branch=master)
 
 <h3><b>PDL Language and its C++ Parser under the deep development.</b> Version 0.0.1.</h3>
 
