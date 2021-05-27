@@ -56,13 +56,11 @@ set(DISABLE_WARNINGS_DEBUG_CLANG   "-Wno-unused-macros -Wno-padded -Wno-weak-vta
 set(DISABLE_WARNINGS_BOOST_CLANG   "-Wno-disabled-macro-expansion -Wno-global-constructors")
 
 if (DEFINED   PDL_WITH_SANITIZER)
-    if (${PDL_WITH_SANITIZER}   STREQUAL   "true")
-        set(SANITIZE_FLAGS       "-fsanitize=address  -fsanitize=leak  -fsanitize=undefined  -fno-omit-frame-pointer")
-        set(LLVM_USE_SANITIZER   "Address;Undefined")
-        
-        add_compile_definitions(BOOST_USE_ASAN)
-        add_compile_definitions(LLVM_USE_SANITIZER)
-    endif()
+    set(SANITIZE_FLAGS       "-fsanitize=address  -fsanitize=leak  -fsanitize=undefined  -fno-omit-frame-pointer")
+    set(LLVM_USE_SANITIZER   "Address;Undefined")
+
+    add_compile_definitions(BOOST_USE_ASAN)
+    add_compile_definitions(LLVM_USE_SANITIZER)
 endif()
 
 # Choose compiler flags.
