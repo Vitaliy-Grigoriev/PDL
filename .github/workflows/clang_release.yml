@@ -1,4 +1,4 @@
-name: Clang Builds
+name: Clang Build Release
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: ${{ matrix.config.name }}
 
     env:
@@ -21,67 +21,24 @@ jobs:
       matrix:
         config:
         - {
-            name: "Clang 9 Release",
-            build_type: "Release",
+            name: "Clang 9",
             cc: "/usr/bin/clang-9",
             cxx: "/usr/bin/clang++-9",
-            sanitizer: false
           }
         - {
-            name: "Clang 9 Debug",
-            build_type: "Debug",
-            cc: "/usr/bin/clang-9",
-            cxx: "/usr/bin/clang++-9",
-            sanitizer: false
-          }
-        - {
-            name: "Clang 10 Release",
-            build_type: "Release",
+            name: "Clang 10",
             cc: "/usr/bin/clang-10",
             cxx: "/usr/bin/clang++-10",
-            sanitizer: false
           }
         - {
-            name: "Clang 10 Debug",
-            build_type: "Debug",
-            cc: "/usr/bin/clang-10",
-            cxx: "/usr/bin/clang++-10",
-            sanitizer: false
-          }
-        - {
-            name: "Clang 11 Release",
-            build_type: "Release",
+            name: "Clang 11",
             cc: "/usr/bin/clang-11",
             cxx: "/usr/bin/clang++-11",
-            sanitizer: false
           }
         - {
-            name: "Clang 11 Debug",
-            build_type: "Debug",
-            cc: "/usr/bin/clang-11",
-            cxx: "/usr/bin/clang++-11",
-            sanitizer: false
-          }
-        - {
-            name: "Clang 12 Release",
-            build_type: "Release",
+            name: "Clang 12",
             cc: "/usr/bin/clang-12",
             cxx: "/usr/bin/clang++-12",
-            sanitizer: false
-          }
-        - {
-            name: "Clang 12 Debug",
-            build_type: "Debug",
-            cc: "/usr/bin/clang-12",
-            cxx: "/usr/bin/clang++-12",
-            sanitizer: false
-          }
-        - {
-            name: "Clang 12 Debug With Sanitizer",
-            build_type: "Debug",
-            cc: "/usr/bin/clang-12",
-            cxx: "/usr/bin/clang++-12",
-            sanitizer: true
           }
 
     steps:
@@ -90,7 +47,6 @@ jobs:
     - name: Set common repository and keys
       run: |
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-        sudo apt install wget
         sudo wget -qO - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
         sudo apt-get -qq update
         sudo apt install libicu-dev libicu66 libxml2-dev zlib1g-dev
@@ -170,7 +126,7 @@ jobs:
         uname -a
         cmake --version
         ${CXX} --version
-        cmake -DPDL_WITH_TESTS=1 -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} .
+        cmake -DPDL_WITH_TESTS=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} .
 
     - name: Build Project
       run: cmake --build . -j "$(nproc)"
