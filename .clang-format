@@ -3,6 +3,7 @@ Language: Cpp
 Standard: c++20
 AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
+AlignArrayOfStructures: Left
 AlignConsecutiveBitFields: AcrossEmptyLinesAndComments
 AlignConsecutiveMacros: AcrossComments
 AlignConsecutiveAssignments: AcrossComments
@@ -60,6 +61,8 @@ Cpp11BracedListStyle: true
 DeriveLineEnding: false
 DerivePointerAlignment: false
 DisableFormat: false
+EmptyLineAfterAccessModifier: Never
+EmptyLineBeforeAccessModifier: Always
 FixNamespaceComments: true
 ForEachMacros:
     - foreach
