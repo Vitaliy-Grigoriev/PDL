@@ -1,5 +1,5 @@
 // ============================================================================
-// Copyright (c) 2017-2020, by Vitaly Grigoriev, <Vit.link420@gmail.com>.
+// Copyright (c) 2017-2021, by Vitaly Grigoriev, <Vit.link420@gmail.com>.
 // This file is part of ProtocolDeclarationLanguage open source project under MIT License.
 // ============================================================================
 
@@ -88,11 +88,10 @@ bool Parser::parse(const std::string& _script)
     return first == last;
 }
 
-bool Parser::parse(const std::filesystem::path& _file)
+bool Parser::parse(const std::filesystem::path& _path)
 {
-    currentPath = _file.string();
     std::string scr;
-    return readFileToEnd(_file, scr) ? parse(scr) : false;
+    return readFileToEnd(_path, scr) && parse(scr);
 }
 
 syntax::Script::CRef Parser::getScript() const noexcept
