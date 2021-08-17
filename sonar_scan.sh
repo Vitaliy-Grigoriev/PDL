@@ -10,7 +10,7 @@ PROJECT_DIR=$(pwd)
 
 mkdir check && cd check
 
-export CXX="/usr/bin/clang++"
+export CXX="/usr/bin/clang++-12"
 export BUILD_TYPE="Debug"
 cmake -DPDL_WITH_TESTS=1 -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_CXX_COMPILER=${CXX} -j4 ..
 
@@ -29,7 +29,7 @@ sonar-scanner \
   -Dsonar.projectBaseDir="${PROJECT_DIR}" \
   -Dsonar.sources=common,model,parser,tests \
   -Dsonar.cfamily.build-wrapper-output=output \
-  -Dsonar.cfamily.cache.enabled=false
+  -Dsonar.cfamily.cache.enabled=false \
   -Dsonar.host.url=https://sonarcloud.io \
   -Dsonar.organization=vitaliy-grigoriev-github \
   -Dsonar.login=d421338a22460d731e2db7b8f7af57647547f8ee
