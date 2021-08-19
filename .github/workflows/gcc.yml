@@ -4,7 +4,7 @@ on:
   push:
     branches: [ master, develop ]
   pull_request:
-    branches: [ master, develop ]
+    branches: [ master ]
 
 jobs:
   build:
@@ -20,6 +20,24 @@ jobs:
 
       matrix:
         config:
+        - {
+            name: "GCC 9 Coverity Debug",
+            build_type: "Debug",
+            cc: "/usr/bin/gcc-9",
+            cxx: "/usr/bin/g++-9",
+          }
+        - {
+            name: "GCC 9 Release",
+            build_type: "Release",
+            cc: "/usr/bin/gcc-9",
+            cxx: "/usr/bin/g++-9",
+          }
+        - {
+            name: "GCC 9 Debug",
+            build_type: "Debug",
+            cc: "/usr/bin/gcc-9",
+            cxx: "/usr/bin/g++-9",
+          }
         - {
             name: "GCC 10 Release",
             build_type: "Release",
@@ -48,7 +66,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Set common repository and keys
+    - name: Generate Build Number
+      uses: einaregilsson/build-number@v3
+      with:
+        token: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Set common repository and keys
       run: |
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test
         sudo apt-get -qq update
@@ -62,6 +85,23 @@ jobs:
         CMAKE_URL="https://cmake.org/files/v3.20/cmake-3.20.2-linux-x86_64.tar.gz"
         mkdir cmake && wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
         export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+
+    - name: Install Coverity Scanner
+      if: contains(matrix.config.name, 'Coverity')
+      run: |
+        wget -q https://scan.coverity.com/download/cxx/linux64 --post-data "token=2d9uWgkZDh2Nms5m4t
+        p3sg&project=Vitaliy-Grigoriev%2FPDL" -O coverity.tgz
+        tar xaf coverity.tgz
+        rm coverity.tgz
+        mv cov-analysis-linux64-* coverity
+        export PATH="${PATH}:${PWD}/coverity/bin"
+
+    - name: Install GCC 9
+      if: contains(matrix.config.cc, 'gcc-9')
+      run: |
+        sudo apt install gcc-9 g++-9 libstdc++-9-dev
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 100
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 100
 
     - name: Install GCC 10
       if: contains(matrix.config.cc, 'gcc-10')
@@ -109,9 +149,25 @@ jobs:
         ${CXX} --version
         cmake -DPDL_WITH_TESTS=1 -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }} .
 
+    - name: Run Coverity Scanner
+      if: contains(matrix.config.name, 'Coverity')
+      env:
+        COVERITY_TOKEN: ${{ secrets.COVERITY_SCAN_TOKEN }}
+      run: |
+        cov-configure --comptype g++ --compiler g++ --template
+        cov-build --dir cov-int make -j4
+        tar czvf project.tgz cov-int
+        curl --form token="$COVERITY_TOKEN"     \
+             --form email=Vit.link420@gmail.com \
+             --form file=@project.tgz           \
+             --form version="$BUILD_NUMBER"     \
+             https://scan.coverity.com/builds?project=Vitaliy-Grigoriev%2FPDL
+
     - name: Build Project
+      if: !contains(matrix.config.name, 'Coverity')
       run: cmake --build . -j "$(nproc)"
 
     - name: Test
+      if: !contains(matrix.config.name, 'Coverity')
       working-directory: ${{ github.workspace }}
       run: ctest --verbose
