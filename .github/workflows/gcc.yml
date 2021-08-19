@@ -164,10 +164,10 @@ jobs:
              https://scan.coverity.com/builds?project=Vitaliy-Grigoriev%2FPDL
 
     - name: Build Project
-      if: !contains(matrix.config.name, 'Coverity')
+      if: "!contains(matrix.config.name, 'Coverity')"
       run: cmake --build . -j "$(nproc)"
 
     - name: Test
-      if: !contains(matrix.config.name, 'Coverity')
+      if: "!contains(matrix.config.name, 'Coverity')"
       working-directory: ${{ github.workspace }}
       run: ctest --verbose
