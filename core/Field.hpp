@@ -5,14 +5,14 @@
 
 #pragma once
 
-#include "Declaration.hpp"  // Declaration.
+#include <core/Declaration.hpp>
 
 #include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
 
-#include <endian/EngineInterface.hpp>
+#include <core/endian/EngineInterface.hpp>
 
 
 namespace pdl::core::data {

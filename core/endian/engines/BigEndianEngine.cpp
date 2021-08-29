@@ -6,7 +6,7 @@
 #include "BigEndianEngine.hpp"
 #include "impl/BigEndianImpl.hpp"
 
-#include <data/PredefinedBytes.hpp>
+#include <core/data/PredefinedBytes.hpp>
 
 
 namespace pdl::core::endian {
