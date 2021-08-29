@@ -1,12 +1,13 @@
 // ============================================================================
-// Copyright (c) 2017-2020, by Vitaly Grigoriev, <Vit.link420@gmail.com>.
+// Copyright (c) 2017-2021, by Vitaly Grigoriev, <Vit.link420@gmail.com>.
 // This file is part of PdlFramework open source project under MIT License.
 // ============================================================================
 
 #pragma once
 
 #include "Field.hpp"
-#include "RawData.hpp"
+
+#include <core/data/RawData.hpp>
 
 
 namespace pdl::core::data {
