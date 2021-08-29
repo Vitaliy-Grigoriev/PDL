@@ -88,9 +88,10 @@ jobs:
 
     - name: Install Coverity Scanner
       if: contains(matrix.config.name, 'Coverity')
+      env:
+        COVERITY_TOKEN: ${{ secrets.COVERITY_SCAN_TOKEN }}
       run: |
-        wget -q https://scan.coverity.com/download/cxx/linux64 --post-data "token=2d9uWgkZDh2Nms5m4t
-        p3sg&project=Vitaliy-Grigoriev%2FPDL" -O coverity.tgz
+        wget -q https://scan.coverity.com/download/cxx/linux64 --post-data "token=$COVERITY_TOKEN&project=Vitaliy-Grigoriev%2FPDL" -O coverity.tgz
         tar xaf coverity.tgz
         rm coverity.tgz
         mv cov-analysis-linux64-* coverity
