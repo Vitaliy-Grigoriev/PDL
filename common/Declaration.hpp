@@ -1,10 +1,11 @@
 // ============================================================================
-// Copyright (c) 2017-2020, by Vitaly Grigoriev, <Vit.link420@gmail.com>.
+// Copyright (c) 2017-2021, by Vitaly Grigoriev, <Vit.link420@gmail.com>.
 // This file is part of PdlFramework open source project under MIT License.
 // ============================================================================
 
 #pragma once
 
+#include <memory>
 
 namespace pdl::common {
 
@@ -17,26 +18,28 @@ public:
     using Ptr = Type *;
     using CPtr = const Type *;
 
-    explicit Declaration (Type * _pointer) noexcept :
+    using UniquePtr = std::unique_ptr<Type>;
+
+    explicit Declaration(Type * _pointer) noexcept :
         pointer{ _pointer }
     { }
 
-    Ref ref() noexcept
+    inline Ref ref() noexcept
     {
         return *pointer;
     }
 
-    CRef ref() const noexcept
+    inline CRef ref() const noexcept
     {
         return *pointer;
     }
 
-    Ptr ptr() noexcept
+    inline Ptr ptr() noexcept
     {
         return pointer;
     }
 
-    CPtr ptr() const noexcept
+    inline CPtr ptr() const noexcept
     {
         return pointer;
     }

@@ -1,11 +1,16 @@
+// ============================================================================
+// Copyright (c) 2017-2021, by Vitaly Grigoriev, <Vit.link420@gmail.com>.
+// This file is part of PdlFramework open source project under MIT License.
+// ============================================================================
+
 #include "Utils.hpp"
 
 #include <sstream>
 
 
-namespace pdl::common::utils {
+namespace pdl::common::error {
 
-std::string toString (const Module _module)
+std::string toString(const Module _module)
 {
     switch (_module) {
     case Module::System:
@@ -29,7 +34,7 @@ std::string toString (const Module _module)
     }
 }
 
-std::string toString (const Code _code)
+std::string toString(const Code _code)
 {
     switch (_code) {
     case Code::SystemError:
@@ -44,6 +49,8 @@ std::string toString (const Code _code)
         return "IndexOutOfRange";
     case Code::ObjectNotFound:
         return "ObjectNotFound";
+    case Code::InvalidInputData:
+        return "InvalidInputData";
     default:
         std::ostringstream str;
         str << "Code '" << std::to_string(static_cast<uint32_t>(_code)) << "' not found";
@@ -51,32 +58,4 @@ std::string toString (const Code _code)
     }
 }
 
-std::string toString (const data::endian::Endian _endian)
-{
-    switch (_endian) {
-    case data::endian::Endian::big:
-        return "BigEndian";
-    case data::endian::Endian::middle_big:
-        return "MiddleBigEndian";
-    case data::endian::Endian::middle_little:
-        return "MiddleLittleEndian";
-    case data::endian::Endian::little:
-        return "LittleEndian";
-    case data::endian::Endian::reverse_little:
-        return "ReverseLittleEndian";
-    case data::endian::Endian::reverse_middle_big:
-        return "ReverseMiddleBigEndian";
-    case data::endian::Endian::reverse_big:
-        return "ReverseBigEndian";
-    case data::endian::Endian::reverse_middle_little:
-        return "ReverseMiddleLittleEndian";
-    case data::endian::Endian::system:
-        return toString(data::endian::getSystemEndian());
-    default:
-        std::ostringstream str;
-        str << "Endian '" << std::to_string(static_cast<uint32_t>(_endian)) << "' not found";
-        panic(Module::Framework, Code::InternalError, str.str());
-    }
-}
-
-}  // namespace utils.
+}  // namespace error.

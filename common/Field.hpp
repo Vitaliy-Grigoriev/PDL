@@ -6,12 +6,13 @@
 #pragma once
 
 #include "Declaration.hpp"  // Declaration.
-#include "Endian.hpp"       // endian::Endian.
 
 #include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
+
+#include <endian/EngineInterface.hpp>
 
 
 namespace pdl::common::data {

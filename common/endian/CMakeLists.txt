@@ -1,0 +1,72 @@
+project(PdlEndian   CXX)
+
+# Build PDL Endian library.
+add_library(pdl_endian   STATIC)
+add_library(pdl::endian   ALIAS   pdl_endian)
+set_target_properties(pdl_endian   PROPERTIES   OUTPUT_NAME   endian)
+
+target_sources(pdl_endian
+    PRIVATE
+        EngineInterface.cpp
+        Engines.cpp
+        Utils.cpp
+        engines/impl/Common.cpp
+        engines/impl/BigEndianImpl.cpp
+        engines/impl/LittleEndianImpl.cpp
+        engines/BigEndianEngine.cpp
+        engines/LittleEndianEngine.cpp
+    PUBLIC
+        Endian.hpp
+        EngineInterface.hpp
+        Engines.hpp
+        Utils.hpp
+        engines/impl/Common.hpp
+        engines/impl/BigEndianImpl.hpp
+        engines/impl/LittleEndianImpl.hpp
+        engines/BigEndianEngine.hpp
+        engines/LittleEndianEngine.hpp
+)
+
+target_link_libraries(pdl_endian
+    PRIVATE
+        pdl::common::meta
+        pdl::data
+    PUBLIC
+        pdl::error
+)
+
+add_subdirectory(tests)
+
+install(
+   TARGETS      pdl_endian
+   EXPORT       pdl
+   DESTINATION  ${CMAKE_INSTALL_LIBDIR}
+   COMPONENT    COMMON
+)
+
+install(
+   FILES
+       Endian.hpp
+       EngineInterface.hpp
+       Engines.hpp
+       Utils.hpp
+   DESTINATION  ${CMAKE_INSTALL_INCLUDEDIR}/pdl/common/endian
+   COMPONENT    COMMON
+)
+
+install(
+   FILES
+        engines/impl/Common.hpp
+        engines/impl/BigEndianImpl.hpp
+        engines/impl/LittleEndianImpl.hpp
+   DESTINATION  ${CMAKE_INSTALL_INCLUDEDIR}/pdl/common/endian/engines/impl
+   COMPONENT    COMMON
+)
+
+install(
+   FILES
+       engines/BigEndianEngine.hpp
+       engines/LittleEndianEngine.hpp
+   DESTINATION  ${CMAKE_INSTALL_INCLUDEDIR}/pdl/common/endian/engines
+   COMPONENT    COMMON
+)

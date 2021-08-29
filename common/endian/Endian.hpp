@@ -1,5 +1,5 @@
 // ============================================================================
-// Copyright (c) 2017-2020, by Vitaly Grigoriev, <Vit.link420@gmail.com>.
+// Copyright (c) 2017-2021, by Vitaly Grigoriev, <Vit.link420@gmail.com>.
 // This file is part of PdlFramework open source project under MIT License.
 // ============================================================================
 
@@ -34,11 +34,10 @@
 //
 // //////////////////////////////////////////////
 
-#include <cstddef>  // std::byte.
-#include <cstdint>  // std::uint*_t.
+#include <cstdint>  // std::uint16_t.
 
 
-namespace pdl::common::data::endian {
+namespace pdl::common::endian {
 
 /**
  * @enum Endian
@@ -56,27 +55,5 @@ enum class Endian : uint16_t {
     independent           = reverse_little,
     system                = 0xFF   // System endian type.
 };
-
-/**
- * @brief Function that calculates system endian type.
- *
- * @return System endian type.
- */
-constexpr inline Endian getSystemEndian() noexcept
-{
-    constexpr uint32_t value = 0x01020304;
-    return static_cast<Endian>(static_cast<const uint8_t &>(value));
-}
-
-/**
- * @brief Function that reverses bits in byte.
- *
- * @param [in] byte - inputted byte.
- *
- * @return Byte with reverse bits.
- *
- * Example: 10100011  ->  11000101.
- */
-std::byte reverseBits (std::byte _byte) noexcept;
 
 }  // namespace endian.

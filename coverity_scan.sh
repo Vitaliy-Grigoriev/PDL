@@ -8,6 +8,7 @@ fi
 
 export CXX="/usr/bin/g++-9"
 export BUILD_TYPE="Debug"
+export COVERITY_SCAN_TOKEN=2d9uWgkZDh2Nms5m4tp3sg
 
 mkdir check && cd check
 

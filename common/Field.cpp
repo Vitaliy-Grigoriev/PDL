@@ -1,10 +1,11 @@
 // ============================================================================
-// Copyright (c) 2017-2020, by Vitaly Grigoriev, <Vit.link420@gmail.com>.
+// Copyright (c) 2017-2021, by Vitaly Grigoriev, <Vit.link420@gmail.com>.
 // This file is part of PdlFramework open source project under MIT License.
 // ============================================================================
 
-#include "Error.hpp"
 #include "Field.hpp"
+
+#include <error/Error.hpp>
 
 #include <algorithm>
 #include <numeric>
@@ -21,7 +22,7 @@ Type value()
 
 }
 
-Subfield::Subfield (std::string _name, const uint16_t _offset, const uint16_t _count, Field& _field) noexcept :
+Subfield::Subfield(std::string _name, const uint16_t _offset, const uint16_t _count, Field& _field) noexcept :
     Declaration{ this },
     fieldName{ std::move(_name) },
     fieldOffset{ _offset },
@@ -45,25 +46,25 @@ std::string_view Subfield::name() const noexcept
 }
 
 
-Field::Field (std::string _name, const endian::Endian _endian, const uint16_t _bytes) noexcept :
+Field::Field(std::string _name, const endian::Endian _endian, const uint16_t _bytes) noexcept :
     Declaration{ this },
     fieldName{ std::move(_name) },
     fieldEndian{ _endian },
     bytes{ _bytes }
 { }
 
-Field& Field::append (std::string _name, const uint16_t _bits)
+Field& Field::append(std::string _name, const uint16_t _bits)
 {
     fields.emplace_back(std::move(_name), calculateFullBitOffsetOfSubfield(), _bits, *this);
     return *this;
 }
 
-Subfield& Field::subfield (const std::string& _name)
+Subfield& Field::subfield(const std::string& _name)
 {
     if (auto field = find (_name)) {
         return *field;
     }
-    panic(Module::Subfield, Code::ObjectNotFound, "Subfield '" + _name + "' not found");
+    panic(error::Module::Subfield, error::Code::ObjectNotFound, "Subfield '" + _name + "' not found");
 }
 
 const Subfield& Field::subfield (const std::string& _name) const
@@ -71,7 +72,7 @@ const Subfield& Field::subfield (const std::string& _name) const
     if (const auto field = find (_name)) {
         return *field;
     }
-    panic(Module::Subfield, Code::ObjectNotFound, "Subfield '" + _name + "' not found");
+    panic(error::Module::Subfield, error::Code::ObjectNotFound, "Subfield '" + _name + "' not found");
 }
 
 Field& Field::setOffset (void* const _offset) noexcept

@@ -1,10 +1,10 @@
-#include <common/Endian.hpp>
+#include <common/endian/EngineInterface.hpp>
 #include <gtest/gtest.h>
 
 
 TEST(pdl_common_endian, checkCorrectBitsReverse)
 {
-    using namespace pdl::common::data::endian;
+    using namespace pdl::common::endian;
 
     ASSERT_EQ(reverseBits(std::byte(0x01)), std::byte(0x80));
     ASSERT_EQ(reverseBits(std::byte(0x0C)), std::byte(0x30));

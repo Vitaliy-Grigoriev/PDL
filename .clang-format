@@ -3,7 +3,6 @@ Language: Cpp
 Standard: c++20
 AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
-AlignArrayOfStructures: Left
 AlignConsecutiveBitFields: AcrossEmptyLinesAndComments
 AlignConsecutiveMacros: AcrossComments
 AlignConsecutiveAssignments: AcrossComments
@@ -113,7 +112,7 @@ SpaceBeforeCpp11BracedList: true
 SpaceBeforeCtorInitializerColon: true
 SpaceBeforeSquareBrackets: false
 SpaceBeforeInheritanceColon: true
-SpaceBeforeParens: NonEmptyParentheses
+SpaceBeforeParens: ControlStatements
 SpaceBeforeRangeBasedForLoopColon: true
 SpaceInEmptyBlock: true
 SpaceInEmptyParentheses: false
