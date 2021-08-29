@@ -2,7 +2,7 @@
 
 #include "parser/spirit/syntax/Statements.hpp"
 
-#include <common/Declaration.hpp>
+#include <core/Declaration.hpp>
 
 
 namespace pdl::spirit::syntax {
@@ -15,7 +15,7 @@ struct ScriptEntry : x3::variant<statements::ImportStatement,
     using base_type::operator=;
 };
 
-struct Script : common::Declaration<Script>,
+struct Script : core::Declaration<Script>,
                 Annotation<Script>
 {
     Script() :

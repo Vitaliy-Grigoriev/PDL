@@ -38,7 +38,7 @@ set(PDL_PARSER_GRAMMAR
     spirit/grammar/Utils.hpp
 )
 
-# Select source files of PDL common.
+# Select source files of PDL core.
 set(PDL_PARSER_COMMON
     spirit/TypeRegistry.hpp
     spirit/Annotation.hpp
@@ -61,7 +61,7 @@ target_sources(pdl_parser
 
 target_link_libraries(pdl_parser
     PRIVATE
-        pdl::common
+        pdl::core
 )
 
 target_precompile_headers(pdl_parser

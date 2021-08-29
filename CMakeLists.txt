@@ -94,7 +94,7 @@ include_directories(${CMAKE_CURRENT_LIST_DIR})
 # Find the libraries that correspond to the LLVM components that we wish to use.
 llvm_map_components_to_libnames(LLVM_LIBS   SUPPORT CORE X86 ORCJIT)
 
-add_subdirectory(common)
+add_subdirectory(core)
 add_subdirectory(parser)
 #add_subdirectory(model)
 #add_subdirectory(tools)
