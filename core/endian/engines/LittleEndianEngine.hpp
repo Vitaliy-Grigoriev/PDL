@@ -11,17 +11,17 @@
 namespace pdl::core::endian {
 
 /**
- * @class BigEndianEngine   BigEndianEngine.hpp   "core/endian/engines/BigEndianEngine.hpp"
- * @brief Derived class for work with data using Big Endian Engine.
+ * @class LittleEndianEngine   LittleEndianEngine.hpp   "core/endian/engines/LittleEndianEngine.hpp"
+ * @brief Derived class for work with data using Little Endian Engine.
  */
-class BigEndianEngine final : public EngineInterface
+class LittleEndianEngine final : public EngineInterface
 {
 public:
     /**
-     * @brief Constructor of BigEndianEngine derived class.
+     * @brief Constructor of LittleEndianEngine derived class.
      * @param [in] _data - Reference to data.
      */
-    explicit BigEndianEngine(data::RawData & _data) noexcept;
+    explicit LittleEndianEngine(data::RawData & _data) noexcept;
 
     [[nodiscard]]
     data::RawData::Byte get(std::size_t _index) const override;
