@@ -4,6 +4,7 @@
 // ============================================================================
 
 #include "BigEndianEngine.hpp"
+#include "core/endian/Converter.hpp"
 #include "impl/BigEndianImpl.hpp"
 
 #include <core/data/PredefinedBytes.hpp>
@@ -82,7 +83,15 @@ EngineInterface& BigEndianEngine::rotateRight(std::size_t _shift) noexcept
 
 EngineInterface& BigEndianEngine::reverse() noexcept
 {
+    [[maybe_unused]]
+    auto engine = convert(Endian::little);
     return *this;
+}
+
+EngineInterface::UniquePtr BigEndianEngine::convert(const Endian _endian) noexcept
+{
+    Converter converter{ *this };
+    return converter.convert(_endian);
 }
 
 }  // namespace endian.

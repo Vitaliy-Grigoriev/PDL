@@ -39,6 +39,16 @@ std::size_t EngineInterface::size() const noexcept
     return data.size();
 }
 
+const data::RawData& EngineInterface::getData() const noexcept
+{
+    return data;
+}
+
+data::RawData& EngineInterface::getData() noexcept
+{
+    return data;
+}
+
 std::byte reverseBits(std::byte _byte) noexcept
 {
     _byte = (_byte & std::byte(0xF0)) >> 4U | (_byte & std::byte(0x0F)) << 4U;

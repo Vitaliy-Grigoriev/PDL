@@ -36,10 +36,22 @@ public:
     Endian getEndianType() const noexcept;
 
     /**
-     * @brief Method that returns length of stored data in bytes.
-     * @return Length of stored data in bytes.
+     * @brief Method that returns length of data in bytes.
+     * @return Length of data in bytes.
      */
     std::size_t size() const noexcept;
+
+    /**
+     * @brief Method that returns constant reference of data.
+     * @return Constant reference of data.
+     */
+    const data::RawData & getData() const noexcept;
+
+    /**
+     * @brief Method that returns reference of data.
+     * @return Reference of data.
+     */
+    data::RawData & getData() noexcept;
 
     /**
      * @brief Method that returns byte value under the specified endian-oriented byte index.
@@ -48,7 +60,6 @@ public:
      *
      * @note This method considers the endian type in which data are presented.
      */
-    [[nodiscard]]
     virtual data::RawData::Byte get(std::size_t _index) const = 0;
 
     /**
@@ -57,7 +68,8 @@ public:
      * @param [in] _fill - New value of shifted byte.
      * @return Reference of EngineInterface class.
      */
-    virtual EngineInterface & shiftLeft(std::size_t _shift, std::optional<data::RawData::Byte> _fill) noexcept = 0;
+    virtual EngineInterface & shiftLeft(std::size_t _shift,
+                                        std::optional<data::RawData::Byte> _fill) noexcept = 0;
 
     /**
      * @brief Method that performs direct right shift by a specified offset.
@@ -65,7 +77,8 @@ public:
      * @param [in] _fill - New value of shifted byte.
      * @return Reference of EngineInterface class.
      */
-    virtual EngineInterface & shiftRight(std::size_t _shift, std::optional<data::RawData::Byte> _fill) noexcept = 0;
+    virtual EngineInterface & shiftRight(std::size_t _shift,
+                                         std::optional<data::RawData::Byte> _fill) noexcept = 0;
 
     /**
      * @brief Method that performs round left shift by a specified offset.
@@ -87,6 +100,16 @@ public:
      */
     virtual EngineInterface & reverse() noexcept = 0;
 
+    /**
+     * @brief Method that converts data to selected endian type.
+     * @param [in] _endian - EngineInterface's endian type.
+     * @return Pointer to EngineInterface class with selected endian type.
+     */
+    virtual EngineInterface::UniquePtr convert(Endian _endian) noexcept = 0;
+
+    /**
+     * @brief Destructor of EngineInterface class.
+     */
     virtual ~EngineInterface() = default;
 
 protected:

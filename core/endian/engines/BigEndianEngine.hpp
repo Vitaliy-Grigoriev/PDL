@@ -23,7 +23,6 @@ public:
      */
     explicit BigEndianEngine(data::RawData & _data) noexcept;
 
-    [[nodiscard]]
     data::RawData::Byte get(std::size_t _index) const override;
 
     EngineInterface & shiftLeft(std::size_t _shift,
@@ -35,6 +34,8 @@ public:
     EngineInterface & rotateRight(std::size_t _shift) noexcept override;
 
     EngineInterface & reverse() noexcept override;
+
+    EngineInterface::UniquePtr convert(Endian _endian) noexcept override;
 };
 
 }  // namespace endian.

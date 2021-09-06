@@ -180,3 +180,55 @@ TEST(pdl_little_endian, checkCorrectRightRotate)
     ASSERT_EQ(engine->get(2), std::byte(0xC5));
     ASSERT_EQ(engine->get(3), std::byte(0xDF));
 }
+
+TEST(pdl_little_endian, checkCorrectReverse)
+{
+    using namespace pdl::core::data;
+    using namespace pdl::core::endian;
+
+    RawData data{ 4 };
+    data.fill(0, std::byte(0xA0));
+    data.fill(1, std::byte(0xB3));
+    data.fill(2, std::byte(0xC5));
+    data.fill(3, std::byte(0xDF));
+
+    EngineInterface::UniquePtr engine = getEngine(Endian::little, data);
+    engine->reverse();
+
+    ASSERT_EQ(engine->get(0), std::byte(0xDF));
+    ASSERT_EQ(engine->get(1), std::byte(0xC5));
+    ASSERT_EQ(engine->get(2), std::byte(0xB3));
+    ASSERT_EQ(engine->get(3), std::byte(0xA0));
+}
+
+TEST(pdl_little_endian, checkCorrectConvertToBigEndian)
+{
+    using namespace pdl::core::data;
+    using namespace pdl::core::endian;
+
+    RawData data{ 4 };
+    data.fill(0, std::byte(0xA0));
+    data.fill(1, std::byte(0xB3));
+    data.fill(2, std::byte(0xC5));
+    data.fill(3, std::byte(0xDF));
+
+    EngineInterface::UniquePtr leEngine = getEngine(Endian::little, data);
+
+    ASSERT_EQ(leEngine->get(0), std::byte(0xA0));
+    ASSERT_EQ(leEngine->get(1), std::byte(0xB3));
+    ASSERT_EQ(leEngine->get(2), std::byte(0xC5));
+    ASSERT_EQ(leEngine->get(3), std::byte(0xDF));
+
+    EngineInterface::UniquePtr beEngine = leEngine->convert(Endian::big);
+    ASSERT_EQ(beEngine->getEndianType(), Endian::big);
+
+    ASSERT_EQ(beEngine->get(0), std::byte(0xA0));
+    ASSERT_EQ(beEngine->get(1), std::byte(0xB3));
+    ASSERT_EQ(beEngine->get(2), std::byte(0xC5));
+    ASSERT_EQ(beEngine->get(3), std::byte(0xDF));
+
+    ASSERT_EQ(leEngine->get(0), std::byte(0xDF));
+    ASSERT_EQ(leEngine->get(1), std::byte(0xC5));
+    ASSERT_EQ(leEngine->get(2), std::byte(0xB3));
+    ASSERT_EQ(leEngine->get(3), std::byte(0xA0));
+}

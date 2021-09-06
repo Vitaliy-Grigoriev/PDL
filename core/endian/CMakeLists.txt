@@ -7,6 +7,7 @@ set_target_properties(pdl_endian   PROPERTIES   OUTPUT_NAME   endian)
 
 target_sources(pdl_endian
     PRIVATE
+        Converter.cpp
         EngineInterface.cpp
         Engines.cpp
         Utils.cpp
@@ -16,6 +17,7 @@ target_sources(pdl_endian
         engines/BigEndianEngine.cpp
         engines/LittleEndianEngine.cpp
     PUBLIC
+        Converter.hpp
         Endian.hpp
         EngineInterface.hpp
         Engines.hpp
@@ -46,6 +48,7 @@ install(
 
 install(
    FILES
+       Converter.hpp
        Endian.hpp
        EngineInterface.hpp
        Engines.hpp
