@@ -41,7 +41,7 @@ if (DEFINED   PDL_WITH_TESTS)
         message("[info] GTEST root directory set to: '${GTest_ROOT}'.")
     endif()
 
-    find_package(GTest   CONFIG   1.10   REQUIRED)
+    find_package(GTest   CONFIG   1.11   REQUIRED)
     message(STATUS   "Found GTEST: ${GTest_DIR}.")
     add_subdirectory(tests)
     pdl_test_init()
